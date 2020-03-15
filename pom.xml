@@ -20,7 +20,6 @@
     <junit.version>4.12</junit.version>
 	<slf4j-api.version>1.7.30</slf4j-api.version>
 	<logback-classic.version>1.2.3</logback-classic.version>
-	<slf4j-jdk14.version>1.7.30</slf4j-jdk14.version>
 	<javax.servlet.version>4.0.1</javax.servlet.version>
   </properties>
 	
@@ -84,14 +83,6 @@
        	   		<scope>provided</scope>
        	   </dependency>
        	   
-       	   
-   	       <dependency>  
-                <groupId>junit</groupId>
-      			<artifactId>junit</artifactId>
-      			<version>${junit.version}</version>
-      			<scope>test</scope>
-   	       </dependency> 
-   	       
    	       <!-- logging -->
    	       <dependency>
     			<groupId>org.slf4j</groupId>
@@ -112,6 +103,13 @@
         		</exclusions>
     			<scope>runtime</scope>
 		   </dependency>
+		   
+		   <dependency>  
+                <groupId>junit</groupId>
+      			<artifactId>junit</artifactId>
+      			<version>${junit.version}</version>
+      			<scope>test</scope>
+   	       </dependency>   
   	   </dependencies> 
   </dependencyManagement>
   
@@ -120,11 +118,6 @@
   		<groupId>ningyuan.pan</groupId>
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
-  	
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
     
     <dependency>
     	<groupId>org.slf4j</groupId>
@@ -134,6 +127,11 @@
     <dependency>
     	<groupId>ch.qos.logback</groupId>
     	<artifactId>logback-classic</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 </project>
