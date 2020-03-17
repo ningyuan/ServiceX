@@ -17,10 +17,14 @@
     <!-- dependency version -->
     <servicex-api.version>0.0.1-SNAPSHOT</servicex-api.version>
     
-    <junit.version>4.12</junit.version>
+    <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
+    
+    <c3p0.version>0.9.5.5</c3p0.version>
+   
 	<slf4j-api.version>1.7.30</slf4j-api.version>
 	<logback-classic.version>1.2.3</logback-classic.version>
-	<javax.servlet.version>4.0.1</javax.servlet.version>
+	
+	<junit.version>4.12</junit.version>
   </properties>
 	
   <build>
@@ -83,6 +87,20 @@
        	   		<scope>provided</scope>
        	   </dependency>
        	   
+       	   <!-- jdbc driver for mysql -->
+		   <dependency>
+    			<groupId>mysql</groupId>
+    			<artifactId>mysql-connector-java</artifactId>
+    			<version>${mysql-connector-java.version}</version>
+		   </dependency>
+       	   
+       	   <!-- database connection poll -->
+       	   <dependency>
+    			<groupId>com.mchange</groupId>
+    			<artifactId>c3p0</artifactId>
+    			<version>${c3p0.version}</version>
+		   </dependency>
+		   
    	       <!-- logging -->
    	       <dependency>
     			<groupId>org.slf4j</groupId>
@@ -118,6 +136,16 @@
   		<groupId>ningyuan.pan</groupId>
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
+    
+    <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    
+    <dependency>
+    	<groupId>com.mchange</groupId>
+    	<artifactId>c3p0</artifactId>
+    </dependency>
     
     <dependency>
     	<groupId>org.slf4j</groupId>
