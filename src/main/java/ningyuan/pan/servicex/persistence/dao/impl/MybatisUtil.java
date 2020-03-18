@@ -10,14 +10,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import ningyuan.pan.servicex.persistence.dao.RoleDAO;
-import ningyuan.pan.servicex.persistence.dao.UserDAO;
-
 /**
  * @author ningyuan
  *
  */
-public class DAOMybatisUtil {
+public class MybatisUtil {
 	
 	private static SqlSessionFactory SESSION_FACTORY;
 	
@@ -30,23 +27,12 @@ public class DAOMybatisUtil {
 		}  
 	}
 	
-	public static UserDAO getUserDAO() {
-		UserDAO ret = null;
-		
-		SqlSession session = SESSION_FACTORY.openSession(true);
-		
-		ret = session.getMapper(UserDAO.class);
-		
-		return ret;
-	}
-	
-	public static RoleDAO getRoleDAO() {
-		RoleDAO ret = null;
-		
-		SqlSession session = SESSION_FACTORY.openSession(true);
-		
-		ret = session.getMapper(RoleDAO.class);
-		
-		return ret;
+	public static SqlSession getSession() {
+		if(SESSION_FACTORY != null) {
+			return SESSION_FACTORY.openSession();
+		}
+		else {
+			return null;
+		}
 	}
 }

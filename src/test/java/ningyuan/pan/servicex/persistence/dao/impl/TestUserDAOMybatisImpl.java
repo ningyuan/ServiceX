@@ -6,6 +6,7 @@ package ningyuan.pan.servicex.persistence.dao.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,14 +22,16 @@ import ningyuan.pan.servicex.persistence.entity.User;
  */
 public class TestUserDAOMybatisImpl {
 	
-	private static UserDAO DAO;
+	private SqlSession session;
+	
+	private UserDAO dao;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DAO = DAOMybatisUtil.getUserDAO();
+		
 	}
 
 	/**
@@ -43,6 +46,8 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		session = MybatisUtil.getSession();
+		dao = session.getMapper(UserDAO.class);
 	}
 
 	/**
@@ -50,6 +55,8 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		session.commit();
+		session.close();
 	}
 
 	/**
@@ -57,11 +64,11 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindAllUser() {
-		/*List<User> list = DAO.findAllUser();
+		List<User> list = dao.findAllUser();
 		
 		for(User user : list) {
 			System.out.println(user);
-		}*/
+		}
 	}
 
 	/**
@@ -69,7 +76,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindUserByID() {
-		//System.out.println(DAO.findUserByID(0));
+		System.out.println(dao.findUserByID(0));
 	}
 
 }

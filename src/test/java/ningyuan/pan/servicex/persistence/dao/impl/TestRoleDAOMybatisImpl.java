@@ -7,6 +7,7 @@ package ningyuan.pan.servicex.persistence.dao.impl;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +15,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
+import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+
 
 /**
  * @author ningyuan
@@ -22,14 +25,16 @@ import ningyuan.pan.servicex.persistence.entity.Role;
  */
 public class TestRoleDAOMybatisImpl {
 	
-	private static RoleDAO DAO;
+	private SqlSession session;
+	
+	private RoleDAO dao;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DAO = DAOMybatisUtil.getRoleDAO();
+	
 	}
 
 	/**
@@ -44,6 +49,8 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		session = MybatisUtil.getSession();
+		dao = session.getMapper(RoleDAO.class);
 	}
 
 	/**
@@ -51,11 +58,13 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		session.commit();
+		session.close();
 	}
 
 	@Test
 	public void testFindAllRole() {
-		/*List<Role> list = DAO.findAllRole();
+		/*List<Role> list = dao.findAllRole();
 		
 		for(Role role : list) {
 			System.out.println(role);
@@ -68,7 +77,7 @@ public class TestRoleDAOMybatisImpl {
 		role.setId((byte) 0);
 		role.setName("non-root");
 		
-		DAO.add(role);
+		dao.add(role);
 	}*/
 	
 	@Test
@@ -77,7 +86,7 @@ public class TestRoleDAOMybatisImpl {
 		role.setId((byte) 3);
 		role.setName("testRole");
 		
-		DAO.add(role);*/
+		dao.add(role);*/
 	}
 	
 	@Test
@@ -86,12 +95,12 @@ public class TestRoleDAOMybatisImpl {
 		role.setId((byte) 3);
 		role.setName("testRole1");
 		
-		DAO.update(role);*/
+		dao.update(role);*/
 	}
 	
 	@Test
 	public void testDelete() {
-		//DAO.delete((byte)3);
+		//dao.delete((byte)3);
 	}
 	
 	@Test
@@ -100,11 +109,11 @@ public class TestRoleDAOMybatisImpl {
 		role.setId((byte) 4);
 		role.setName("testRole2");
 		
-		DAO.update(role);*/
+		dao.update(role);*/
 	}
 	
 	@Test
 	public void testDeleteNull() {
-		//DAO.delete((byte)4);
+		//dao.delete((byte)4);
 	}
 }
