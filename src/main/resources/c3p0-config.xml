@@ -1,0 +1,18 @@
+<!-- default location of this configuration file is the root of classpath -->
+<c3p0-config>    
+    <default-config>    
+    	<property name="jdbcUrl">${c3p0.jdbcUrl}</property>
+		<property name="driverClass">${c3p0.driverClass}</property>
+		<property name="user">${c3p0.user}</property>
+		<property name="password">${c3p0.password}</property>
+		
+		<property name="acquireIncrement">3</property>
+		<property name="initialPoolSize">10</property>
+		<property name="minPoolSize">2</property>
+		<property name="maxPoolSize">10</property>
+	</default-config>
+	
+	<!-- other configuration -->
+	<named-config name="oracle-config">
+	</named-config>
+</c3p0-config> 
