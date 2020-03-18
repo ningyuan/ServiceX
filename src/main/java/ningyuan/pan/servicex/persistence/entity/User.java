@@ -3,6 +3,8 @@
  */
 package ningyuan.pan.servicex.persistence.entity;
 
+import java.util.List;
+
 /**
  * @author ningyuan
  *
@@ -15,6 +17,8 @@ public class User {
 	
 	private String lastName;
 
+	private List<Role> roles;
+	
 	/**
 	 * @return the id
 	 */
@@ -57,8 +61,30 @@ public class User {
 		this.lastName = lastName;
 	}
 	
+	/**
+	 * @return the roles
+	 */
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 	@Override
 	public String toString() {
-		return "[id = "+id+", firstName = "+firstName+", lastName = "+lastName+"]";
+		StringBuilder ret = new StringBuilder("User [id = "+id+", firstName = "+firstName+", lastName = "+lastName+",");
+		
+		for(Role role : roles) {
+			ret.append(" "+role.toString());
+		}
+		
+		ret.append("]");
+		
+		return ret.toString();
 	}
 }

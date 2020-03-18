@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 
 /**
@@ -33,6 +34,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 	private static final Logger LOOGER = LoggerFactory.getLogger(UserDAOJDBCImpl.class);
 	 
 	private static DataSource DATASOURCE;
+	
+	private String selectAllUser = "SELECT * FROM user";
+	
+	private String selectUserByID = "SELECT firstName, lastName FROM user WHERE id = ?";
+	
+	private String selectAllRolesByUser = "SELECT role.id, role.name FROM user_role JOIN role ON user_role.rid = role.id WHERE user_role.uid = ?";
 	
 	static {
 		DATASOURCE = new ComboPooledDataSource();
@@ -63,9 +70,8 @@ public class UserDAOJDBCImpl implements UserDAO {
 		try {
 			con = DATASOURCE.getConnection();
 			
-			String sql = "select * from user";
-			
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(selectAllUser);
+			PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -79,9 +85,30 @@ public class UserDAOJDBCImpl implements UserDAO {
 				user.setFirstName(firstName);
 				user.setLastName(lastName);
 				
+				List<Role> roles = new ArrayList<Role>();
+				
+				ps1.setLong(1, id);
+				ResultSet rs1 = ps1.executeQuery();
+				
+				while(rs1.next()){
+					byte rid = rs1.getByte(1);
+					String name = rs1.getString(2);
+					
+					Role role = new Role();
+					role.setId(rid);
+					role.setName(name);
+					
+					roles.add(role);
+				}
+				
+				user.setRoles(roles);
+				
 				ret.add(user);
+				
+				rs1.close();
 			}
 			
+			ps1.close();
 			rs.close();
 			ps.close();
 			
@@ -110,9 +137,8 @@ public class UserDAOJDBCImpl implements UserDAO {
 		try {
 			con = DATASOURCE.getConnection();
 			
-			String sql = "select firstName, lastName from user where id=?";
-			
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(selectUserByID);
+			PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
 			
 			ps.setLong(1, id);
 			
@@ -126,8 +152,29 @@ public class UserDAOJDBCImpl implements UserDAO {
 				ret.setId(id);
 				ret.setFirstName(firstName);
 				ret.setLastName(lastName);
+				
+				List<Role> roles = new ArrayList<Role>();
+				
+				ps1.setLong(1, id);
+				ResultSet rs1 = ps1.executeQuery();
+				
+				while(rs1.next()){
+					byte rid = rs1.getByte(1);
+					String name = rs1.getString(2);
+					
+					Role role = new Role();
+					role.setId(rid);
+					role.setName(name);
+					
+					roles.add(role);
+				}
+				
+				ret.setRoles(roles);
+				
+				rs1.close();
 			}
 			
+			ps1.close();
 			rs.close();
 			ps.close();
 			
