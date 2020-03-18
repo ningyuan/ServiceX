@@ -13,8 +13,8 @@ import ningyuan.pan.servicex.persistence.entity.User;
  */
 public interface UserDAO {
 	
-	public List<User> getAllUser();
+	public List<User> findAllUser();
 	
-	public User getUserByID(long id);
+	public User findUserByID(long id);
 	
 }

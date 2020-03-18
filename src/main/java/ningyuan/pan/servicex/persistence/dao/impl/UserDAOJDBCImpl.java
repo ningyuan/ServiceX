@@ -32,12 +32,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private static final Logger LOOGER = LoggerFactory.getLogger(UserDAOJDBCImpl.class);
 	 
-	private static DataSource dataSource;
+	private static DataSource DATASOURCE;
 	
 	static {
-		dataSource = new ComboPooledDataSource();
+		DATASOURCE = new ComboPooledDataSource();
 		
-		Properties configProp;
+		/*Properties configProp;
 		try {
 			configProp = new Properties();
         	configProp.load(new InputStreamReader(UserDAOJDBCImpl.class.getClassLoader().getResourceAsStream("conf/c3p0.properties")));
@@ -52,16 +52,16 @@ public class UserDAOJDBCImpl implements UserDAO {
         		
 		} catch (IOException | PropertyVetoException e) {
 			e.printStackTrace();
-        }	
+        }	*/
 	}
 	
 	@Override
-	public List<User> getAllUser() {
+	public List<User> findAllUser() {
 		List<User> ret = new ArrayList<User>();
 		Connection con = null;
 		
 		try {
-			con = dataSource.getConnection();
+			con = DATASOURCE.getConnection();
 			
 			String sql = "select * from user";
 			
@@ -85,7 +85,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 			rs.close();
 			ps.close();
 			
-			LOOGER.debug("getAllUser()");
+			LOOGER.debug("findAllUser()");
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -103,12 +103,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 	}
 
 	@Override
-	public User getUserByID(long id) {
+	public User findUserByID(long id) {
 		User ret = null;
 		Connection con = null;
 		
 		try {
-			con = dataSource.getConnection();
+			con = DATASOURCE.getConnection();
 			
 			String sql = "select firstName, lastName from user where id=?";
 			
@@ -131,7 +131,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 			rs.close();
 			ps.close();
 			
-			LOOGER.debug("getUserByID()");
+			LOOGER.debug("findUserByID()");
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

@@ -53,7 +53,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void testGetAllUser() {
-		//dao.getAllUser();
+		dao.findAllUser();
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void testGetUserByID() {
-		//dao.getUserByID(0);
+		//dao.findUserByID(0);
 	}
 
 }
