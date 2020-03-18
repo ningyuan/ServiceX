@@ -21,14 +21,14 @@ import ningyuan.pan.servicex.persistence.entity.User;
  */
 public class TestUserDAOMybatisImpl {
 	
-	private static UserDAO dao;
+	private static UserDAO DAO;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		dao = DAOMybatisUtil.getDAO();
+		DAO = DAOMybatisUtil.getUserDAO();
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindAllUser() {
-		/*List<User> list = dao.findAllUser();
+		/*List<User> list = DAO.findAllUser();
 		
 		for(User user : list) {
 			System.out.println(user);
@@ -69,7 +69,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindUserByID() {
-		//System.out.println(dao.findUserByID(0));
+		//System.out.println(DAO.findUserByID(0));
 	}
 
 }

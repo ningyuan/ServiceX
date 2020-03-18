@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="ningyuan.pan.servicex.persistence.dao.RoleDAO">
+	<select id="findAllRole" resultType="role" resultSetType="FORWARD_ONLY">
+    	SELECT
+            id,
+            name
+        FROM
+            role 
+    </select>
+    
+    <insert id="add" parameterType="role">
+    	INSERT INTO
+    		role
+    	VALUES (#{id}, #{name})
+	</insert>
+	
+	<delete id="delete">
+		DELETE
+		FROM
+			role
+		WHERE 
+			id = #{id}
+	</delete>
+	
+	<update id="update"  parameterType="role">
+         UPDATE
+         	role
+         SET
+         	name = #{name}
+         WHERE
+         	id = #{id}
+    </update>
+</mapper>

@@ -17,14 +17,14 @@ import ningyuan.pan.servicex.persistence.dao.UserDAO;
  */
 public class TestUserDAOJDBCImpl {
 	
-	private static UserDAO dao;
+	private static UserDAO DAO;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		dao = new UserDAOJDBCImpl();
+		DAO = new UserDAOJDBCImpl();
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void testGetAllUser() {
-		//dao.findAllUser();
+		//DAO.findAllUser();
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void testGetUserByID() {
-		//dao.findUserByID(0);
+		//DAO.findUserByID(0);
 	}
 
 }

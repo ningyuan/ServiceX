@@ -37,5 +37,6 @@
     <!-- orm mapping files -->
   	<mappers>
     	<mapper resource="conf/mybatis/userMapper.xml"/>
+    	<mapper resource="conf/mybatis/roleMapper.xml"/>
   	</mappers>
 </configuration>
