@@ -14,9 +14,9 @@
 			<result property="name" column="rName"></result>
 		</collection>
 	</resultMap>
-
-	<select id="findUserByID" resultMap="userMap" resultSetType="FORWARD_ONLY">
-    	SELECT
+	
+	<sql id="selectUser">
+		SELECT
             u.id,
             u.firstName,
             u.lastName,
@@ -28,21 +28,14 @@
             user_role ur ON u.id = ur.uid
                 JOIN 
             role r ON r.id = ur.rid
+	</sql>
+	
+	<select id="findUserByID" resultMap="userMap" resultSetType="FORWARD_ONLY">
+    	<include refid="selectUser"/>
         WHERE u.id=#{id}
     </select>
     
     <select id="findAllUser" resultMap="userMap" resultSetType="FORWARD_ONLY">
-    	SELECT
-            u.id,
-            u.firstName,
-            u.lastName,
-            r.id as rid,
-            r.name as rName
-        FROM
-            user u
-            	JOIN 
-            user_role ur ON u.id = ur.uid
-                JOIN 
-            role r ON r.id = ur.rid
+    	<include refid="selectUser"/>
     </select>
 </mapper>

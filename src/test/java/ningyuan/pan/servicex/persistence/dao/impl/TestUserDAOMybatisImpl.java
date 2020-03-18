@@ -64,11 +64,11 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindAllUser() {
-		List<User> list = dao.findAllUser();
+		/*List<User> list = dao.findAllUser();
 		
 		for(User user : list) {
 			System.out.println(user);
-		}
+		}*/
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindUserByID() {
-		System.out.println(dao.findUserByID(0));
+		//System.out.println(dao.findUserByID(0));
 	}
 
 }
