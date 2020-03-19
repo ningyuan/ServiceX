@@ -17,7 +17,7 @@ import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.exception.Utils;
-import ningyuan.pan.util.persistence.JDBCDataSourceUtils;
+import ningyuan.pan.util.persistence.DataSourceManager;
 
 /**
  * @author ningyuan
@@ -27,6 +27,8 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserDAOJDBCImpl.class);
 	
+	private final DataSourceManager<Connection> dataSourceManager;
+	
 	private volatile boolean closeConnectionAfterEachCall = true;
 	
 	private String selectAllUser = "SELECT * FROM user";
@@ -35,11 +37,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private String selectAllRolesByUser = "SELECT role.id, role.name FROM user_role JOIN role ON user_role.rid = role.id WHERE user_role.uid = ?";
 	
-	public UserDAOJDBCImpl() {
-		
+	public UserDAOJDBCImpl(DataSourceManager<Connection> dataSourceManager) {
+		this.dataSourceManager = dataSourceManager;
 	}
 	
-	public UserDAOJDBCImpl(boolean closeConnectionAfterEachCall) {
+	public UserDAOJDBCImpl(DataSourceManager<Connection> dataSourceManager, boolean closeConnectionAfterEachCall) {
+		this(dataSourceManager);
 		this.closeConnectionAfterEachCall = closeConnectionAfterEachCall;
 	}
 	
@@ -55,57 +58,58 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = JDBCDataSourceUtils.initAndGetThreadLocalConnection();
+			con = dataSourceManager.initAndGetThreadLocalConnection();
 			
-			PreparedStatement ps = con.prepareStatement(selectAllUser);
-			PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				long id = rs.getLong(1);
-				String firstName = rs.getString(2);
-				String lastName = rs.getString(3);
+			if(con != null) {
+				PreparedStatement ps = con.prepareStatement(selectAllUser);
+				PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
 				
-				User user = new User();
-				user.setId(id);
-				user.setFirstName(firstName);
-				user.setLastName(lastName);
+				ResultSet rs = ps.executeQuery();
 				
-				List<Role> roles = new ArrayList<Role>();
-				
-				ps1.setLong(1, id);
-				ResultSet rs1 = ps1.executeQuery();
-				
-				while(rs1.next()){
-					byte rid = rs1.getByte(1);
-					String name = rs1.getString(2);
+				while (rs.next()) {
+					long id = rs.getLong(1);
+					String firstName = rs.getString(2);
+					String lastName = rs.getString(3);
 					
-					Role role = new Role();
-					role.setId(rid);
-					role.setName(name);
+					User user = new User();
+					user.setId(id);
+					user.setFirstName(firstName);
+					user.setLastName(lastName);
 					
-					roles.add(role);
+					List<Role> roles = new ArrayList<Role>();
+					
+					ps1.setLong(1, id);
+					ResultSet rs1 = ps1.executeQuery();
+					
+					while(rs1.next()){
+						byte rid = rs1.getByte(1);
+						String name = rs1.getString(2);
+						
+						Role role = new Role();
+						role.setId(rid);
+						role.setName(name);
+						
+						roles.add(role);
+					}
+					
+					user.setRoles(roles);
+					
+					ret.add(user);
+					
+					rs1.close();
 				}
 				
-				user.setRoles(roles);
-				
-				ret.add(user);
-				
-				rs1.close();
+				ps1.close();
+				rs.close();
+				ps.close();
 			}
-			
-			ps1.close();
-			rs.close();
-			ps.close();
-			
 		}
-		catch (SQLException e) {
-			LOGGER.debug(Utils.printStackTraceToString(e));
+		catch (SQLException sqle) {
+			LOGGER.debug(Utils.printStackTraceToString(sqle));
 		}
 		finally {
 			if(closeConnectionAfterEachCall) {
-				JDBCDataSourceUtils.removeThreadLocalConnection();
+				dataSourceManager.removeThreadLocalConnection();
 			}	
 		}
 		
@@ -120,55 +124,57 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = JDBCDataSourceUtils.initAndGetThreadLocalConnection();
+			con = dataSourceManager.initAndGetThreadLocalConnection();
 			
-			PreparedStatement ps = con.prepareStatement(selectUserByID);
-			PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
-			
-			ps.setLong(1, id);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				String firstName = rs.getString(1);
-				String lastName = rs.getString(2);
+			if(con != null) {
+				PreparedStatement ps = con.prepareStatement(selectUserByID);
+				PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
 				
-				ret = new User();
-				ret.setId(id);
-				ret.setFirstName(firstName);
-				ret.setLastName(lastName);
+				ps.setLong(1, id);
 				
-				List<Role> roles = new ArrayList<Role>();
+				ResultSet rs = ps.executeQuery();
 				
-				ps1.setLong(1, id);
-				ResultSet rs1 = ps1.executeQuery();
-				
-				while(rs1.next()){
-					byte rid = rs1.getByte(1);
-					String name = rs1.getString(2);
+				while (rs.next()) {
+					String firstName = rs.getString(1);
+					String lastName = rs.getString(2);
 					
-					Role role = new Role();
-					role.setId(rid);
-					role.setName(name);
+					ret = new User();
+					ret.setId(id);
+					ret.setFirstName(firstName);
+					ret.setLastName(lastName);
 					
-					roles.add(role);
+					List<Role> roles = new ArrayList<Role>();
+					
+					ps1.setLong(1, id);
+					ResultSet rs1 = ps1.executeQuery();
+					
+					while(rs1.next()){
+						byte rid = rs1.getByte(1);
+						String name = rs1.getString(2);
+						
+						Role role = new Role();
+						role.setId(rid);
+						role.setName(name);
+						
+						roles.add(role);
+					}
+					
+					ret.setRoles(roles);
+					
+					rs1.close();
 				}
 				
-				ret.setRoles(roles);
-				
-				rs1.close();
+				ps1.close();
+				rs.close();
+				ps.close();
 			}
-			
-			ps1.close();
-			rs.close();
-			ps.close();
 		}
-		catch (SQLException e) {
-			LOGGER.debug(Utils.printStackTraceToString(e));
+		catch (SQLException sqle) {
+			LOGGER.debug(Utils.printStackTraceToString(sqle));
 		}
 		finally {
 			if(closeConnectionAfterEachCall) {
-				JDBCDataSourceUtils.removeThreadLocalConnection();
+				dataSourceManager.removeThreadLocalConnection();
 			}
 		}
 		

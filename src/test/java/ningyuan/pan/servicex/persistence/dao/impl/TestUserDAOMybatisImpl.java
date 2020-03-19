@@ -6,6 +6,7 @@ package ningyuan.pan.servicex.persistence.dao.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +15,8 @@ import org.junit.Test;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.User;
-import ningyuan.pan.util.persistence.MybatisDataSourceUtils;
+import ningyuan.pan.util.persistence.DataSourceManager;
+import ningyuan.pan.util.persistence.MybatisDataSourceManager;
 
 /**
  * @author ningyuan
@@ -24,12 +26,15 @@ public class TestUserDAOMybatisImpl {
 	
 	private UserDAO dao;
 	
+	private static DataSourceManager<SqlSession> DATA_SOURCE_MANAGER;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		MybatisDataSourceUtils.initAndGetThreadLocalConnection();
+		DATA_SOURCE_MANAGER = new MybatisDataSourceManager();
+		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection();
 	}
 
 	/**
@@ -37,7 +42,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		MybatisDataSourceUtils.removeThreadLocalConnection();
+		DATA_SOURCE_MANAGER.removeThreadLocalConnection();
 	}
 
 	/**
@@ -45,7 +50,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		dao = MybatisDataSourceUtils.initAndGetThreadLocalConnection().getMapper(UserDAO.class);
+		dao = DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().getMapper(UserDAO.class);
 	}
 
 	/**
@@ -53,7 +58,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		MybatisDataSourceUtils.initAndGetThreadLocalConnection().commit();
+		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().commit();
 	}
 
 	/**
@@ -61,11 +66,11 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindAllUser() {
-		List<User> list = dao.findAllUser();
+		/*List<User> list = dao.findAllUser();
 		
 		for(User user : list) {
 			System.out.println(user);
-		}
+		}*/
 	}
 
 	/**
@@ -73,7 +78,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindUserByID() {
-		System.out.println(dao.findUserByID(0));
+		//System.out.println(dao.findUserByID(0));
 	}
 
 }

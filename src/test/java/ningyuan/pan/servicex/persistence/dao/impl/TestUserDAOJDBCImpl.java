@@ -3,6 +3,8 @@
  */
 package ningyuan.pan.servicex.persistence.dao.impl;
 
+import java.sql.Connection;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,7 +12,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
-import ningyuan.pan.util.persistence.JDBCDataSourceUtils;
+import ningyuan.pan.util.persistence.DataSourceManager;
+import ningyuan.pan.util.persistence.JDBCDataSourceManager;
 
 /**
  * @author ningyuan
@@ -20,13 +23,16 @@ public class TestUserDAOJDBCImpl {
 	
 	private static UserDAO DAO;
 	
+	private static DataSourceManager<Connection> DATA_SOURCE_MANAGER;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DAO = new UserDAOJDBCImpl(false);
-		JDBCDataSourceUtils.initAndGetThreadLocalConnection();
+		DATA_SOURCE_MANAGER = new JDBCDataSourceManager();
+		
+		DAO = new UserDAOJDBCImpl(DATA_SOURCE_MANAGER, false);
 	}
 
 	/**
@@ -34,7 +40,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		JDBCDataSourceUtils.removeThreadLocalConnection();
+		DATA_SOURCE_MANAGER.removeThreadLocalConnection();
 	}
 
 	/**
