@@ -24,7 +24,7 @@
     <environments default="dev">
         <environment id="dev">
             <transactionManager type="JDBC"/>
-            <dataSource type="UNPOOLED">
+            <dataSource type="POOLED">
                 
                 <property name="driver" value="${mybatis.driver}"/>
                 <property name="url" value="${mybatis.url}"/>

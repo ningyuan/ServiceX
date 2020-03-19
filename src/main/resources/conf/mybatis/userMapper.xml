@@ -8,7 +8,14 @@
 		<id property="id" column="id"></id>
 		<result property="firstName" column="firstName"></result>
 		<result property="lastName" column="lastName"></result>
-	
+		
+		<!-- object property -->
+		<!--  <association property="" javaType="">
+    		<id property="" column="" jdbcType="" />
+    		<result  property="" column="" jdbcType="" />
+  		</association> --> 
+  		
+  		<!-- collection property -->
 		<collection property="roles" ofType="role">
 			<id property="id" column="rid"></id>
 			<result property="name" column="rName"></result>
