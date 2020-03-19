@@ -57,8 +57,8 @@ public class TestMain {
 		
 		System.out.println("dao1.getUserByID():\n"+user1);
 		
-		dataSourceManager.removeThreadLocalConnection();
+		dataSourceManager.removeAndCloseThreadLocalConnection();
 	
-		dataSourceManager1.removeThreadLocalConnection();
+		dataSourceManager1.removeAndCloseThreadLocalConnection();
 	}
 }

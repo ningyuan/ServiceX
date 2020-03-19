@@ -42,7 +42,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		DATA_SOURCE_MANAGER.removeThreadLocalConnection();
+		DATA_SOURCE_MANAGER.removeAndCloseThreadLocalConnection();
 	}
 
 	/**

@@ -109,7 +109,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		}
 		finally {
 			if(closeConnectionAfterEachCall) {
-				dataSourceManager.removeThreadLocalConnection();
+				dataSourceManager.removeAndCloseThreadLocalConnection();
 			}	
 		}
 		
@@ -174,7 +174,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		}
 		finally {
 			if(closeConnectionAfterEachCall) {
-				dataSourceManager.removeThreadLocalConnection();
+				dataSourceManager.removeAndCloseThreadLocalConnection();
 			}
 		}
 		

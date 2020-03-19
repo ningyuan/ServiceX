@@ -40,7 +40,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		DATA_SOURCE_MANAGER.removeThreadLocalConnection();
+		DATA_SOURCE_MANAGER.removeAndCloseThreadLocalConnection();
 	}
 
 	/**
