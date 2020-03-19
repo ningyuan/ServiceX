@@ -17,6 +17,7 @@ import org.junit.Test;
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.util.persistence.MybatisDataSourceUtils;
 
 
 /**
@@ -25,8 +26,6 @@ import ningyuan.pan.servicex.persistence.entity.Role;
  */
 public class TestRoleDAOMybatisImpl {
 	
-	private SqlSession session;
-	
 	private RoleDAO dao;
 	
 	/**
@@ -34,7 +33,7 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-	
+		MybatisDataSourceUtils.initAndGetThreadLocalConnection();
 	}
 
 	/**
@@ -42,6 +41,7 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		MybatisDataSourceUtils.removeThreadLocalConnection();
 	}
 
 	/**
@@ -49,8 +49,7 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		session = MybatisUtil.getSession();
-		dao = session.getMapper(RoleDAO.class);
+		dao = MybatisDataSourceUtils.initAndGetThreadLocalConnection().getMapper(RoleDAO.class);
 	}
 
 	/**
@@ -58,8 +57,7 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		session.commit();
-		session.close();
+		MybatisDataSourceUtils.initAndGetThreadLocalConnection().commit();
 	}
 
 	@Test

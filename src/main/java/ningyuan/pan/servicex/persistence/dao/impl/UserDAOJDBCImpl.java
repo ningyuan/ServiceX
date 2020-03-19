@@ -3,27 +3,21 @@
  */
 package ningyuan.pan.servicex.persistence.dao.impl;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
-import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
+import ningyuan.pan.util.exception.Utils;
+import ningyuan.pan.util.persistence.JDBCDataSourceUtils;
 
 /**
  * @author ningyuan
@@ -31,9 +25,9 @@ import ningyuan.pan.servicex.persistence.entity.User;
  */
 public class UserDAOJDBCImpl implements UserDAO {
 	
-	private static final Logger LOOGER = LoggerFactory.getLogger(UserDAOJDBCImpl.class);
-	 
-	private static DataSource DATASOURCE;
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserDAOJDBCImpl.class);
+	
+	private volatile boolean closeConnectionAfterEachCall = true;
 	
 	private String selectAllUser = "SELECT * FROM user";
 	
@@ -41,34 +35,27 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private String selectAllRolesByUser = "SELECT role.id, role.name FROM user_role JOIN role ON user_role.rid = role.id WHERE user_role.uid = ?";
 	
-	static {
-		DATASOURCE = new ComboPooledDataSource();
+	public UserDAOJDBCImpl() {
 		
-		/*Properties configProp;
-		try {
-			configProp = new Properties();
-        	configProp.load(new InputStreamReader(UserDAOJDBCImpl.class.getClassLoader().getResourceAsStream("conf/c3p0.properties")));
+	}
 	
-        	((ComboPooledDataSource)dataSource).setDriverClass(configProp.getProperty("c3p0.driverClass"));
-        	((ComboPooledDataSource)dataSource).setJdbcUrl(configProp.getProperty("c3p0.jdbcUrl"));
-        	((ComboPooledDataSource)dataSource).setUser(configProp.getProperty("c3p0.user"));
-        	((ComboPooledDataSource)dataSource).setPassword(configProp.getProperty("c3p0.password"));
-        	((ComboPooledDataSource)dataSource).setMaxPoolSize(Integer.parseInt(configProp.getProperty("c3p0.maxPoolSize")));
-        	((ComboPooledDataSource)dataSource).setMinPoolSize(Integer.parseInt(configProp.getProperty("c3p0.minPoolSize")));
-        	((ComboPooledDataSource)dataSource).setMaxIdleTime(Integer.parseInt(configProp.getProperty("c3p0.maxIdleTime")));
-        		
-		} catch (IOException | PropertyVetoException e) {
-			e.printStackTrace();
-        }	*/
+	public UserDAOJDBCImpl(boolean closeConnectionAfterEachCall) {
+		this.closeConnectionAfterEachCall = closeConnectionAfterEachCall;
+	}
+	
+	public void setCloseConnectionAfterEachCall(boolean closeConnectionAfterEachCall) {
+		this.closeConnectionAfterEachCall = closeConnectionAfterEachCall;
 	}
 	
 	@Override
 	public List<User> findAllUser() {
+		LOGGER.debug("findAllUser()");
+		
 		List<User> ret = new ArrayList<User>();
 		Connection con = null;
 		
 		try {
-			con = DATASOURCE.getConnection();
+			con = JDBCDataSourceUtils.initAndGetThreadLocalConnection();
 			
 			PreparedStatement ps = con.prepareStatement(selectAllUser);
 			PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
@@ -112,30 +99,28 @@ public class UserDAOJDBCImpl implements UserDAO {
 			rs.close();
 			ps.close();
 			
-			LOOGER.debug("findAllUser()");
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.debug(Utils.printStackTraceToString(e));
 		}
 		finally {
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			if(closeConnectionAfterEachCall) {
+				JDBCDataSourceUtils.removeThreadLocalConnection();
+			}	
 		}
+		
 		return ret;
 	}
 
 	@Override
 	public User findUserByID(long id) {
+		LOGGER.debug("findUserByID()");
+		
 		User ret = null;
 		Connection con = null;
 		
 		try {
-			con = DATASOURCE.getConnection();
+			con = JDBCDataSourceUtils.initAndGetThreadLocalConnection();
 			
 			PreparedStatement ps = con.prepareStatement(selectUserByID);
 			PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
@@ -177,19 +162,13 @@ public class UserDAOJDBCImpl implements UserDAO {
 			ps1.close();
 			rs.close();
 			ps.close();
-			
-			LOOGER.debug("findUserByID()");
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			LOGGER.debug(Utils.printStackTraceToString(e));
 		}
 		finally {
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			if(closeConnectionAfterEachCall) {
+				JDBCDataSourceUtils.removeThreadLocalConnection();
 			}
 		}
 		

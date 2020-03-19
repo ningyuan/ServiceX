@@ -6,7 +6,6 @@ package ningyuan.pan.servicex.persistence.dao.impl;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,14 +14,13 @@ import org.junit.Test;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.User;
+import ningyuan.pan.util.persistence.MybatisDataSourceUtils;
 
 /**
  * @author ningyuan
  *
  */
 public class TestUserDAOMybatisImpl {
-	
-	private SqlSession session;
 	
 	private UserDAO dao;
 	
@@ -31,7 +29,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
+		MybatisDataSourceUtils.initAndGetThreadLocalConnection();
 	}
 
 	/**
@@ -39,6 +37,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		MybatisDataSourceUtils.removeThreadLocalConnection();
 	}
 
 	/**
@@ -46,8 +45,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		session = MybatisUtil.getSession();
-		dao = session.getMapper(UserDAO.class);
+		dao = MybatisDataSourceUtils.initAndGetThreadLocalConnection().getMapper(UserDAO.class);
 	}
 
 	/**
@@ -55,8 +53,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		session.commit();
-		session.close();
+		MybatisDataSourceUtils.initAndGetThreadLocalConnection().commit();
 	}
 
 	/**
@@ -64,11 +61,11 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindAllUser() {
-		/*List<User> list = dao.findAllUser();
+		List<User> list = dao.findAllUser();
 		
 		for(User user : list) {
 			System.out.println(user);
-		}*/
+		}
 	}
 
 	/**
@@ -76,7 +73,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void testFindUserByID() {
-		//System.out.println(dao.findUserByID(0));
+		System.out.println(dao.findUserByID(0));
 	}
 
 }
