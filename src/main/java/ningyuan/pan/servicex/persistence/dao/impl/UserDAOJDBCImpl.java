@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
-import ningyuan.pan.util.exception.Utils;
+import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
 
 /**
@@ -105,7 +105,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 			}
 		}
 		catch (SQLException sqle) {
-			LOGGER.debug(Utils.printStackTraceToString(sqle));
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(sqle));
 		}
 		finally {
 			if(closeConnectionAfterEachCall) {
@@ -170,7 +170,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 			}
 		}
 		catch (SQLException sqle) {
-			LOGGER.debug(Utils.printStackTraceToString(sqle));
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(sqle));
 		}
 		finally {
 			if(closeConnectionAfterEachCall) {
