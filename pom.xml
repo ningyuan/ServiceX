@@ -13,11 +13,14 @@
   <properties>
     <!-- plugin version -->
     <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
+    <aspectj-maven-plugin.version>1.12.6</aspectj-maven-plugin.version>
     
     <!-- dependency version -->
     <util.version>0.0.1-SNAPSHOT</util.version>
     
     <servicex-api.version>0.0.1-SNAPSHOT</servicex-api.version>
+    
+    <aspectj.version>1.9.5</aspectj.version>
     
     <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
     
@@ -33,7 +36,7 @@
 	
   <build>
   		<finalName>${project.artifactId}-${project.version}</finalName>
-  		 
+  		
     	<resources>  
         	<resource>  
             	<directory>${project.basedir}/src/main/resources</directory>  
@@ -71,6 +74,38 @@
           				</execution>
         			</executions>
         		</plugin>
+        		
+        		<!-- aspectj compiler -->
+        		<plugin>
+        			<!-- plugin from codehouse dose not support java 11 -->
+    				<groupId>com.nickwongdev</groupId>
+   				    <artifactId>aspectj-maven-plugin</artifactId>
+    				<version>${aspectj-maven-plugin.version}</version>
+					<executions>
+                    	<execution> 
+                    		<phase>compile</phase>          	
+                        	<goals>
+                            	<goal>compile</goal>
+                            	<goal>test-compile</goal>
+                        	</goals>
+                        	<configuration>
+                        		<showWeaveInfo>true</showWeaveInfo>
+                            	<source>${maven.compiler.source}</source>
+                            	<complianceLevel>${maven.compiler.source}</complianceLevel>
+                            	<target>${maven.compiler.target}</target>
+                            	<encoding>${project.build.sourceEncoding}</encoding>
+                            	<aspectDirectory>${project.basedir}/src/main/aspect</aspectDirectory>
+                        	</configuration>
+                    	</execution>
+                	</executions>
+                	<dependencies>
+                		<dependency>
+            				<groupId>org.aspectj</groupId>
+            				<artifactId>aspectjtools</artifactId>
+            				<version>${aspectj.version}</version>
+          				</dependency>
+          			</dependencies>
+        		</plugin>
      		</plugins>
     	</pluginManagement>
     
@@ -79,6 +114,10 @@
         		<groupId>org.codehaus.mojo</groupId>
         		<artifactId>properties-maven-plugin</artifactId>
       		</plugin>
+      		<plugin>
+    			<groupId>com.nickwongdev</groupId>
+   				<artifactId>aspectj-maven-plugin</artifactId>
+   			</plugin>
     	</plugins>  
   </build>
   
@@ -108,6 +147,19 @@
        	   		<scope>provided</scope>
        	   </dependency>
        	   
+       	   <!-- aspectj  -->
+		   <dependency>
+    			<groupId>org.aspectj</groupId>
+    			<artifactId>aspectjweaver</artifactId>
+    			<version>${aspectj.version}</version>
+		   </dependency>
+		   <!-- aspectj maven plugin need rt -->
+		   <dependency>
+    			<groupId>org.aspectj</groupId>
+    			<artifactId>aspectjrt</artifactId>
+    			<version>${aspectj.version}</version>
+		   </dependency>
+		   
        	   <!-- jdbc driver for mysql -->
 		   <dependency>
     			<groupId>mysql</groupId>
@@ -170,6 +222,15 @@
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
     
+    <dependency>
+    	<groupId>org.aspectj</groupId>
+    	<artifactId>aspectjweaver</artifactId>
+    </dependency>
+   	<dependency>
+    	<groupId>org.aspectj</groupId>
+    	<artifactId>aspectjrt</artifactId>
+    </dependency> 
+   	
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
