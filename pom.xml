@@ -89,6 +89,7 @@
                             	<goal>test-compile</goal>
                         	</goals>
                         	<configuration>
+                        		<verbose>true</verbose>
                         		<showWeaveInfo>true</showWeaveInfo>
                             	<source>${maven.compiler.source}</source>
                             	<complianceLevel>${maven.compiler.source}</complianceLevel>
@@ -147,13 +148,13 @@
        	   		<scope>provided</scope>
        	   </dependency>
        	   
-       	   <!-- aspectj  -->
+       	   <!-- introduce advice to java class at load time  -->
 		   <dependency>
     			<groupId>org.aspectj</groupId>
     			<artifactId>aspectjweaver</artifactId>
     			<version>${aspectj.version}</version>
 		   </dependency>
-		   <!-- aspectj maven plugin need rt -->
+		   <!-- aspectj runtime is needed by all aspectj programs -->
 		   <dependency>
     			<groupId>org.aspectj</groupId>
     			<artifactId>aspectjrt</artifactId>
