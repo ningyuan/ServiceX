@@ -21,7 +21,10 @@ public class TraceAspect {
 	@Pointcut("execution(* ningyuan.pan.servicex.impl.*.*(..))")
 	private void exeAllMethods() {};
 	
-	@Before("exeAllMethods()")
+	@Pointcut("!withincode(* ningyuan.pan.servicex.impl.Test*.*(..))")
+	private void notInJunit() {};
+	
+	@Before("exeAllMethods() && notInJunit()")
 	public void eamBefore(JoinPoint joinPoint) throws Throwable {
 		Object object = joinPoint.getThis();
 		Signature s = joinPoint.getSignature();
