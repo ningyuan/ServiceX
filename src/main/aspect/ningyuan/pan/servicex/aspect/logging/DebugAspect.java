@@ -23,7 +23,7 @@ public class DebugAspect {
 	@Pointcut("execution(* ningyuan.pan.servicex.impl.*.*(..))")
 	private void exeAllMethods() {};
 	
-	@Pointcut("!withincode(* ningyuan.pan.servicex.impl.Test*.*(..))")
+	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)")
 	private void notInJunit() {};
 	
 	@Before("exeAllMethods() && notInJunit()")
