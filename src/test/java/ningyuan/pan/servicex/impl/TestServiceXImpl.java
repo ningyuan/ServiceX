@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-import ningyuan.pan.servicex.service.ServiceX;
+import ningyuan.pan.servicex.ServiceX;
 
 /**
  * @author ningyuan
