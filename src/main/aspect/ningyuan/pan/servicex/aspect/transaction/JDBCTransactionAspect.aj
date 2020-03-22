@@ -33,9 +33,8 @@ public aspect JDBCTransactionAspect {
 	
 	pointcut notInJunitClasses() : !within(ningyuan.pan.servicex.impl.Test*);
 	
-	/*
-	 * Start transaction
-	 */
+	
+	//Start transaction
 	before() : exeServiceMethods() && notInJunitClasses() {
 		LOGGER.debug("Start transaction");
 		
@@ -47,6 +46,7 @@ public aspect JDBCTransactionAspect {
 			if(con != null) {
 				try {
 					con.setAutoCommit(false);
+					con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 					
 					LOGGER.debug("Set auto commit");
 				} 
@@ -63,9 +63,8 @@ public aspect JDBCTransactionAspect {
 		}
 	}
 	
-	/*
-	 * Commit transaction
-	 */
+	
+	//Commit transaction
 	after() : exeServiceMethods() && notInJunitClasses() {
 		LOGGER.debug("Commit transaction");
 		
@@ -93,9 +92,7 @@ public aspect JDBCTransactionAspect {
 		}
 	}
 	
-	/*
-	 * Rollback transaction
-	 */
+	//Rollback transaction
 	before() : exceptionHandler() && inServiceMethods() && notInJunitClasses() {
 		LOGGER.debug("Rollback transaction");
 		
