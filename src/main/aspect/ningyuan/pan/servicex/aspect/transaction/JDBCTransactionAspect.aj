@@ -46,7 +46,6 @@ public aspect JDBCTransactionAspect {
 			if(con != null) {
 				try {
 					con.setAutoCommit(false);
-					con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 					
 					LOGGER.debug("Set auto commit");
 				} 
