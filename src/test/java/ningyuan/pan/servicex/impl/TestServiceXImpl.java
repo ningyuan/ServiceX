@@ -10,8 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 import ningyuan.pan.servicex.ServiceX;
+import ningyuan.pan.servicex.util.ServiceXUtil;
+import ningyuan.pan.util.persistence.JDBCDataSourceManager;
 
 /**
  * @author ningyuan
@@ -26,6 +27,7 @@ public class TestServiceXImpl {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		//ServiceXUtil.getInstance().setGelobalObject("JDBCDSM", new JDBCDataSourceManager());
 		SERVICE_X = new ServiceXImpl();
 	}
 
@@ -34,6 +36,7 @@ public class TestServiceXImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		//ServiceXUtil.getInstance().removeGelobalObject("JDBCDSM");
 	}
 
 	/**

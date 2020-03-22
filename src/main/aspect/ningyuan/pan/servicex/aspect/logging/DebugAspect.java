@@ -47,13 +47,13 @@ public class DebugAspect {
 	@Pointcut("execution(* ningyuan.pan.servicex.aspect.transaction.*.*(..))")
 	private void exeAllTAspectMethods() {};
 	
-	@Pointcut("within(ningyuan.pan.servicex.aspect.*)")
+	@Pointcut("within(ningyuan.pan.servicex.aspect.transaction.*)")
 	private void inTAspectClass() {};
 	
 	@Pointcut("!within(ningyuan.pan.servicex.aspect.Test*)")
 	private void notInAspectJunitClass() {};
 	
-	@Before("inTAspectClass()")
+	@Before("exeAllTAspectMethods()")  
 	public void logAspectMethod(JoinPoint joinPoint) throws Throwable {
 		Object object = joinPoint.getThis();
 		Signature s = joinPoint.getSignature();
