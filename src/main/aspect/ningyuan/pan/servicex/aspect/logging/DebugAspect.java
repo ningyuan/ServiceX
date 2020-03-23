@@ -22,10 +22,7 @@ public class DebugAspect {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DebugAspect.class);
 	
-	/*
-	 * Log method entering information
-	 * 
-	 */
+	// Log method entering information
 	@Pointcut("execution(* ningyuan.pan.servicex.impl.*.*(..))")
 	private void exeAllMethods() {};
 	
@@ -40,10 +37,7 @@ public class DebugAspect {
 		LOGGER.debug(object.getClass().getName()+"."+s.getName()+"()");
 	}
 	
-	/*
-	 * Log aspect entering information (not work)
-	 * 
-	 */
+	// Log aspect entering information
 	@Pointcut("execution(* ningyuan.pan.servicex.aspect.transaction.*.*(..))")
 	private void exeAllTAspectMethods() {};
 	
@@ -61,10 +55,7 @@ public class DebugAspect {
 		LOGGER.debug(object.getClass().getName()+"."+s.getName()+"()");
 	}
 	
-	/*
-	 * Log exception information
-	 * 
-	 */
+	// Log exception information
 	@Pointcut("handler(Throwable+) && args(e)")
 	private void exceptionHandler(Throwable e) {};
 	

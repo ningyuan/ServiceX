@@ -20,11 +20,14 @@ import ningyuan.pan.util.exception.ExceptionUtils;
 public class TraceAspect {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TraceAspect.class);
 	
+	/*
+	// Log method entering information
 	@Pointcut("execution(* ningyuan.pan.servicex.impl.*.*(..))")
 	private void exeAllMethods() {};
 	
 	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)")
 	private void notInJunitClassese() {};
+	
 	
 	@Before("exeAllMethods() && notInJunitClassese()")
 	public void logMethod(JoinPoint joinPoint) throws Throwable {
@@ -34,10 +37,7 @@ public class TraceAspect {
 		LOGGER.trace(object.getClass().getName()+"."+s.getName()+"()");
 	}
 	
-	/*
-	 * Log exception information
-	 * 
-	 */
+	// Log exception information
 	@Pointcut("handler(Throwable+) && args(e)")
 	private void exceptionHandler(Throwable e) {};
 	
@@ -48,4 +48,5 @@ public class TraceAspect {
 	public void logException(JoinPoint joinPoint, Throwable e) {
 		LOGGER.trace(ExceptionUtils.printStackTraceToString(e));
 	}
+	*/
 }
