@@ -7,6 +7,7 @@ package ningyuan.pan.servicex.impl;
 import java.util.Properties;
 
 import ningyuan.pan.servicex.ServiceX;
+import ningyuan.pan.servicex.persistence.dao.UserDAO;
 
 
 /**
@@ -15,17 +16,29 @@ import ningyuan.pan.servicex.ServiceX;
  */
 public class ServiceXImpl implements ServiceX {
 	
+	private UserDAO userDAO;
+	
+	public ServiceXImpl() {}
+	
+	public ServiceXImpl(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+	
 	public String getName() {
-		
-		Properties configProp = null;
-
-		try {
-			configProp.clear();
-		} 
-		catch (NullPointerException npe) {
-			
+		if(userDAO != null) {
+			return userDAO.findUserByID(0).getFirstName();
 		}
-		
-		return "ServiceX";
+		else {
+			Properties configProp = null;
+
+			try {
+				configProp.clear();
+			} 
+			catch (NullPointerException npe) {
+				
+			}
+			
+			return "no user";
+		}
 	}
 }

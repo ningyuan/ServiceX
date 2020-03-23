@@ -3,6 +3,8 @@
  */
 package ningyuan.pan.servicex.impl;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -11,8 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ningyuan.pan.servicex.ServiceX;
-import ningyuan.pan.servicex.util.ServiceXUtil;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
+import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.User;
+
 
 /**
  * @author ningyuan
@@ -20,15 +23,16 @@ import ningyuan.pan.util.persistence.JDBCDataSourceManager;
  */
 public class TestServiceXImpl {
 	
-	private static ServiceX SERVICE_X;
+	private Mockery context = new Mockery();
+
+	private ServiceX service;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		//ServiceXUtil.getInstance().setGelobalObject("JDBCDSM", new JDBCDataSourceManager());
-		SERVICE_X = new ServiceXImpl();
+		
 	}
 
 	/**
@@ -36,7 +40,7 @@ public class TestServiceXImpl {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		//ServiceXUtil.getInstance().removeGelobalObject("JDBCDSM");
+		
 	}
 
 	/**
@@ -44,6 +48,18 @@ public class TestServiceXImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		UserDAO userDAO = context.mock(UserDAO.class);
+		User returnValue = new User();
+		returnValue.setFirstName("root");
+		
+		service = new ServiceXImpl(userDAO);
+		
+		context.checking(new Expectations() {
+			{
+				oneOf(userDAO).findUserByID(0);
+				will(returnValue(returnValue));
+			}
+		});
 	}
 
 	/**
@@ -58,7 +74,7 @@ public class TestServiceXImpl {
 	 */
 	@Test
 	public void testGetName() {
-		Assert.assertEquals("ServiceX", SERVICE_X.getName());
+		Assert.assertEquals("root", service.getName());
 	}
 
 }
