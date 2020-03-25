@@ -5,9 +5,9 @@
  
 <mapper namespace="ningyuan.pan.servicex.persistence.dao.UserDAO">
 	<resultMap id="userMap" type="User">
-		<id property="id" column="id"></id>
-		<result property="firstName" column="firstName"></result>
-		<result property="lastName" column="lastName"></result>
+		<id property="id" column="id" jdbcType="BIGINT"></id>
+		<result property="firstName" column="firstName" jdbcType="VARCHAR"></result>
+		<result property="lastName" column="lastName" jdbcType="VARCHAR"></result>
 		
 		<!-- object property -->
 		<!--  <association property="" javaType="">
@@ -37,7 +37,7 @@
             role r ON r.id = ur.rid
 	</sql>
 	
-	<select id="findUserByID" resultMap="userMap" resultSetType="FORWARD_ONLY">
+	<select id="findUserByID" parameterType="long" resultMap="userMap" resultSetType="FORWARD_ONLY">
     	<include refid="selectUser"/>
         WHERE u.id=#{id}
     </select>
@@ -45,4 +45,52 @@
     <select id="findAllUser" resultMap="userMap" resultSetType="FORWARD_ONLY">
     	<include refid="selectUser"/>
     </select>
+    
+    <insert id="add" parameterType="user">
+    	INSERT INTO
+    		user
+    	VALUES (#{id}, #{firstName}, #{lastName});
+    	
+    	INSERT INTO
+			user_role
+		VALUES
+		<foreach collection="roles" item="role" separator=",">
+      		(#{id}, #{role.id})
+      	</foreach>
+	</insert>
+	
+	<delete id="delete" parameterType="long">
+		DELETE FROM
+			user
+		WHERE 
+			id = #{id};
+		
+		<!-- cascade delete attached roles (can be set in database) -->
+		DELETE FROM
+			user_role
+		WHERE
+			uid = #{id}
+	</delete>
+	
+	<update id="update"  parameterType="role">
+         UPDATE
+         	user
+         SET
+         	firstName = #{firstName},
+         	lastName = #{lastName}
+         WHERE
+         	id = #{id};
+         	
+         DELETE FROM
+			user_role
+		 WHERE
+			uid = #{id};
+		
+		 INSERT INTO
+			user_role
+		 VALUES
+		 <foreach collection="roles" item="role" separator=",">
+      	    (#{id}, #{role.id})
+      	 </foreach>
+    </update>
 </mapper>
