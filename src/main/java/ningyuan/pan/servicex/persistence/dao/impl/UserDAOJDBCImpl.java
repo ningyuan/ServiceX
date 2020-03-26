@@ -213,7 +213,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 				List<Role> roles = user.getRoles();
 				for(Role role : roles) {
 					ps1.setLong(1, user.getID());
-					ps1.setByte(2, role.getId());
+					ps1.setByte(2, role.getID());
 					
 					ps1.executeUpdate();
 				}
@@ -302,7 +302,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 				List<Role> roles = user.getRoles();
 				for(Role role : roles) {
 					ps2.setLong(1, user.getID());
-					ps2.setByte(2, role.getId());
+					ps2.setByte(2, role.getID());
 					
 					ps2.executeUpdate();
 				}
