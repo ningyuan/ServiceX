@@ -4,6 +4,8 @@
 package ningyuan.pan.servicex.persistence.dao.impl;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.MybatisDataSourceManager;
@@ -50,7 +53,8 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		dao = DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().getMapper(UserDAO.class);
+		// start transaction
+		dao = DATA_SOURCE_MANAGER.getThreadLocalConnection().getMapper(UserDAO.class);
 	}
 
 	/**
@@ -58,7 +62,8 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().commit();
+		// commit transaction
+		DATA_SOURCE_MANAGER.getThreadLocalConnection().commit();
 	}
 
 	/**
@@ -80,5 +85,64 @@ public class TestUserDAOMybatisImpl {
 	public void testFindUserByID() {
 		//System.out.println(dao.findUserByID(0));
 	}
-
+	
+	@Test
+	public void testAdd() {
+		/*try {
+			User user = new User();
+			
+			user.setID(3l);
+			user.setFirstName("one");
+			user.setLastName("zhang");
+			
+			List<Role> roles = new ArrayList<Role>();
+			
+			Role role = new Role();
+			role.setId((byte)1);
+			roles.add(role);
+			
+			role = new Role();
+			role.setId((byte)2);
+			roles.add(role);
+			
+			user.setRoles(roles);
+			
+			dao.add(user);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
+		}*/
+	}
+	
+	@Test
+	public void testUpdate() {
+		/*try {
+			User user = new User();
+			
+			user.setID(3l);
+			user.setFirstName("two");
+			user.setLastName("zhang");
+			
+			List<Role> roles = new ArrayList<Role>();
+			
+			Role role = new Role();
+			
+			role.setId((byte)2);
+			roles.add(role);
+			
+			user.setRoles(roles);
+			
+			dao.update(user);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
+		}*/
+	}
+	
+	@Test
+	public void testDelete() {
+		//dao.delete(3l);
+	}
 }

@@ -17,4 +17,10 @@ public interface UserDAO {
 	
 	public User findUserByID(long id);
 	
+	public boolean add(User user);
+	
+	public boolean delete(long id);
+	
+	public boolean update(User user);
+	
 }
