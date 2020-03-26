@@ -69,7 +69,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 					String name = rs.getString(2);
 					
 					Role role = new Role();
-					role.setId(id);
+					role.setID(id);
 					role.setName(name);
 				    
 					ret.add(role);
@@ -110,7 +110,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 				
 				while (rs.next()) {
 					ret = new Role();
-					ret.setId(id);
+					ret.setID(id);
 					ret.setName(rs.getString(1));
 				}
 			
@@ -143,7 +143,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 				
 				PreparedStatement ps = con.prepareStatement(insertRole);
 				
-				ps.setLong(1, role.getId());
+				ps.setLong(1, role.getID());
 				ps.setString(2, role.getName());
 				
 				ps.executeUpdate();
@@ -212,7 +212,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 				PreparedStatement ps = con.prepareStatement(updateRole);
 				
 				ps.setString(1, role.getName());
-				ps.setByte(2, role.getId());
+				ps.setByte(2, role.getID());
 				
 				ps.executeUpdate();
 				

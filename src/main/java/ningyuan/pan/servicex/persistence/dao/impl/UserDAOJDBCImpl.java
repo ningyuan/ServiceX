@@ -86,7 +86,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 						String name = rs1.getString(2);
 						
 						Role role = new Role();
-						role.setId(rid);
+						role.setID(rid);
 						role.setName(name);
 						
 						roles.add(role);
@@ -153,7 +153,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 						String name = rs1.getString(2);
 						
 						Role role = new Role();
-						role.setId(rid);
+						role.setID(rid);
 						role.setName(name);
 						
 						roles.add(role);
