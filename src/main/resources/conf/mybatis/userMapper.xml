@@ -37,6 +37,18 @@
             role r ON r.id = ur.rid
 	</sql>
 	
+	<sql id="insertUserRole">
+		 INSERT INTO
+			user_role
+		 VALUES
+	</sql>
+	
+	<sql id="deleteUserRole">
+		DELETE FROM
+			user_role
+		 WHERE
+	</sql>
+	
 	<select id="findUserByID" parameterType="long" resultMap="userMap" resultSetType="FORWARD_ONLY">
     	<include refid="selectUser"/>
         WHERE u.id=#{id}
@@ -51,9 +63,7 @@
     		user
     	VALUES (#{id}, #{firstName}, #{lastName});
     	
-    	INSERT INTO
-			user_role
-		VALUES
+    	<include refid="insertUserRole"/>
 		<foreach collection="roles" item="role" separator=",">
       		(#{id}, #{role.id})
       	</foreach>
@@ -66,9 +76,7 @@
 			id = #{id};
 		
 		<!-- cascade delete attached roles (can be set in database) -->
-		DELETE FROM
-			user_role
-		WHERE
+		<include refid="deleteUserRole"/>
 			uid = #{id}
 	</delete>
 	
@@ -81,14 +89,10 @@
          WHERE
          	id = #{id};
          	
-         DELETE FROM
-			user_role
-		 WHERE
+         <include refid="deleteUserRole"/>
 			uid = #{id};
 		
-		 INSERT INTO
-			user_role
-		 VALUES
+		 <include refid="insertUserRole"/>
 		 <foreach collection="roles" item="role" separator=",">
       	    (#{id}, #{role.id})
       	 </foreach>
