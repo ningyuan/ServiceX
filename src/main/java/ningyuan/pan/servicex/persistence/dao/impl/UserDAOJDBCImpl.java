@@ -37,6 +37,16 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private String selectAllRolesByUser = "SELECT role.id, role.name FROM user_role JOIN role ON user_role.rid = role.id WHERE user_role.uid = ?";
 	
+	private String insertUser = "INSERT INTO user VALUES (?, ?, ?)";
+			
+	private String insertRole = "INSERT INTO user_role VALUES (?, ?)";
+	
+	private String deleteRole = "DELETE FROM user_role WHERE uid = ?";
+			
+	private String updateUser = "UPDATE user SET firstName = ?, lastName = ? WHERE id = ?";
+	
+	private String deleteUser = "DELETE FROM user WHERE id = ?";
+			
 	public UserDAOJDBCImpl(DataSourceManager<Connection> dataSourceManager) {
 		this.dataSourceManager = dataSourceManager;
 	}
@@ -72,7 +82,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 					String lastName = rs.getString(3);
 					
 					User user = new User();
-					user.setId(id);
+					user.setID(id);
 					user.setFirstName(firstName);
 					user.setLastName(lastName);
 					
@@ -139,7 +149,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 					String lastName = rs.getString(2);
 					
 					ret = new User();
-					ret.setId(id);
+					ret.setID(id);
 					ret.setFirstName(firstName);
 					ret.setLastName(lastName);
 					
@@ -179,5 +189,141 @@ public class UserDAOJDBCImpl implements UserDAO {
 		}
 		
 		return ret;
+	}
+
+	@Override
+	public boolean add(User user) {
+		LOGGER.debug("add()");
+		
+		Connection con = null;
+		
+		try {
+			con = dataSourceManager.initAndGetThreadLocalConnection();
+			
+			if(con != null) {
+				PreparedStatement ps = con.prepareStatement(insertUser);
+				PreparedStatement ps1 = con.prepareStatement(insertRole);
+				
+				ps.setLong(1, user.getID());
+				ps.setString(2, user.getFirstName());
+				ps.setString(3, user.getLastName());
+				
+				ps.executeUpdate();
+			
+				List<Role> roles = user.getRoles();
+				for(Role role : roles) {
+					ps1.setLong(1, user.getID());
+					ps1.setByte(2, role.getId());
+					
+					ps1.executeUpdate();
+				}
+				
+				ps1.close();
+				ps.close();
+				
+				return true;
+			}
+			
+			return false;
+		}
+		catch (SQLException sqle) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(sqle));
+			return false;
+		}
+		finally {
+			if(closeConnectionAfterEachCall) {
+				dataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+		}
+	}
+
+	@Override
+	public boolean delete(long id) {
+		LOGGER.debug("delete()");
+		
+		Connection con = null;
+		
+		try {
+			con = dataSourceManager.initAndGetThreadLocalConnection();
+			
+			if(con != null) {
+				PreparedStatement ps = con.prepareStatement(deleteUser);
+				PreparedStatement ps1 = con.prepareStatement(deleteRole);
+				
+				ps.setLong(1,id);
+				
+				ps.executeUpdate();
+				
+				ps1.setLong(1, id);
+				ps1.executeUpdate();
+				
+				ps1.close();
+				ps.close();
+				
+				return true;
+			}
+			
+			return false;
+		}
+		catch (SQLException sqle) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(sqle));
+			return false;
+		}
+		finally {
+			if(closeConnectionAfterEachCall) {
+				dataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+		}
+	}
+
+	@Override
+	public boolean update(User user) {
+		LOGGER.debug("update()");
+		
+		Connection con = null;
+		
+		try {
+			con = dataSourceManager.initAndGetThreadLocalConnection();
+			
+			if(con != null) {
+				PreparedStatement ps = con.prepareStatement(updateUser);
+				PreparedStatement ps1 = con.prepareStatement(deleteRole);
+				PreparedStatement ps2 = con.prepareStatement(insertRole);
+				
+				ps.setString(1, user.getFirstName());
+				ps.setString(2, user.getLastName());
+				ps.setLong(3, user.getID());
+				
+				ps.executeUpdate();
+				
+				ps1.setLong(1, user.getID());
+				ps1.executeUpdate();
+				
+				List<Role> roles = user.getRoles();
+				for(Role role : roles) {
+					ps2.setLong(1, user.getID());
+					ps2.setByte(2, role.getId());
+					
+					ps2.executeUpdate();
+				}
+				
+				ps2.close();
+				ps1.close();
+				ps.close();
+				
+				return true;
+			}
+			
+			return false;
+		}
+		catch (SQLException sqle) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(sqle));
+			return false;
+		}
+		finally {
+			if(closeConnectionAfterEachCall) {
+				dataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+		}
 	}
 }

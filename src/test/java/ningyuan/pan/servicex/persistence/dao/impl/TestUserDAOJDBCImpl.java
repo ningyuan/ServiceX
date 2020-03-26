@@ -4,6 +4,9 @@
 package ningyuan.pan.servicex.persistence.dao.impl;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,6 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.JDBCDataSourceManager;
 
@@ -31,8 +36,10 @@ public class TestUserDAOJDBCImpl {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		DATA_SOURCE_MANAGER = new JDBCDataSourceManager();
+		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection();
 		
-		DAO = new UserDAOJDBCImpl(DATA_SOURCE_MANAGER, false);
+		// set auto close to false to use transaction
+		DAO = new UserDAOJDBCImpl(DATA_SOURCE_MANAGER, false);	
 	}
 
 	/**
@@ -48,6 +55,8 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		// start transaction
+		DATA_SOURCE_MANAGER.getThreadLocalConnection().setAutoCommit(false);
 	}
 
 	/**
@@ -55,7 +64,8 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-	
+		// commit transaction
+		DATA_SOURCE_MANAGER.getThreadLocalConnection().commit();
 	}
 
 	/**
@@ -73,5 +83,71 @@ public class TestUserDAOJDBCImpl {
 	public void testGetUserByID() {
 		//DAO.findUserByID(0);
 	}
-
+	
+	@Test
+	public void testAdd() {
+		/*User user = new User();
+			
+		user.setID(3l);
+		user.setFirstName("one");
+		user.setLastName("zhang");
+			
+		List<Role> roles = new ArrayList<Role>();
+			
+		Role role = new Role();
+		role.setId((byte)1);
+		roles.add(role);
+			
+		role = new Role();
+		role.setId((byte)2);
+		roles.add(role);
+			
+		user.setRoles(roles);
+			
+		if(!DAO.add(user)) {
+			try {
+				DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}*/
+	}
+	
+	@Test
+	public void testUpdate() {
+		
+		/*User user = new User();
+		
+		user.setID(3l);
+		user.setFirstName("two");
+		user.setLastName("zhang");
+			
+		List<Role> roles = new ArrayList<Role>();
+		
+		Role role = new Role();
+			
+		role.setId((byte)2);
+		roles.add(role);
+			
+		user.setRoles(roles);
+			
+		if(!DAO.update(user)) {
+			try {
+				DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}*/
+	}
+	
+	@Test
+	public void testDelete() {
+		/*if(!DAO.delete(3l)) {
+			try {
+				DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}*/
+	}
 }
