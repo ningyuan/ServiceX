@@ -36,10 +36,12 @@ public class TestUserDAOJDBCImpl {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		DATA_SOURCE_MANAGER = new JDBCDataSourceManager();
-		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection();
 		
 		// set auto close to false to use transaction
 		DAO = new UserDAOJDBCImpl(DATA_SOURCE_MANAGER, false);	
+		
+		// comment it out when no data source is started
+		//DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection();
 	}
 
 	/**
@@ -56,7 +58,11 @@ public class TestUserDAOJDBCImpl {
 	@Before
 	public void setUp() throws Exception {
 		// start transaction
-		DATA_SOURCE_MANAGER.getThreadLocalConnection().setAutoCommit(false);
+		Connection con = DATA_SOURCE_MANAGER.getThreadLocalConnection();
+		
+		if(con != null) {
+			con.setAutoCommit(false);
+		}
 	}
 
 	/**
@@ -65,7 +71,11 @@ public class TestUserDAOJDBCImpl {
 	@After
 	public void tearDown() throws Exception {
 		// commit transaction
-		DATA_SOURCE_MANAGER.getThreadLocalConnection().commit();
+		Connection con = DATA_SOURCE_MANAGER.getThreadLocalConnection();
+		
+		if(con != null) {
+			DATA_SOURCE_MANAGER.getThreadLocalConnection().commit();
+		}	
 	}
 
 	/**
