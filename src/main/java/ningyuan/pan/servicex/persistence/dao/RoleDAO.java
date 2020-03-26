@@ -15,6 +15,8 @@ public interface RoleDAO {
 	
 	public List<Role> findAllRole();
 	
+	public Role findRoleByID(byte id);
+	
 	public boolean add(Role role);
 	
 	public boolean delete(byte id);

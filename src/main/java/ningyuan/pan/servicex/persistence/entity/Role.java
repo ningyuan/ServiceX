@@ -16,14 +16,14 @@ public class Role {
 	/**
 	 * @return the id
 	 */
-	public byte getId() {
+	public byte getID() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(byte id) {
+	public void setID(byte id) {
 		this.id = id;
 	}
 
