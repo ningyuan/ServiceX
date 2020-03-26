@@ -39,9 +39,9 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private String insertUser = "INSERT INTO user VALUES (?, ?, ?)";
 			
-	private String insertRole = "INSERT INTO user_role VALUES (?, ?)";
+	private String insertUserRole = "INSERT INTO user_role VALUES (?, ?)";
 	
-	private String deleteRole = "DELETE FROM user_role WHERE uid = ?";
+	private String deleteUserRole = "DELETE FROM user_role WHERE uid = ?";
 			
 	private String updateUser = "UPDATE user SET firstName = ?, lastName = ? WHERE id = ?";
 	
@@ -60,7 +60,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		this.closeConnectionAfterEachCall = closeConnectionAfterEachCall;
 	}
 	
-	@Override
+	@Override 
 	public List<User> findAllUser() {
 		LOGGER.debug("findAllUser()");
 		
@@ -202,7 +202,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(insertUser);
-				PreparedStatement ps1 = con.prepareStatement(insertRole);
+				PreparedStatement ps1 = con.prepareStatement(insertUserRole);
 				
 				ps.setLong(1, user.getID());
 				ps.setString(2, user.getFirstName());
@@ -248,7 +248,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(deleteUser);
-				PreparedStatement ps1 = con.prepareStatement(deleteRole);
+				PreparedStatement ps1 = con.prepareStatement(deleteUserRole);
 				
 				ps.setLong(1,id);
 				
@@ -287,8 +287,8 @@ public class UserDAOJDBCImpl implements UserDAO {
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(updateUser);
-				PreparedStatement ps1 = con.prepareStatement(deleteRole);
-				PreparedStatement ps2 = con.prepareStatement(insertRole);
+				PreparedStatement ps1 = con.prepareStatement(deleteUserRole);
+				PreparedStatement ps2 = con.prepareStatement(insertUserRole);
 				
 				ps.setString(1, user.getFirstName());
 				ps.setString(2, user.getLastName());
