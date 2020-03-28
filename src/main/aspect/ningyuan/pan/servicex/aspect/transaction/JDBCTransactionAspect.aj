@@ -27,15 +27,35 @@ public aspect JDBCTransactionAspect {
 	
 	pointcut exceptionHandler() : handler(Throwable+);
 	
-	pointcut inServiceMethods() : withincode(public * ningyuan.pan.servicex.impl.*.*(..));
+	/*
+	 * in all public methods in interfaces with a name containing Service in service
+	 * packages and RS service packages
+	 */
+	pointcut inServiceMethods() : withincode(public * ningyuan.pan.servicex.*Service*.*(..))
+								  ||
+								  withincode(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..));
 	
-	pointcut exeServiceMethods() : execution(public * ningyuan.pan.servicex.impl.*.*(..));
 	
-	pointcut notInJunitClasses() : !within(ningyuan.pan.servicex.impl.Test*);
+	// execution of all public methods in interfaces in RS service packages
+	pointcut exeRSServiceMethods() : execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..));
 	
+	pointcut notInCflowOfRSServiceMethods() : !cflow(exeRSServiceMethods());
+	
+	/*
+	 * execution of all public methods in interfaces in service packages and not in the 
+	 * control flow of public methods in interfaces in RS service packages
+	 */
+	pointcut exeServiceMethods() : execution(public * ningyuan.pan.servicex.*Service*.*(..))
+								   &&
+								   notInCflowOfRSServiceMethods();
+		
+	pointcut notInJunitClasses() : !within(ningyuan.pan.servicex.impl.Test*)
+									&&
+								   !within(ningyuan.pan.servicex.webservice.rs.impl.Test*);
+
 	
 	//Start transaction
-	before() : exeServiceMethods() && notInJunitClasses() {
+	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
 		LOGGER.debug("Start transaction");
 		
 		dataSourceManager = (JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject("JDBCDSM");
@@ -64,7 +84,7 @@ public aspect JDBCTransactionAspect {
 	
 	
 	//Commit transaction
-	after() : exeServiceMethods() && notInJunitClasses() {
+	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
 		LOGGER.debug("Commit transaction");
 		
 		if(dataSourceManager != null) {
@@ -108,6 +128,8 @@ public aspect JDBCTransactionAspect {
 					LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
 				}
 				finally {
+					 // remove the thread local connection so the commit operation afterwards 
+					 // will not be executed.
 					dataSourceManager.removeAndCloseThreadLocalConnection();
 				}
 			}
@@ -117,6 +139,6 @@ public aspect JDBCTransactionAspect {
 		}
 		else {
 			LOGGER.debug("No data source manager set in context");
-		}
+		} 
 	}
 }

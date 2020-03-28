@@ -30,17 +30,39 @@ public class MybatisTransactionAspect {
 	@Pointcut("handler(Throwable+)")
 	private void exceptionHandler() {};
 	
-	@Pointcut("withincode(public * ningyuan.pan.servicex.impl.*.*(..))")
+	/*
+	 * in all public methods in interfaces with a name containing Service in service
+	 * packages and RS service packages
+	 */
+	@Pointcut("withincode(public * ningyuan.pan.servicex.*Service*.*(..))"
+			+ " || "
+			+ "withincode(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))")
 	private void inServiceMethods() {};
 	
-	@Pointcut("execution(public * ningyuan.pan.servicex.impl.*.*(..))")
-	private void exeServiceMethods() {};
+	// execution of all public methods in interfaces in RS service packages
+	@Pointcut("execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))")
+	private void exeRSServiceMethods() {};
 	
-	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)")
-	private void notInJunitClasses() {};
+	@Pointcut("!cflow(exeRSServiceMethods())")
+	private void notInCflowOfRSServiceMethods() {};
 	
 	/*
-	@Before("exeServiceMethods() && notInJunitClasses()")
+	 * execution of all public methods in interfaces in service packages and not in the 
+	 * control flow of public methods in interfaces in RS service packages
+	 */
+	@Pointcut("execution(public * ningyuan.pan.servicex.*Service*.*(..))"
+			+ " && "
+			+ "notInCflowOfRSServiceMethods()")
+	private void exeServiceMethods() {};
+	
+	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)"
+			+ " && "
+			+ "!within(ningyuan.pan.servicex.webservice.rs.impl.Test*)")
+	private void notInJunitClasses() {};
+	
+	
+	/*
+	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void startTransaction() {
 		LOGGER.debug("Start transaction");
 		
@@ -62,7 +84,7 @@ public class MybatisTransactionAspect {
 		}
 	}
 	
-	@After("exeServiceMethods() && notInJunitClasses()")
+	@After("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void commitTransaction() {
 		LOGGER.debug("Commit transaction");
 		
@@ -101,6 +123,8 @@ public class MybatisTransactionAspect {
 					LOGGER.debug("Rollback");
 				} 
 				finally {
+					// remove the thread local connection so the commit operation afterwards 
+					// will not be executed.
 					dataSourceManager.removeAndCloseThreadLocalConnection();
 				}
 			}

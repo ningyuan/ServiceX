@@ -61,5 +61,4 @@ public class ServiceXRSImpl implements ServiceXRS {
 		
 		return role;
 	}
-
 }
