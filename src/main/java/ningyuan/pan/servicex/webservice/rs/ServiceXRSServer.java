@@ -11,6 +11,8 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+
 import ningyuan.pan.servicex.impl.ServiceXImpl;
 import ningyuan.pan.servicex.webservice.rs.impl.ServiceXRSImpl;
 import ningyuan.pan.util.exception.ExceptionUtils;
@@ -48,6 +50,7 @@ public class ServiceXRSServer {
 		JAXRSServerFactoryBean RSserver = new JAXRSServerFactoryBean(); 
 		RSserver.setServiceBean(service); 
         RSserver.setAddress(uri);  
+        RSserver.setProvider(new JacksonJaxbJsonProvider());
         RSserver.create();  
 	}
 }
