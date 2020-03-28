@@ -39,20 +39,34 @@ public class MybatisTransactionAspect {
 			+ "withincode(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))")
 	private void inServiceMethods() {};
 	
-	// execution of all public methods in interfaces in RS service packages
-	@Pointcut("execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))")
-	private void exeRSServiceMethods() {};
+	@Pointcut("!cflowbelow(execution(public * ningyuan.pan.servicex.*Service*.*(..)))")
+	private void notInCflowBelowOfServicesMethods() {};
 	
-	@Pointcut("!cflow(exeRSServiceMethods())")
+	@Pointcut("!cflow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)))")
 	private void notInCflowOfRSServiceMethods() {};
+
+	@Pointcut("!cflowbelow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)))")
+	private void notInCflowBelowOfRSServiceMethods() {};
 	
 	/*
+	 * execution of all public methods in interfaces in RS service packages and not in the
+	 * control flow below of public methods in interfaces in RS service packages
+	 */
+	@Pointcut("execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))"
+			+ " && "
+			+ "notInCflowBelowOfRSServiceMethods()")
+	private void exeRSServiceMethods() {};
+		
+	/*
 	 * execution of all public methods in interfaces in service packages and not in the 
-	 * control flow of public methods in interfaces in RS service packages
+	 * control flow of public methods in interfaces in RS service packages and not in the
+	 * control flow below of public methods in interfaces in service packages
 	 */
 	@Pointcut("execution(public * ningyuan.pan.servicex.*Service*.*(..))"
 			+ " && "
-			+ "notInCflowOfRSServiceMethods()")
+			+ "notInCflowOfRSServiceMethods()"
+			+ " && "
+			+ "notInCflowBelowOfServicesMethods()")
 	private void exeServiceMethods() {};
 	
 	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)"

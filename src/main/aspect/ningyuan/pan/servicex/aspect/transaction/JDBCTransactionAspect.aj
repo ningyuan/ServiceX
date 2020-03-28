@@ -35,19 +35,30 @@ public aspect JDBCTransactionAspect {
 								  ||
 								  withincode(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..));
 	
+	pointcut notInCflowBelowOfServicesMethods() : !cflowbelow(execution(public * ningyuan.pan.servicex.*Service*.*(..)));
 	
-	// execution of all public methods in interfaces in RS service packages
-	pointcut exeRSServiceMethods() : execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..));
+	pointcut notInCflowOfRSServiceMethods() : !cflow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)));
 	
-	pointcut notInCflowOfRSServiceMethods() : !cflow(exeRSServiceMethods());
+	pointcut notInCflowBelowOfRSServiceMethods() : !cflowbelow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)));
+	
+	/*
+	 * execution of all public methods in interfaces in RS service packages and not in the
+	 * control flow below of public methods in interfaces in RS service packages
+	 */
+	pointcut exeRSServiceMethods() : execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))
+	                                 &&
+	                                 notInCflowBelowOfRSServiceMethods();
 	
 	/*
 	 * execution of all public methods in interfaces in service packages and not in the 
-	 * control flow of public methods in interfaces in RS service packages
+	 * control flow of public methods in interfaces in RS service packages and not in the
+	 * control flow below of public methods in interfaces in service packages
 	 */
 	pointcut exeServiceMethods() : execution(public * ningyuan.pan.servicex.*Service*.*(..))
 								   &&
-								   notInCflowOfRSServiceMethods();
+								   notInCflowOfRSServiceMethods()
+								   &&
+								   notInCflowBelowOfServicesMethods();
 		
 	pointcut notInJunitClasses() : !within(ningyuan.pan.servicex.impl.Test*)
 									&&
