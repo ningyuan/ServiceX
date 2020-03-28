@@ -21,8 +21,8 @@ import ningyuan.pan.util.exception.ExceptionUtils;
  * @author ningyuan
  *
  */
-public class ServiceXRSServer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceXRSServer.class);
+public class ServiceXRSCXFServer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceXRSCXFServer.class);
 	
 	public static void main(String[] args) {
 		String protocal = "http://";
@@ -33,7 +33,7 @@ public class ServiceXRSServer {
 		Properties configProp;
 		try {
 			configProp = new Properties();
-        	configProp.load(new InputStreamReader(ServiceXRSServer.class.getClassLoader().getResourceAsStream("conf/webservice-server.properties")));
+        	configProp.load(new InputStreamReader(ServiceXRSCXFServer.class.getClassLoader().getResourceAsStream("conf/webservice-server.properties")));
         	
         	protocal = configProp.getProperty("REST.transport.protocal");
         	server = configProp.getProperty("REST.server");
