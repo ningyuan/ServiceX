@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ningyuan.pan.servicex.webservice.rs;
+package ningyuan.pan.servicex.webservice.rs.server;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
 import ningyuan.pan.servicex.impl.ServiceXImpl;
+import ningyuan.pan.servicex.webservice.rs.ServiceXRS;
 import ningyuan.pan.servicex.webservice.rs.impl.ServiceXRSImpl;
 import ningyuan.pan.util.exception.ExceptionUtils;
 
