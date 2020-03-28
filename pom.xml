@@ -20,6 +20,9 @@
     
     <servicex-api.version>0.0.1-SNAPSHOT</servicex-api.version>
     
+    <jax-ws-rs-api.version>2.1.1</jax-ws-rs-api.version>
+    <cxf.version>3.3.5</cxf.version>
+    
     <aspectj.version>1.9.5</aspectj.version>
     
     <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
@@ -148,8 +151,75 @@
        	   		<version>${servicex-api.version}</version>
        	   		<scope>provided</scope>
        	   </dependency>
-       	   
-       	   <!-- introduce advice to java class at load time  -->
+		   
+		   <!--  jax-ws rs api -->
+		   <dependency>
+    	   		<groupId>javax.ws.rs</groupId>
+    			<artifactId>javax.ws.rs-api</artifactId>
+    			<version>${jax-ws-rs-api.version}</version>
+    			<scope>provided</scope>
+		   </dependency>
+		   <!-- jax-ws rs implementation -->
+		   <dependency>
+    	   		<groupId>org.apache.cxf</groupId>
+   				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+    			<version>${cxf.version}</version>
+		   </dependency>
+		   <!-- jax-ws rs runtime server jetty -->
+		   <dependency>
+        		<groupId>org.apache.cxf</groupId>
+        		<artifactId>cxf-rt-transports-http-jetty</artifactId>
+        		<version>${cxf.version}</version>
+        		<scope>runtime</scope>
+        		<exclusions>
+        			<exclusion>
+        				<groupId>org.apache.cxf</groupId>
+        				<artifactId>cxf-core</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>org.apache.cxf</groupId>
+        				<artifactId>cxf-rt-transports-http</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>org.slf4j</groupId>
+        				<artifactId>slf4j-api</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>javax.annotation</groupId>
+    					<artifactId>javax.annotation-api</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>javax.xml.ws</groupId>
+    					<artifactId>jaxws-api</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>com.sun.activation</groupId>
+    					<artifactId>javax.activation</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>org.apache.geronimo.specs</groupId>
+    					<artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>com.sun.xml.messaging.saaj</groupId>
+    					<artifactId>saaj-impl</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>org.jacorb</groupId>
+        				<artifactId>jacorb-omgapi</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>org.apache.geronimo.specs</groupId>
+        				<artifactId>geronimo-jta_1.1_spec</artifactId>
+        			</exclusion>
+        			<exclusion>
+        				<groupId>org.jboss.spec.javax.rmi</groupId>
+  						<artifactId>jboss-rmi-api_1.0_spec</artifactId>
+        			</exclusion>
+        		</exclusions>
+		   </dependency>
+		   
+		   <!-- introduce advice to java class at load time  -->
 		   <dependency>
     			<groupId>org.aspectj</groupId>
     			<artifactId>aspectjweaver</artifactId>
@@ -252,7 +322,20 @@
   		<groupId>ningyuan.pan</groupId>
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
-    
+   
+    <dependency>
+    	<groupId>javax.ws.rs</groupId>
+    	<artifactId>javax.ws.rs-api</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.cxf</groupId>
+   		<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http-jetty</artifactId>
+    </dependency>
+  
     <dependency>
     	<groupId>org.aspectj</groupId>
     	<artifactId>aspectjweaver</artifactId>
@@ -261,7 +344,7 @@
     	<groupId>org.aspectj</groupId>
     	<artifactId>aspectjrt</artifactId>
     </dependency> 
-   	
+    	
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
