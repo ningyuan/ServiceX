@@ -32,9 +32,9 @@ public class DebugAspect {
 	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)"
 			+ " && "
 			+ "!within(ningyuan.pan.servicex.webservice.rs.impl.Test*)")
-	private void notInJunitClass() {};
+	private void notInJunitClasses() {};
 	
-	@Before("exeAllMethods() && notInJunitClass()")
+	@Before("exeAllMethods() && notInJunitClasses()")
 	public void logMethod(JoinPoint joinPoint) throws Throwable {
 		Object object = joinPoint.getThis();
 		Signature s = joinPoint.getSignature();
@@ -52,7 +52,7 @@ public class DebugAspect {
 			+ "withincode(* ningyuan.pan.servicex.webservice.rs.impl.*.*(..))")
 	private void inAllMethods() {}
 	
-	@Before("exceptionHandler(e) && inAllMethods() && notInJunitClass()")
+	@Before("exceptionHandler(e) && inAllMethods() && notInJunitClasses()")
 	public void logException(JoinPoint joinPoint, Throwable e) {
 		LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
 	}

@@ -28,24 +28,24 @@ public aspect JDBCTransactionAspect {
 	pointcut exceptionHandler() : handler(Throwable+);
 	
 	/*
-	 * in all public methods in interfaces with a name containing Service in service
+	 * in all public methods in interfaces with a name ending with Service in service
 	 * packages and RS service packages
 	 */
-	pointcut inServiceMethods() : withincode(public * ningyuan.pan.servicex.*Service*.*(..))
+	pointcut inServiceMethods() : withincode(public * ningyuan.pan.servicex.*Service.*(..))
 								  ||
-								  withincode(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..));
+								  withincode(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..));
 	
-	pointcut notInCflowBelowOfServicesMethods() : !cflowbelow(execution(public * ningyuan.pan.servicex.*Service*.*(..)));
+	pointcut notInCflowBelowOfServicesMethods() : !cflowbelow(execution(public * ningyuan.pan.servicex.*Service.*(..)));
 	
-	pointcut notInCflowOfRSServiceMethods() : !cflow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)));
+	pointcut notInCflowOfRSServiceMethods() : !cflow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..)));
 	
-	pointcut notInCflowBelowOfRSServiceMethods() : !cflowbelow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)));
+	pointcut notInCflowBelowOfRSServiceMethods() : !cflowbelow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..)));
 	
 	/*
 	 * execution of all public methods in interfaces in RS service packages and not in the
 	 * control flow below of public methods in interfaces in RS service packages
 	 */
-	pointcut exeRSServiceMethods() : execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))
+	pointcut exeRSServiceMethods() : execution(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..))
 	                                 &&
 	                                 notInCflowBelowOfRSServiceMethods();
 	
@@ -54,7 +54,7 @@ public aspect JDBCTransactionAspect {
 	 * control flow of public methods in interfaces in RS service packages and not in the
 	 * control flow below of public methods in interfaces in service packages
 	 */
-	pointcut exeServiceMethods() : execution(public * ningyuan.pan.servicex.*Service*.*(..))
+	pointcut exeServiceMethods() : execution(public * ningyuan.pan.servicex.*Service.*(..))
 								   &&
 								   notInCflowOfRSServiceMethods()
 								   &&

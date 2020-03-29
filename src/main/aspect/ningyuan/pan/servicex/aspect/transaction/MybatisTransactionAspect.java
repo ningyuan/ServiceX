@@ -31,28 +31,28 @@ public class MybatisTransactionAspect {
 	private void exceptionHandler() {};
 	
 	/*
-	 * in all public methods in interfaces with a name containing Service in service
+	 * in all public methods in interfaces with a name ending with Service in service
 	 * packages and RS service packages
 	 */
-	@Pointcut("withincode(public * ningyuan.pan.servicex.*Service*.*(..))"
+	@Pointcut("withincode(public * ningyuan.pan.servicex.*Service.*(..))"
 			+ " || "
-			+ "withincode(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))")
+			+ "withincode(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..))")
 	private void inServiceMethods() {};
 	
-	@Pointcut("!cflowbelow(execution(public * ningyuan.pan.servicex.*Service*.*(..)))")
+	@Pointcut("!cflowbelow(execution(public * ningyuan.pan.servicex.*Service.*(..)))")
 	private void notInCflowBelowOfServicesMethods() {};
 	
-	@Pointcut("!cflow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)))")
+	@Pointcut("!cflow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..)))")
 	private void notInCflowOfRSServiceMethods() {};
 
-	@Pointcut("!cflowbelow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..)))")
+	@Pointcut("!cflowbelow(execution(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..)))")
 	private void notInCflowBelowOfRSServiceMethods() {};
 	
 	/*
 	 * execution of all public methods in interfaces in RS service packages and not in the
 	 * control flow below of public methods in interfaces in RS service packages
 	 */
-	@Pointcut("execution(public * ningyuan.pan.servicex.webservice.rs.*Service*.*(..))"
+	@Pointcut("execution(public * ningyuan.pan.servicex.webservice.rs.*Service.*(..))"
 			+ " && "
 			+ "notInCflowBelowOfRSServiceMethods()")
 	private void exeRSServiceMethods() {};
@@ -62,7 +62,7 @@ public class MybatisTransactionAspect {
 	 * control flow of public methods in interfaces in RS service packages and not in the
 	 * control flow below of public methods in interfaces in service packages
 	 */
-	@Pointcut("execution(public * ningyuan.pan.servicex.*Service*.*(..))"
+	@Pointcut("execution(public * ningyuan.pan.servicex.*Service.*(..))"
 			+ " && "
 			+ "notInCflowOfRSServiceMethods()"
 			+ " && "

@@ -16,7 +16,7 @@ import ningyuan.pan.servicex.persistence.entity.User;
  * 
  */
 @Path("/servicex")
-public interface ServiceXRS {
+public interface RSXService {
 
 	@GET
 	@Path("/getName")

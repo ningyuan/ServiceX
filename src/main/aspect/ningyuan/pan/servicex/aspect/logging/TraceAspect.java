@@ -20,7 +20,7 @@ import ningyuan.pan.util.exception.ExceptionUtils;
 public class TraceAspect {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TraceAspect.class);
 	
-	/*
+	
 	// Log method entering information
 	@Pointcut("execution(* ningyuan.pan.servicex.impl.*.*(..))"
 			+ " || "
@@ -30,10 +30,10 @@ public class TraceAspect {
 	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)"
 			+ " && "
 			+ "!within(ningyuan.pan.servicex.webservice.rs.impl.Test*)")
-	private void notInJunitClassese() {};
+	private void notInJunitClasses() {};
 	
-	
-	@Before("exeAllMethods() && notInJunitClassese()")
+	/*
+	@Before("exeAllMethods() && notInJunitClasses()")
 	public void logMethod(JoinPoint joinPoint) throws Throwable {
 		Object object = joinPoint.getThis();
 		Signature s = joinPoint.getSignature();
@@ -46,10 +46,10 @@ public class TraceAspect {
 	private void exeAllTAspectMethods() {};
 	
 	@Pointcut("within(ningyuan.pan.servicex.aspect.transaction.*)")
-	private void inTAspectClass() {};
+	private void inTAspectClasses() {};
 	
 	@Pointcut("!within(ningyuan.pan.servicex.aspect.Test*)")
-	private void notInAspectJunitClass() {};
+	private void notInAspectJunitClasses() {};
 	
 	@Before("exeAllTAspectMethods()")  
 	public void logAspectMethod(JoinPoint joinPoint) throws Throwable {
@@ -68,7 +68,7 @@ public class TraceAspect {
 			+ "withincode(* ningyuan.pan.servicex.webservice.rs.impl.*.*(..))")
 	private void inAllMethods() {}
 	
-	@Before("exceptionHandler(e) && inAllMethods() && notInJunitClassese()")
+	@Before("exceptionHandler(e) && inAllMethods() && notInJunitClasses()")
 	public void logException(JoinPoint joinPoint, Throwable e) {
 		LOGGER.trace(ExceptionUtils.printStackTraceToString(e));
 	}*/

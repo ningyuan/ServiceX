@@ -9,17 +9,17 @@ import java.util.List;
 import ningyuan.pan.servicex.XService;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
-import ningyuan.pan.servicex.webservice.rs.ServiceXRS;
+import ningyuan.pan.servicex.webservice.rs.RSXService;
 
 /**
  * @author ningyuan
  *
  */
-public class ServiceXRSImpl implements ServiceXRS {
+public class RSXServiceImpl implements RSXService {
 	
 	private final XService service;
 	
-	public ServiceXRSImpl(XService service) {
+	public RSXServiceImpl(XService service) {
 		this.service = service;
 	}
 	

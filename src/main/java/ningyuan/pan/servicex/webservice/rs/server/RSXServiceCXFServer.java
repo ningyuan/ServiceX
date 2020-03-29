@@ -13,17 +13,17 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
-import ningyuan.pan.servicex.impl.ServiceXImpl;
-import ningyuan.pan.servicex.webservice.rs.ServiceXRS;
-import ningyuan.pan.servicex.webservice.rs.impl.ServiceXRSImpl;
+import ningyuan.pan.servicex.impl.XServiceImpl;
+import ningyuan.pan.servicex.webservice.rs.RSXService;
+import ningyuan.pan.servicex.webservice.rs.impl.RSXServiceImpl;
 import ningyuan.pan.util.exception.ExceptionUtils;
 
 /**
  * @author ningyuan
  *
  */
-public class ServiceXRSCXFServer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceXRSCXFServer.class);
+public class RSXServiceCXFServer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(RSXServiceCXFServer.class);
 	
 	public static void main(String[] args) {
 		String protocal = "http://";
@@ -34,7 +34,7 @@ public class ServiceXRSCXFServer {
 		Properties configProp;
 		try {
 			configProp = new Properties();
-        	configProp.load(new InputStreamReader(ServiceXRSCXFServer.class.getClassLoader().getResourceAsStream("conf/webservice-server.properties")));
+        	configProp.load(new InputStreamReader(RSXServiceCXFServer.class.getClassLoader().getResourceAsStream("conf/webservice-server.properties")));
         	
         	protocal = configProp.getProperty("REST.transport.protocal");
         	server = configProp.getProperty("REST.server");
@@ -45,7 +45,7 @@ public class ServiceXRSCXFServer {
         }
 		
 		String uri = protocal + server + ":" + port + basePath;
-		ServiceXRS service = new ServiceXRSImpl(new ServiceXImpl());
+		RSXService service = new RSXServiceImpl(new XServiceImpl());
 		
 		// start REST server jetty
 		JAXRSServerFactoryBean RSserver = new JAXRSServerFactoryBean(); 

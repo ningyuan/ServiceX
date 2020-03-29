@@ -14,13 +14,13 @@ import ningyuan.pan.servicex.persistence.dao.UserDAO;
  * @author ningyuan
  *
  */
-public class ServiceXImpl implements XService {
+public class XServiceImpl implements XService {
 	
 	private UserDAO userDAO;
 	
-	public ServiceXImpl() {}
+	public XServiceImpl() {}
 	
-	public ServiceXImpl(UserDAO userDAO) {
+	public XServiceImpl(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
 	

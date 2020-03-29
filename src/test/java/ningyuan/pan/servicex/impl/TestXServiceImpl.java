@@ -21,7 +21,7 @@ import ningyuan.pan.servicex.persistence.entity.User;
  * @author ningyuan
  *
  */
-public class TestServiceXImpl {
+public class TestXServiceImpl {
 	
 	private Mockery context = new Mockery();
 
@@ -52,7 +52,7 @@ public class TestServiceXImpl {
 		User returnValue = new User();
 		returnValue.setFirstName("root");
 		
-		service = new ServiceXImpl(userDAO);
+		service = new XServiceImpl(userDAO);
 		
 		context.checking(new Expectations() {
 			{
