@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ningyuan.pan.servicex.ServiceX;
+import ningyuan.pan.servicex.XService;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.User;
 
@@ -25,7 +25,7 @@ public class TestServiceXImpl {
 	
 	private Mockery context = new Mockery();
 
-	private ServiceX service;
+	private XService service;
 	
 	/**
 	 * @throws java.lang.Exception

@@ -6,7 +6,7 @@ package ningyuan.pan.servicex.webservice.rs.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import ningyuan.pan.servicex.ServiceX;
+import ningyuan.pan.servicex.XService;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.servicex.webservice.rs.ServiceXRS;
@@ -17,9 +17,9 @@ import ningyuan.pan.servicex.webservice.rs.ServiceXRS;
  */
 public class ServiceXRSImpl implements ServiceXRS {
 	
-	private final ServiceX service;
+	private final XService service;
 	
-	public ServiceXRSImpl(ServiceX service) {
+	public ServiceXRSImpl(XService service) {
 		this.service = service;
 	}
 	
