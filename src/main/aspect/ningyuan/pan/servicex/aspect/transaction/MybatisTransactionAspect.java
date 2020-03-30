@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.MybatisDataSourceManager;
@@ -75,12 +76,12 @@ public class MybatisTransactionAspect {
 	private void notInJunitClasses() {};
 	
 	
-	/*
+	
 	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void startTransaction() {
-		LOGGER.debug("Start transaction");
+		LOGGER.debug("startTransaction()");
 		
-		dataSourceManager = (MybatisDataSourceManager)ServiceXUtil.getInstance().getGelobalObject("MybatisDSM");
+		dataSourceManager = (MybatisDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
 			// connection is set auto commit false and transaction isolation level
@@ -100,7 +101,7 @@ public class MybatisTransactionAspect {
 	
 	@After("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void commitTransaction() {
-		LOGGER.debug("Commit transaction");
+		LOGGER.debug("commitTransaction()");
 		
 		if(dataSourceManager != null) {
 			SqlSession con = dataSourceManager.getThreadLocalConnection();
@@ -125,7 +126,7 @@ public class MybatisTransactionAspect {
 	
 	@Before("exceptionHandler() && inServiceMethods() && notInJunitClasses()")
 	public void rollbackTransaction() {
-		LOGGER.debug("Rollback transaction");
+		LOGGER.debug("rollbackTransaction()");
 		
 		if(dataSourceManager != null) {
 			SqlSession con = dataSourceManager.getThreadLocalConnection();
@@ -149,5 +150,5 @@ public class MybatisTransactionAspect {
 		else {
 			LOGGER.debug("No data source manager set in context");
 		}
-	}*/
+	}
 }

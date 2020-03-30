@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
@@ -65,11 +66,12 @@ public aspect JDBCTransactionAspect {
 								   !within(ningyuan.pan.servicex.webservice.rs.impl.Test*);
 
 	
+	/*
 	//Start transaction
 	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
-		LOGGER.debug("Start transaction");
+		LOGGER.debug("startTransaction()");
 		
-		dataSourceManager = (JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject("JDBCDSM");
+		dataSourceManager = (JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
 			Connection con = dataSourceManager.initAndGetThreadLocalConnection();
@@ -96,7 +98,7 @@ public aspect JDBCTransactionAspect {
 	
 	//Commit transaction
 	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
-		LOGGER.debug("Commit transaction");
+		LOGGER.debug("commitTransaction()");
 		
 		if(dataSourceManager != null) {
 			Connection con = dataSourceManager.getThreadLocalConnection();
@@ -124,7 +126,7 @@ public aspect JDBCTransactionAspect {
 	
 	//Rollback transaction
 	before() : exceptionHandler() && inServiceMethods() && notInJunitClasses() {
-		LOGGER.debug("Rollback transaction");
+		LOGGER.debug("rollbackTransaction()");
 		
 		if(dataSourceManager != null) {
 			Connection con = dataSourceManager.getThreadLocalConnection();
@@ -151,5 +153,5 @@ public aspect JDBCTransactionAspect {
 		else {
 			LOGGER.debug("No data source manager set in context");
 		} 
-	}
+	}*/
 }

@@ -53,7 +53,7 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		dao = DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().getMapper(RoleDAO.class);
+		dao = DATA_SOURCE_MANAGER.getThreadLocalConnection().getMapper(RoleDAO.class);
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class TestRoleDAOMybatisImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().commit();
+		DATA_SOURCE_MANAGER.getThreadLocalConnection().commit();
 	}
 
 	@Test
