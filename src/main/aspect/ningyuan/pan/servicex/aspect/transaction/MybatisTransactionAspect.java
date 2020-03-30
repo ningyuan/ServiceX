@@ -112,6 +112,8 @@ public class MybatisTransactionAspect {
 					LOGGER.debug("Commit");
 				} 
 				finally {
+					// remove the thread local connection to prevent
+					// memory leak when thread poll is used
 					dataSourceManager.removeAndCloseThreadLocalConnection();
 				}	
 			}

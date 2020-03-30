@@ -112,6 +112,8 @@ public aspect JDBCTransactionAspect {
 					LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
 				}
 				finally {
+					// remove the thread local connection to prevent
+					// memory leak when thread poll is used
 					dataSourceManager.removeAndCloseThreadLocalConnection();
 				}	
 			}

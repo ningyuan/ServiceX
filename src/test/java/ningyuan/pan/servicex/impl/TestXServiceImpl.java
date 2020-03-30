@@ -67,7 +67,7 @@ public class TestXServiceImpl {
 		User returnValue = new User();
 		returnValue.setFirstName("root");
 		
-		service = new XServiceImpl(userDAO);
+		service = new XServiceJDBCImpl(userDAO);
 		
 		context.checking(new Expectations() {
 			{
