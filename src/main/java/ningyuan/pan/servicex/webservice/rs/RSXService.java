@@ -12,6 +12,9 @@ import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User; 
 
 /**
+ * Interface of RESTful a web service. All methods will be woven
+ * with transaction codes.
+ * 
  * @author ningyuan
  * 
  */

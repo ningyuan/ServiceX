@@ -18,6 +18,9 @@ import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.MybatisDataSourceManager;
 
 /**
+ * Transaction aspect for weaving transaction codes in services methods with data source implemented 
+ * with Mybatis. Nested service call is also handed.
+ * 
  * @author ningyuan
  *
  */
