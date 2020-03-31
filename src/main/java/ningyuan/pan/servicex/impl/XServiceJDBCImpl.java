@@ -10,6 +10,10 @@ import ningyuan.pan.servicex.persistence.entity.User;
 
 
 /**
+ * The service using JDBC DAO. All public methods in service interface will be
+ * woven with transaction codes. Pay attention to weaving this service implementation
+ * with the corresponding transaction aspect (JDBCTransactionAspect).
+ * 
  * @author ningyuan
  *
  */

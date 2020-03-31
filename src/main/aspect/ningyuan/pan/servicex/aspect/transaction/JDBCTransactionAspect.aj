@@ -17,6 +17,9 @@ import ningyuan.pan.util.persistence.JDBCDataSourceManager;
 
 
 /**
+ * Transaction aspect for weaving transaction codes in services methods with data source implemented 
+ * with JDBC. Nested service call is also handed.
+ * 
  * @author ningyuan
  *
  */

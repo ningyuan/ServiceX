@@ -13,12 +13,14 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
-import ningyuan.pan.servicex.impl.XServiceJDBCImpl;
+import ningyuan.pan.servicex.impl.XServiceMybatisImpl;
 import ningyuan.pan.servicex.webservice.rs.RSXService;
 import ningyuan.pan.servicex.webservice.rs.impl.RSXServiceImpl;
 import ningyuan.pan.util.exception.ExceptionUtils;
 
 /**
+ * Jetty server for publishing a RESTful web service.
+ * 
  * @author ningyuan
  *
  */
@@ -46,7 +48,8 @@ public class RSXServiceCXFServer {
         }
 		
 		String uri = protocal + server + ":" + port + basePath;
-		RSXService service = new RSXServiceImpl(new XServiceJDBCImpl());
+		// use the correct service implementation woven with the corresponding transaction aspect
+		RSXService service = new RSXServiceImpl(new XServiceMybatisImpl());
 		
 		// start REST server jetty
 		JAXRSServerFactoryBean RSserver = new JAXRSServerFactoryBean(); 

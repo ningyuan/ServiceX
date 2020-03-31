@@ -12,6 +12,10 @@ import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.servicex.webservice.rs.RSXService;
 
 /**
+ * The implementation of RESTful web service. All public methods in web service interface will be
+ * woven with transaction codes. Pay attention to weaving this web service implementation
+ * with the same service implementation transaction aspect.
+ * 
  * @author ningyuan
  *
  */

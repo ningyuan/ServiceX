@@ -13,6 +13,10 @@ import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.persistence.DataSourceManager;
 
 /**
+ * The service using Mybatis session. All public methods in service interface will be
+ * woven with transaction codes. Pay attention to weaving this service implementation
+ * with the corresponding transaction aspect (MybatisTransactionAspect).
+ * 
  * @author ningyuan
  *
  */
