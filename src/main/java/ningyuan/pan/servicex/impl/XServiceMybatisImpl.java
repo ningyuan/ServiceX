@@ -5,6 +5,7 @@ package ningyuan.pan.servicex.impl;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -47,7 +48,7 @@ public class XServiceMybatisImpl implements XService {
 			msg = "No data source manager set in context";
 		}
 		
-		java.util.List<String> msgs = new ArrayList<String>();
+		List<String> msgs = new ArrayList<String>();
 		msgs.add(msg);
 		
 		Sender.sendMessage(msgs, "activemq.artemis.queue");

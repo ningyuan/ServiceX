@@ -23,6 +23,9 @@ import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
 
 /**
+ * An abstract class for receiving queue messages from a queue. Inherit the class
+ * and write your own onMessage() method.
+ * 
  * @author ningyuan
  *
  */

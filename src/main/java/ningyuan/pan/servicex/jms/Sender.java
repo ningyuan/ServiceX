@@ -32,11 +32,11 @@ import ningyuan.pan.util.persistence.DataSourceManager;
 public class Sender {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Sender.class);
 	
-	private final static Properties configProp = new Properties();
+	private static final Properties CONFIG_PROP = new Properties();
 	
 	static {
 		try {
-        	configProp.load(new InputStreamReader(Sender.class.getClassLoader().getResourceAsStream("conf/activemq.properties")));
+			CONFIG_PROP.load(new InputStreamReader(Sender.class.getClassLoader().getResourceAsStream("conf/activemq.properties")));
         } 
 		catch (IOException ioe) {
 			LOGGER.debug(ExceptionUtils.printStackTraceToString(ioe));
@@ -51,7 +51,7 @@ public class Sender {
 			Session session = dataSourceManager.initAndGetThreadLocalConnection();
 			
 			try {
-				Destination queue = session.createQueue(configProp.getProperty(queueName));
+				Destination queue = session.createQueue(CONFIG_PROP.getProperty(queueName));
 				
 				MessageProducer producer = session.createProducer(queue);
 				
@@ -84,7 +84,7 @@ public class Sender {
 			Session session = dataSourceManager.initAndGetThreadLocalConnection();
 			
 			try {
-				Destination topic = session.createTopic(configProp.getProperty(topicName));
+				Destination topic = session.createTopic(CONFIG_PROP.getProperty(topicName));
 				
 				MessageProducer producer = session.createProducer(topic);
 				

@@ -2,8 +2,9 @@ import javax.jms.Session;
 
 import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
+import ningyuan.pan.util.persistence.ActiveMQDataSourceManager;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JMSDataSourceManager;
+
 
 /**
  * 
@@ -20,7 +21,7 @@ public class TestMQ {
 	 */
 	public static void main(String[] args) {
 		
-		DataSourceManager<Session> dataSourceManager = new JMSDataSourceManager("conf/activemq.properties");
+		DataSourceManager<Session> dataSourceManager = new ActiveMQDataSourceManager("conf/activemq.properties");
 		
 		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER, dataSourceManager);
 		
