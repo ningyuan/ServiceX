@@ -28,33 +28,26 @@ public class RSXServiceCXFServer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RSXServiceCXFServer.class);
 	
 	public static void main(String[] args) {
-		String protocal = "http://";
-		String server = "127.0.0.1";
-		String port = "1234";
-		String basePath = "/";
+		String url = null;
 		
 		Properties configProp;
 		try {
 			configProp = new Properties();
         	configProp.load(new InputStreamReader(RSXServiceCXFServer.class.getClassLoader().getResourceAsStream("conf/webservice-server.properties")));
         	
-        	protocal = configProp.getProperty("REST.transport.protocal");
-        	server = configProp.getProperty("REST.server");
-        	port = configProp.getProperty("REST.server.port");
-        	basePath = configProp.getProperty("REST.base.path");
+        	url = configProp.getProperty("REST.service.url");
         		
 		} catch (IOException e) {
 			LOGGER.error(ExceptionUtils.printStackTraceToString(e));
         }
-		
-		String uri = protocal + server + ":" + port + basePath;
+	
 		// use the correct service implementation woven with the corresponding transaction aspect
 		RSXService service = new RSXServiceImpl(new XServiceMybatisImpl());
 		
 		// start REST server jetty
 		JAXRSServerFactoryBean RSserver = new JAXRSServerFactoryBean(); 
 		RSserver.setServiceBean(service); 
-        RSserver.setAddress(uri);  
+        RSserver.setAddress(url);  
         RSserver.setProvider(new JacksonJaxbJsonProvider());
         RSserver.create();  
 	}
