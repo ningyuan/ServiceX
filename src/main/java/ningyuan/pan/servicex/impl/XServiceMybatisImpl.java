@@ -51,7 +51,8 @@ public class XServiceMybatisImpl implements XService {
 		List<String> msgs = new ArrayList<String>();
 		msgs.add(msg);
 		
-		Sender.sendMessage(msgs, "activemq.artemis.queue");
+		Sender sender = new Sender("conf/activemq.properties");
+		sender.sendMessages(msgs, "activemq.artemis.queue");
 		
 		return msg;
 	}

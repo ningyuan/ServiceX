@@ -38,11 +38,11 @@ public abstract class MessageReceiver implements MessageListener {
 	
 	private Session session;
 	
-	public MessageReceiver(String queueName) {
+	public MessageReceiver(String propFile, String queueName) {
 		this.queueName = queueName;
 		
 		try {
-        	configProp.load(new InputStreamReader(Sender.class.getClassLoader().getResourceAsStream("conf/activemq.properties")));
+        	configProp.load(new InputStreamReader(Sender.class.getClassLoader().getResourceAsStream(propFile)));
         	init();
 		} 
 		catch (IOException ioe) {
@@ -69,6 +69,10 @@ public abstract class MessageReceiver implements MessageListener {
 		}	
 	}
 	
+	/**
+	 * Call this method when you do not need to receive messages. It 
+	 * closes the session for this receiver.
+	 */
 	public void destroy() {
 		if(session != null) {
 			try {

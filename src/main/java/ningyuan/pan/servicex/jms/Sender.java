@@ -32,18 +32,19 @@ import ningyuan.pan.util.persistence.DataSourceManager;
 public class Sender {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Sender.class);
 	
-	private static final Properties CONFIG_PROP = new Properties();
+	private final Properties configProp = new Properties();
 	
-	static {
+	public Sender(String propFile) {
 		try {
-			CONFIG_PROP.load(new InputStreamReader(Sender.class.getClassLoader().getResourceAsStream("conf/activemq.properties")));
+			configProp.load(new InputStreamReader(Sender.class.getClassLoader().getResourceAsStream(propFile)));
         } 
 		catch (IOException ioe) {
 			LOGGER.debug(ExceptionUtils.printStackTraceToString(ioe));
 		}
 	}
 	
-	public static void sendMessage(List<String> msgs, String queueName) {
+	public void sendMessages(List<String> msgs, String queueName) {
+		
 		@SuppressWarnings("unchecked")
 		DataSourceManager<Session> dataSourceManager = (DataSourceManager<Session>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER);
 		
@@ -51,7 +52,7 @@ public class Sender {
 			Session session = dataSourceManager.initAndGetThreadLocalConnection();
 			
 			try {
-				Destination queue = session.createQueue(CONFIG_PROP.getProperty(queueName));
+				Destination queue = session.createQueue(configProp.getProperty(queueName));
 				
 				MessageProducer producer = session.createProducer(queue);
 				
@@ -76,7 +77,8 @@ public class Sender {
 		}
 	}
 	
-	public static void publishMessage(List<String> msgs, String topicName) {
+	public void publishMessages(List<String> msgs, String topicName) {
+		
 		@SuppressWarnings("unchecked")
 		DataSourceManager<Session> dataSourceManager = (DataSourceManager<Session>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER);
 		
@@ -84,7 +86,7 @@ public class Sender {
 			Session session = dataSourceManager.initAndGetThreadLocalConnection();
 			
 			try {
-				Destination topic = session.createTopic(CONFIG_PROP.getProperty(topicName));
+				Destination topic = session.createTopic(configProp.getProperty(topicName));
 				
 				MessageProducer producer = session.createProducer(topic);
 				

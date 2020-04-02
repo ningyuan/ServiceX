@@ -31,7 +31,8 @@ public class TestSender {
 		msgs.add("hello");
 		msgs.add("world");
 		
-		Sender.sendMessage(msgs, "activemq.artemis.queue");
+		Sender sender = new Sender("conf/activemq.properties");
+		sender.sendMessages(msgs, "activemq.artemis.queue");
 
 	}
 

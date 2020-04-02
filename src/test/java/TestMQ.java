@@ -25,7 +25,7 @@ public class TestMQ {
 		
 		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER, dataSourceManager);
 		
-		new SimpleReceiver("activemq.artemis.queue");
+		new SimpleReceiver("conf/activemq.properties", "activemq.artemis.queue");
 		
 		for(; ;) {
 			

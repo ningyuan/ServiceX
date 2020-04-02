@@ -12,8 +12,8 @@ import ningyuan.pan.servicex.jms.MessageReceiver;
  */
 public class SimpleReceiver extends MessageReceiver {
 	
-	public SimpleReceiver(String queueName) {
-		super(queueName);
+	public SimpleReceiver(String propFile, String queueName) {
+		super(propFile, queueName);
 	}
 	
 	@Override
