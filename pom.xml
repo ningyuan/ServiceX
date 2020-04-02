@@ -20,7 +20,6 @@
     
     <servicex-api.version>0.0.1-SNAPSHOT</servicex-api.version>
     
-    <jax-ws-rs-api.version>2.1.1</jax-ws-rs-api.version>
     <cxf.version>3.3.5</cxf.version>
     
     <jackson-json.version>2.10.3</jackson-json.version>
@@ -157,14 +156,7 @@
        	   		<scope>provided</scope>
        	   </dependency>
 		   
-		   <!--  jax-ws rs api -->
-		   <dependency>
-    	   		<groupId>javax.ws.rs</groupId>
-    			<artifactId>javax.ws.rs-api</artifactId>
-    			<version>${jax-ws-rs-api.version}</version>
-    			<scope>provided</scope>
-		   </dependency>
-		   <!-- jax-ws rs implementation -->
+		   <!-- jax-ws rs provider -->
 		   <dependency>
     	   		<groupId>org.apache.cxf</groupId>
    				<artifactId>cxf-rt-frontend-jaxrs</artifactId>
@@ -356,11 +348,7 @@
   		<groupId>ningyuan.pan</groupId>
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
-   
-    <dependency>
-    	<groupId>javax.ws.rs</groupId>
-    	<artifactId>javax.ws.rs-api</artifactId>
-    </dependency>
+   	
     <dependency>
     	<groupId>org.apache.cxf</groupId>
    		<artifactId>cxf-rt-frontend-jaxrs</artifactId>
