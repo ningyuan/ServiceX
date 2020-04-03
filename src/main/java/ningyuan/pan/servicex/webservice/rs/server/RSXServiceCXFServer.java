@@ -35,7 +35,7 @@ public class RSXServiceCXFServer {
 			configProp = new Properties();
         	configProp.load(new InputStreamReader(RSXServiceCXFServer.class.getClassLoader().getResourceAsStream("conf/webservice-server.properties")));
         	
-        	url = configProp.getProperty("REST.service.url");
+        	url = configProp.getProperty("restful.webservice.uri");
         		
 		} catch (IOException e) {
 			LOGGER.error(ExceptionUtils.printStackTraceToString(e));
