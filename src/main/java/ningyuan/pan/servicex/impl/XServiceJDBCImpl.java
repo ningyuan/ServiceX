@@ -4,8 +4,12 @@
 package ningyuan.pan.servicex.impl;
 
 
+import java.util.List;
+
 import ningyuan.pan.servicex.XService;
+import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 
 
@@ -21,17 +25,21 @@ public class XServiceJDBCImpl implements XService {
 	
 	private UserDAO userDAO;
 	
+	private RoleDAO roleDAO;
+	
 	public XServiceJDBCImpl() {}
 	
-	public XServiceJDBCImpl(UserDAO userDAO) {
+	public XServiceJDBCImpl(UserDAO userDAO, RoleDAO roleDAO) {
 		this.userDAO = userDAO;
+		this.roleDAO = roleDAO;
 	}
 	
 	public String getName() {
 		if(userDAO != null) {
 			try {
 				User user = userDAO.findUserByID(0);
-				return user.getFirstName();
+				List<Role> roles = roleDAO.findAllRole();
+				return user.getFirstName()+ " "+roles.get(1).getName();
 			}
 			catch(Exception e) {
 				return "No user";

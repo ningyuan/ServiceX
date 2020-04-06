@@ -4,10 +4,13 @@
 package ningyuan.pan.servicex.impl;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.Sequence;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -16,7 +19,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ningyuan.pan.servicex.XService;
+import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
@@ -35,6 +40,9 @@ public class TestXServiceImpl {
 
 	private XService service;
 	
+	private UserDAO userDAO;
+	
+	private RoleDAO roleDAO;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -45,8 +53,8 @@ public class TestXServiceImpl {
 		//ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER, jdbcDataSourceManager);
 		
 		// register mybatis data source as global variable, transaction aspect use this global variable
-		DataSourceManager<SqlSession> mybatisDataSourceManager = new MybatisDataSourceManager();
-		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER, mybatisDataSourceManager);
+		//DataSourceManager<SqlSession> mybatisDataSourceManager = new MybatisDataSourceManager();
+		//ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER, mybatisDataSourceManager);
 				
 	}
 
@@ -63,18 +71,10 @@ public class TestXServiceImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		UserDAO userDAO = context.mock(UserDAO.class);
-		User returnValue = new User();
-		returnValue.setFirstName("root");
+		userDAO = context.mock(UserDAO.class);
+		roleDAO = context.mock(RoleDAO.class);
 		
-		service = new XServiceJDBCImpl(userDAO);
-		
-		context.checking(new Expectations() {
-			{
-				oneOf(userDAO).findUserByID(0);
-				will(returnValue(returnValue));
-			}
-		});
+		service = new XServiceJDBCImpl(userDAO, roleDAO);
 	}
 
 	/**
@@ -89,7 +89,139 @@ public class TestXServiceImpl {
 	 */
 	@Test
 	public void testGetName() {
-		Assert.assertEquals("root", service.getName());
+		User user = new User();
+		user.setFirstName("pan");
+		
+		List<Role> roles = new ArrayList<Role>();
+		
+		Role role = new Role();
+		role.setName("root");
+		roles.add(role);
+		
+		role = new Role();
+		role.setName("admin");
+		roles.add(role);
+		
+		context.checking(new Expectations() {
+			{
+				oneOf(userDAO).findUserByID(0);
+				will(returnValue(user));
+				
+				oneOf(roleDAO).findAllRole();
+				will(returnValue(roles));
+			}
+		});
+		
+		Assert.assertEquals("pan admin", service.getName());
+		
+		user.setFirstName("lee");
+		context.checking(new Expectations() {
+			{	
+				// no sequence between these 2 excpectations
+				oneOf(roleDAO).findAllRole();
+				will(returnValue(roles));
+				
+				oneOf(userDAO).findUserByID(0);
+				will(returnValue(user));
+			}
+		});
+		
+		Assert.assertEquals("lee admin", service.getName());
 	}
-
+	
+	@Test
+	public void testGetName1() {
+		
+		context.checking(new Expectations() {
+			{
+				// parameter matcher
+				oneOf(userDAO).findUserByID(with(equal(0L)));
+				will(throwException(new Exception()));
+			}
+		});
+		
+		Assert.assertEquals("No user", service.getName());
+	}
+	
+	@Test
+	public void testGetName2() {
+		User user = new User();
+		user.setFirstName("pan");
+		
+		List<Role> roles = new ArrayList<Role>();
+		
+		Role role = new Role();
+		role.setName("root");
+		roles.add(role);
+		
+		role = new Role();
+		role.setName("admin");
+		roles.add(role);
+		
+		context.checking(new Expectations() {
+			{	
+				// 0 or more many times
+				allowing(userDAO).findUserByID(0);
+				will(returnValue(user));
+				
+				oneOf(roleDAO).findAllRole();
+				will(returnValue(roles));
+			}
+		});
+		
+		Assert.assertEquals("pan admin", service.getName());
+		
+		user.setFirstName("lee");
+		context.checking(new Expectations() {
+			{	
+				// 0 or more times
+				ignoring(userDAO).findUserByID(1);
+				will(returnValue(user));
+				
+				// 0 time
+				never(roleDAO).findRoleByID((byte)0);
+				
+				oneOf(roleDAO).findAllRole();
+				will(returnValue(roles));
+			}
+		});
+		
+		Assert.assertEquals("lee admin", service.getName());
+	}
+	
+	@Test
+	public void testGetName3() {
+		final Sequence seq = context.sequence("seq");
+		
+		User user = new User();
+		user.setFirstName("pan");
+		
+		List<Role> roles = new ArrayList<Role>();
+		
+		Role role = new Role();
+		role.setName("root");
+		roles.add(role);
+		
+		role = new Role();
+		role.setName("admin");
+		roles.add(role);
+		
+		context.checking(new Expectations() {
+			{	
+				// sequence of these 2 expectations is important
+				
+				// firstly findUserByID(0)
+				oneOf(userDAO).findUserByID(0);
+				inSequence(seq);
+				will(returnValue(user));
+				
+				// secondly findAllRole()
+				oneOf(roleDAO).findAllRole();
+				inSequence(seq);
+				will(returnValue(roles));
+			}
+		});
+		
+		Assert.assertEquals("pan admin", service.getName());
+	}
 }
