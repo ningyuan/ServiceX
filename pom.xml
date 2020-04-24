@@ -32,6 +32,8 @@
    
    	<mybatis.version>3.5.4</mybatis.version>
    	
+   	<hibernate.version>5.4.14.Final</hibernate.version>
+   	
    	<jms-api.version>2.0</jms-api.version>
     <activemq-version>2.11.0</activemq-version>
     
@@ -263,6 +265,33 @@
    				<version>${mybatis.version}</version>
 		   </dependency>
 		   
+		   <!-- hibernate -->
+		   <dependency>
+    			<groupId>org.hibernate</groupId>
+    			<artifactId>hibernate-core</artifactId>
+    			<version>${hibernate.version}</version>
+		   </dependency>
+		   <dependency>
+    			<groupId>org.hibernate</groupId>
+    			<artifactId>hibernate-c3p0</artifactId>
+    			<version>${hibernate.version}</version>
+    			<scope>runtime</scope>
+    			<exclusions>
+    				<exclusion>
+    					<groupId>org.hibernate</groupId>
+  						<artifactId>hibernate-core</artifactId>
+    				</exclusion>
+    				<exclusion>
+    					<groupId>org.jboss.logging</groupId>
+    					<artifactId>jboss-logging</artifactId>
+    				</exclusion>
+    				<exclusion>
+    					<groupId>com.mchange</groupId>
+ 						<artifactId>c3p0</artifactId> 
+    				</exclusion>
+    			</exclusions>
+		   </dependency>
+		   
 		   <!-- jms api -->
 		   <dependency>
     	   		<groupId>javax.jms</groupId>
@@ -384,6 +413,15 @@
     <dependency>
     	<groupId>org.mybatis</groupId>
     	<artifactId>mybatis</artifactId>
+    </dependency>
+    
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-core</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-c3p0</artifactId>
     </dependency>
     
     <dependency>
