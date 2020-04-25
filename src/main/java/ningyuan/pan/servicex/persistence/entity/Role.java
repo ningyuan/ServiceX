@@ -3,16 +3,21 @@
  */
 package ningyuan.pan.servicex.persistence.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * @author ningyuan
  *
  */
+@Entity
 public class Role {
 	
+	@Id
 	private byte id;
 	
 	private String name;
-
+	
 	/**
 	 * @return the id
 	 */

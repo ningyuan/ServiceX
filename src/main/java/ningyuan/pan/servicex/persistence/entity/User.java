@@ -5,12 +5,17 @@ package ningyuan.pan.servicex.persistence.entity;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * @author ningyuan
  *
  */
+@Entity
 public class User {
 	
+	@Id
 	private long id;
 	
 	private String firstName;
