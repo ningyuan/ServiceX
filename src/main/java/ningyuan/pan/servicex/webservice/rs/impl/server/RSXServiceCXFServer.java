@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ningyuan.pan.servicex.webservice.rs.server;
+package ningyuan.pan.servicex.webservice.rs.impl.server;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
