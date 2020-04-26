@@ -9,9 +9,12 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+
 import ningyuan.pan.servicex.XService;
 import ningyuan.pan.servicex.jms.Sender;
+import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
@@ -38,7 +41,11 @@ public class XServiceMybatisImpl implements XService {
 				// so we can use get instead of initAndGet
 				UserDAO userDAO = dataSourceManager.getThreadLocalConnection().getMapper(UserDAO.class);
 				User user = userDAO.findUserByID(0);
-				msg = user.getFirstName();
+				
+				RoleDAO roleDAO = dataSourceManager.getThreadLocalConnection().getMapper(RoleDAO.class);
+				List<Role> roles = roleDAO.findAllRole();
+				
+				msg = user.getFirstName()+" "+roles.get(0).getName();
 			}
 			catch(Exception e) {
 				msg = "No user";
