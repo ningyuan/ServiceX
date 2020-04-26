@@ -57,7 +57,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(selectAllRole);
@@ -99,7 +99,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(selectRoleByID);
@@ -137,7 +137,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				
@@ -173,7 +173,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				
@@ -206,7 +206,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(updateRole);

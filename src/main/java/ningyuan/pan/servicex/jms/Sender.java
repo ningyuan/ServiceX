@@ -49,7 +49,7 @@ public class Sender {
 		DataSourceManager<Session> dataSourceManager = (DataSourceManager<Session>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
-			Session session = dataSourceManager.initAndGetThreadLocalConnection();
+			Session session = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			try {
 				Destination queue = session.createQueue(configProp.getProperty(queueName));
@@ -83,7 +83,7 @@ public class Sender {
 		DataSourceManager<Session> dataSourceManager = (DataSourceManager<Session>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
-			Session session = dataSourceManager.initAndGetThreadLocalConnection();
+			Session session = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			try {
 				Destination topic = session.createTopic(configProp.getProperty(topicName));

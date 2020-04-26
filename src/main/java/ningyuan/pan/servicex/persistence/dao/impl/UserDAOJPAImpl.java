@@ -40,7 +40,7 @@ public class UserDAOJPAImpl implements UserDAO {
 		LOGGER.debug("findAllUser()");
 		
 		List<User> ret = new ArrayList<User>();
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -60,7 +60,7 @@ public class UserDAOJPAImpl implements UserDAO {
 		LOGGER.debug("findUserByID()");
 		
 		User ret = null;
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -78,7 +78,7 @@ public class UserDAOJPAImpl implements UserDAO {
 	public boolean add(User user) {
 		LOGGER.debug("add()");
 		
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -99,7 +99,7 @@ public class UserDAOJPAImpl implements UserDAO {
 	public boolean delete(long id) {
 		LOGGER.debug("delete()");
 		
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -123,7 +123,7 @@ public class UserDAOJPAImpl implements UserDAO {
 	public boolean update(User user) {
 		LOGGER.debug("update()");
 		
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {

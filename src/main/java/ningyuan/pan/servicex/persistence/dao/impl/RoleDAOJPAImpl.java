@@ -42,7 +42,7 @@ public class RoleDAOJPAImpl implements RoleDAO {
 		List<Role> ret = new ArrayList<Role>();
 		EntityManager con = null;
 		
-		con = dataSourceManager.initAndGetThreadLocalConnection();
+		con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -62,7 +62,7 @@ public class RoleDAOJPAImpl implements RoleDAO {
 		LOGGER.debug("findRoleByID()");
 		
 		Role ret = null;
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -80,7 +80,7 @@ public class RoleDAOJPAImpl implements RoleDAO {
 	public boolean add(Role role) {
 		LOGGER.debug("add()");
 		
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -100,7 +100,7 @@ public class RoleDAOJPAImpl implements RoleDAO {
 	public boolean delete(byte id) {
 		LOGGER.debug("delete()");
 		
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {
@@ -124,7 +124,7 @@ public class RoleDAOJPAImpl implements RoleDAO {
 	public boolean update(Role role) {
 		LOGGER.debug("update()");
 		
-		EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 		try {
 			if(con != null) {

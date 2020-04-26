@@ -37,7 +37,7 @@ public class TestUserDAOMybatisImpl {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		DATA_SOURCE_MANAGER = new MybatisDataSourceManager();
-		DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection();
+		DATA_SOURCE_MANAGER.getOrInitThreadLocalConnection();
 	}
 
 	/**

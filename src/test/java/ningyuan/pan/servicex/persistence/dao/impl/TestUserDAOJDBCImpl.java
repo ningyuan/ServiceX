@@ -41,7 +41,7 @@ public class TestUserDAOJDBCImpl {
 		DAO = new UserDAOJDBCImpl(DATA_SOURCE_MANAGER, false);	
 		
 		// comment it out when no data source is started
-		//DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection();
+		//DATA_SOURCE_MANAGER.getOrInitThreadLocalConnection();
 	}
 
 	/**

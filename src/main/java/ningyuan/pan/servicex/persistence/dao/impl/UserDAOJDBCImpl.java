@@ -68,7 +68,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(selectAllUser);
@@ -134,7 +134,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(selectUserByID);
@@ -198,7 +198,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(insertUser);
@@ -244,7 +244,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(deleteUser);
@@ -283,7 +283,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 		Connection con = null;
 		
 		try {
-			con = dataSourceManager.initAndGetThreadLocalConnection();
+			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
 				PreparedStatement ps = con.prepareStatement(updateUser);

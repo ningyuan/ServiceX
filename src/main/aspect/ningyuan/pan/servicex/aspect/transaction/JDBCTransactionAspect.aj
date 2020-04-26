@@ -77,7 +77,7 @@ public aspect JDBCTransactionAspect {
 		dataSourceManager = (JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
-			Connection con = dataSourceManager.initAndGetThreadLocalConnection();
+			Connection con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 			if(con != null) {
 				try {
