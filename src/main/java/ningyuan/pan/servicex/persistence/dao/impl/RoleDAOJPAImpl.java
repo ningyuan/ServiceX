@@ -113,7 +113,7 @@ public class RoleDAOJPAImpl implements RoleDAO {
 				}
 			}
 		}
-		catch (Exception e) {
+		catch (IllegalArgumentException | TransactionRequiredException e) {
 			LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
 		}
 		

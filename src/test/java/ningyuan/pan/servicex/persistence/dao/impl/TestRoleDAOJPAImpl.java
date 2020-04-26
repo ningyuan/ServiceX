@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.RollbackException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -66,7 +67,12 @@ public class TestRoleDAOJPAImpl {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		//DATA_SOURCE_MANAGER.getThreadLocalConnection().getTransaction().commit();
+		/*if(DATA_SOURCE_MANAGER.getThreadLocalConnection().getTransaction().isActive()) {
+			try {
+				DATA_SOURCE_MANAGER.getThreadLocalConnection().getTransaction().commit();
+			}
+			catch(RollbackException re) {}
+		}*/
 	}
 
 	@Test
