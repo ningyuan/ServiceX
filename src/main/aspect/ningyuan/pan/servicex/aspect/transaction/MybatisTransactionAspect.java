@@ -29,7 +29,9 @@ public class MybatisTransactionAspect {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MybatisTransactionAspect.class);
 	
-	private DataSourceManager<SqlSession> dataSourceManager;
+	private final DataSourceManager<SqlSession> dataSourceManager = 
+			(MybatisDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER);
+	
 	
 	@Pointcut("handler(Throwable+)")
 	private void exceptionHandler() {};
@@ -82,8 +84,6 @@ public class MybatisTransactionAspect {
 	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void startTransaction() {
 		LOGGER.debug("startTransaction()");
-		
-		dataSourceManager = (MybatisDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
 			// connection is set auto commit false and transaction isolation level

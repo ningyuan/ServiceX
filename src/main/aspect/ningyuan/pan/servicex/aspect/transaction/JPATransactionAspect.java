@@ -31,8 +31,9 @@ import ningyuan.pan.util.persistence.JPADataSourceManager;
 public class JPATransactionAspect {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JPATransactionAspect.class);
 	
-	private DataSourceManager<EntityManager> dataSourceManager;
-	
+	private final DataSourceManager<EntityManager> dataSourceManager = 
+			(JPADataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JPA_DATA_SOURCE_MANAGER);
+	 
 	@Pointcut("handler(Throwable+)")
 	private void exceptionHandler() {};
 	
@@ -84,8 +85,6 @@ public class JPATransactionAspect {
 	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void startTransaction() {
 		LOGGER.debug("startTransaction()");
-		
-		dataSourceManager = (JPADataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JPA_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
 			

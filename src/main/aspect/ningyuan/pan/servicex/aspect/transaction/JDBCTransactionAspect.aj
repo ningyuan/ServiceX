@@ -27,7 +27,8 @@ public aspect JDBCTransactionAspect {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCTransactionAspect.class);
 	
-	private DataSourceManager<Connection> dataSourceManager;
+	private final DataSourceManager<Connection> dataSourceManager = 
+			(JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
 	
 	pointcut exceptionHandler() : handler(Throwable+);
 	
@@ -73,8 +74,6 @@ public aspect JDBCTransactionAspect {
 	//Start transaction
 	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
 		LOGGER.debug("startTransaction()");
-		
-		dataSourceManager = (JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
 			Connection con = dataSourceManager.getOrInitThreadLocalConnection();
@@ -158,5 +157,6 @@ public aspect JDBCTransactionAspect {
 		else {
 			LOGGER.debug("No data source manager set in context");
 		} 
-	}*/
+	}
+	*/
 }
