@@ -60,7 +60,7 @@ public class TestUserDAOJPAImpl {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		//DATA_SOURCE_MANAGER.initAndGetThreadLocalConnection().getTransaction().begin();
+		//DATA_SOURCE_MANAGER.getOrInitThreadLocalConnection().getTransaction().begin();
 	}
 
 	/**

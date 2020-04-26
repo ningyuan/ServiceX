@@ -16,7 +16,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.XService;
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
@@ -34,6 +36,7 @@ import ningyuan.pan.util.persistence.MybatisDataSourceManager;
  * @author ningyuan
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestXServiceImpl {
 	
 	private Mockery context = new Mockery();
@@ -88,7 +91,7 @@ public class TestXServiceImpl {
 	 * Test method for {@link ningyuan.pan.servicex.impl.ServiceXImpl#getName()}.
 	 */
 	@Test
-	public void testGetName() {
+	public void test01GetName() {
 		User user = new User();
 		user.setFirstName("pan");
 		
@@ -130,7 +133,7 @@ public class TestXServiceImpl {
 	}
 	
 	@Test
-	public void testGetName1() {
+	public void test02GetName() {
 		
 		context.checking(new Expectations() {
 			{
@@ -144,7 +147,7 @@ public class TestXServiceImpl {
 	}
 	
 	@Test
-	public void testGetName2() {
+	public void test03GetName() {
 		User user = new User();
 		user.setFirstName("pan");
 		
@@ -190,7 +193,7 @@ public class TestXServiceImpl {
 	}
 	
 	@Test
-	public void testGetName3() {
+	public void test04GetName() {
 		final Sequence seq = context.sequence("seq");
 		
 		User user = new User();

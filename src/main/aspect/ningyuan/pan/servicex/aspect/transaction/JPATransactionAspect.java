@@ -88,8 +88,8 @@ public class JPATransactionAspect {
 		dataSourceManager = (JPADataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JPA_DATA_SOURCE_MANAGER);
 		
 		if(dataSourceManager != null) {
-			// connection is set auto commit false and transaction isolation level
-			EntityManager con = dataSourceManager.initAndGetThreadLocalConnection();
+			
+			EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 			if(con != null) {
 				try {

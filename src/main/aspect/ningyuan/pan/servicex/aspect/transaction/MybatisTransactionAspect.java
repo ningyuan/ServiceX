@@ -79,7 +79,6 @@ public class MybatisTransactionAspect {
 	private void notInJunitClasses() {};
 	
 	
-	
 	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void startTransaction() {
 		LOGGER.debug("startTransaction()");
@@ -88,7 +87,7 @@ public class MybatisTransactionAspect {
 		
 		if(dataSourceManager != null) {
 			// connection is set auto commit false and transaction isolation level
-			SqlSession con = dataSourceManager.initAndGetThreadLocalConnection();
+			SqlSession con = dataSourceManager.getOrInitThreadLocalConnection();
 		
 			if(con != null) {
 				LOGGER.debug("Set auto commit");
