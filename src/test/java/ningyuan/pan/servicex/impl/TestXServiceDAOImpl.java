@@ -37,7 +37,7 @@ import ningyuan.pan.util.persistence.MybatisDataSourceManager;
  *
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestXServiceImpl {
+public class TestXServiceDAOImpl {
 	
 	private Mockery context = new Mockery();
 
@@ -51,14 +51,7 @@ public class TestXServiceImpl {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		// register jdbc data source as global variable, transaction aspect use this global variable
-		//DataSourceManager<Connection> jdbcDataSourceManager = new JDBCDataSourceManager();
-		//ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER, jdbcDataSourceManager);
 		
-		// register mybatis data source as global variable, transaction aspect use this global variable
-		//DataSourceManager<SqlSession> mybatisDataSourceManager = new MybatisDataSourceManager();
-		//ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER, mybatisDataSourceManager);
-				
 	}
 
 	/**
@@ -77,7 +70,7 @@ public class TestXServiceImpl {
 		userDAO = context.mock(UserDAO.class);
 		roleDAO = context.mock(RoleDAO.class);
 		
-		service = new XServiceJDBCImpl(userDAO, roleDAO);
+		service = new XServiceDAOImpl(userDAO, roleDAO);
 	}
 
 	/**
@@ -115,7 +108,7 @@ public class TestXServiceImpl {
 			}
 		});
 		
-		Assert.assertEquals("pan admin", service.getName());
+		Assert.assertEquals("pan root", service.getName());
 		
 		user.setFirstName("lee");
 		context.checking(new Expectations() {
@@ -129,7 +122,7 @@ public class TestXServiceImpl {
 			}
 		});
 		
-		Assert.assertEquals("lee admin", service.getName());
+		Assert.assertEquals("lee root", service.getName());
 	}
 	
 	@Test
@@ -172,7 +165,7 @@ public class TestXServiceImpl {
 			}
 		});
 		
-		Assert.assertEquals("pan admin", service.getName());
+		Assert.assertEquals("pan root", service.getName());
 		
 		user.setFirstName("lee");
 		context.checking(new Expectations() {
@@ -189,7 +182,7 @@ public class TestXServiceImpl {
 			}
 		});
 		
-		Assert.assertEquals("lee admin", service.getName());
+		Assert.assertEquals("lee root", service.getName());
 	}
 	
 	@Test
@@ -225,6 +218,6 @@ public class TestXServiceImpl {
 			}
 		});
 		
-		Assert.assertEquals("pan admin", service.getName());
+		Assert.assertEquals("pan root", service.getName());
 	}
 }

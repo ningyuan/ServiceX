@@ -1,4 +1,4 @@
-import ningyuan.pan.servicex.impl.XServiceJDBCImpl;
+import ningyuan.pan.servicex.impl.XServiceDAOImpl;
 import ningyuan.pan.servicex.XService;
 
 /**
@@ -16,11 +16,11 @@ public class TestTraceAspect {
 	 */
 	public static void main(String[] args) {
 		
-		XService service = new XServiceJDBCImpl();
+		XService service = new XServiceDAOImpl();
 		
 		service.getName();
 		
-		XServiceJDBCImpl serviceImpl = new XServiceJDBCImpl();
+		XServiceDAOImpl serviceImpl = new XServiceDAOImpl();
 		
 		serviceImpl.getName();
 	}
