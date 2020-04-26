@@ -12,7 +12,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
@@ -25,6 +27,7 @@ import ningyuan.pan.util.persistence.MybatisDataSourceManager;
  * @author ningyuan
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestRoleDAOMybatisImpl {
 	
 	private RoleDAO dao;
@@ -65,7 +68,7 @@ public class TestRoleDAOMybatisImpl {
 	}
 
 	@Test
-	public void testFindAllRole() {
+	public void test01FindAllRole() {
 		/*List<Role> list = dao.findAllRole();
 		
 		for(Role role : list) {
@@ -74,48 +77,48 @@ public class TestRoleDAOMybatisImpl {
 	}
 
 	/*@Test(expected = PersistenceException.class)
-	public void testAddDup() {
+	public void test02AddDup() {
 		Role role = new Role();
-		role.setId((byte) 0);
+		role.setID((byte) 0);
 		role.setName("non-root");
 		
 		dao.add(role);
 	}*/
 	
 	@Test
-	public void testAdd() {
+	public void test03Add() {
 		/*Role role = new Role();
-		role.setId((byte) 3);
+		role.setID((byte) 3);
 		role.setName("testRole");
 		
 		dao.add(role);*/
 	}
 	
 	@Test
-	public void testUpdate() {
+	public void test04Update() {
 		/*Role role = new Role();
-		role.setId((byte) 3);
+		role.setID((byte) 3);
 		role.setName("testRole1");
 		
 		dao.update(role);*/
 	}
 	
 	@Test
-	public void testDelete() {
+	public void test05Delete() {
 		//dao.delete((byte)3);
 	}
 	
 	@Test
-	public void testUpdateNull() {
+	public void test06UpdateNull() {
 		/*Role role = new Role();
-		role.setId((byte) 4);
+		role.setID((byte) 4);
 		role.setName("testRole2");
 		
 		dao.update(role);*/
 	}
 	
 	@Test
-	public void testDeleteNull() {
+	public void test07DeleteNull() {
 		//dao.delete((byte)4);
 	}
 }

@@ -13,7 +13,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
@@ -25,6 +27,7 @@ import ningyuan.pan.util.persistence.MybatisDataSourceManager;
  * @author ningyuan
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserDAOMybatisImpl {
 	
 	private UserDAO dao;
@@ -70,7 +73,7 @@ public class TestUserDAOMybatisImpl {
 	 * Test method for {@link ningyuan.pan.servicex.persistence.dao.impl.UserDAOMybatisImpl#findAllUser()}.
 	 */
 	@Test
-	public void testFindAllUser() {
+	public void test01FindAllUser() {
 		/*List<User> list = dao.findAllUser();
 		
 		for(User user : list) {
@@ -82,12 +85,12 @@ public class TestUserDAOMybatisImpl {
 	 * Test method for {@link ningyuan.pan.servicex.persistence.dao.impl.UserDAOMybatisImpl#findUserByID(long)}.
 	 */
 	@Test
-	public void testFindUserByID() {
+	public void test02FindUserByID() {
 		//System.out.println(dao.findUserByID(0));
 	}
 	
 	@Test
-	public void testAdd() {
+	public void test03Add() {
 		/*try {
 			User user = new User();
 			
@@ -98,11 +101,11 @@ public class TestUserDAOMybatisImpl {
 			List<Role> roles = new ArrayList<Role>();
 			
 			Role role = new Role();
-			role.setId((byte)1);
+			role.setID((byte)1);
 			roles.add(role);
 			
 			role = new Role();
-			role.setId((byte)2);
+			role.setID((byte)2);
 			roles.add(role);
 			
 			user.setRoles(roles);
@@ -116,7 +119,7 @@ public class TestUserDAOMybatisImpl {
 	}
 	
 	@Test
-	public void testUpdate() {
+	public void test04Update() {
 		/*try {
 			User user = new User();
 			
@@ -128,7 +131,7 @@ public class TestUserDAOMybatisImpl {
 			
 			Role role = new Role();
 			
-			role.setId((byte)2);
+			role.setID((byte)2);
 			roles.add(role);
 			
 			user.setRoles(roles);
@@ -142,7 +145,7 @@ public class TestUserDAOMybatisImpl {
 	}
 	
 	@Test
-	public void testDelete() {
+	public void test05Delete() {
 		//dao.delete(3l);
 	}
 }

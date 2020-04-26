@@ -12,7 +12,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
@@ -24,6 +26,7 @@ import ningyuan.pan.util.persistence.JDBCDataSourceManager;
  * @author ningyuan
  *
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUserDAOJDBCImpl {
 	
 	private static UserDAO DAO;
@@ -82,7 +85,7 @@ public class TestUserDAOJDBCImpl {
 	 * Test method for {@link ningyuan.pan.servicex.persistence.dao.impl.UserDAOJDBCImpl#getAllUser()}.
 	 */
 	@Test
-	public void testGetAllUser() {
+	public void test01GetAllUser() {
 		//DAO.findAllUser();
 	}
 
@@ -90,12 +93,12 @@ public class TestUserDAOJDBCImpl {
 	 * Test method for {@link ningyuan.pan.servicex.persistence.dao.impl.UserDAOJDBCImpl#getUserByID(long)}.
 	 */
 	@Test
-	public void testGetUserByID() {
+	public void test02GetUserByID() {
 		//DAO.findUserByID(0);
 	}
 	
 	@Test
-	public void testAdd() {
+	public void test03Add() {
 		/*User user = new User();
 			
 		user.setID(3l);
@@ -105,11 +108,11 @@ public class TestUserDAOJDBCImpl {
 		List<Role> roles = new ArrayList<Role>();
 			
 		Role role = new Role();
-		role.setId((byte)1);
+		role.setID((byte)1);
 		roles.add(role);
 			
 		role = new Role();
-		role.setId((byte)2);
+		role.setID((byte)2);
 		roles.add(role);
 			
 		user.setRoles(roles);
@@ -124,7 +127,7 @@ public class TestUserDAOJDBCImpl {
 	}
 	
 	@Test
-	public void testUpdate() {
+	public void test04Update() {
 		
 		/*User user = new User();
 		
@@ -136,7 +139,7 @@ public class TestUserDAOJDBCImpl {
 		
 		Role role = new Role();
 			
-		role.setId((byte)2);
+		role.setID((byte)2);
 		roles.add(role);
 			
 		user.setRoles(roles);
@@ -151,7 +154,7 @@ public class TestUserDAOJDBCImpl {
 	}
 	
 	@Test
-	public void testDelete() {
+	public void test05Delete() {
 		/*if(!DAO.delete(3l)) {
 			try {
 				DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
