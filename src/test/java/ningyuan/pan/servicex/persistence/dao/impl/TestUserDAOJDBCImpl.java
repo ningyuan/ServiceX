@@ -86,7 +86,10 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void test01GetAllUser() {
-		//DAO.findAllUser();
+		/*List<User> users = DAO.findAllUser();
+		for(User user : users) {
+			System.out.println(user);
+		}*/
 	}
 
 	/**
@@ -94,7 +97,9 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void test02GetUserByID() {
-		//DAO.findUserByID(0);
+		/*User user = DAO.findUserByID(0L);
+		
+		System.out.println(user);*/
 	}
 	
 	@Test

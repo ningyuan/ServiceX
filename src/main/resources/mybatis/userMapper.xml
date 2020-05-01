@@ -31,10 +31,10 @@
             r.name as rName
         FROM
             user u
-            	JOIN 
+            	LEFT JOIN 
             user_role ur ON u.id = ur.uid
-                JOIN 
-            role r ON r.id = ur.rid
+                LEFT JOIN 
+            role r ON ur.rid = r.id
 	</sql>
 	
 	<sql id="insertUserRole">
