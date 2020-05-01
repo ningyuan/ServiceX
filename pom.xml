@@ -159,6 +159,13 @@
        	   		<scope>provided</scope>
        	   </dependency>
 		   
+		   <!-- javax json provider jackson -->
+    	   <dependency>
+    			<groupId>com.fasterxml.jackson.core</groupId>
+    			<artifactId>jackson-databind</artifactId>
+    			<version>${jackson-json.version}</version>
+		   </dependency>
+
 		   <!-- jax-ws rs provider cxf -->
 		   <dependency>
     	   		<groupId>org.apache.cxf</groupId>
@@ -225,6 +232,18 @@
     			<artifactId>jackson-jaxrs-json-provider</artifactId>
     			<version>${jackson-json.version}</version>
     			<exclusions>
+    				<exclusion>
+    					<groupId>com.fasterxml.jackson.core</groupId>
+  						<artifactId>jackson-core</artifactId>
+    				</exclusion>
+    				<exclusion>
+    					<groupId>com.fasterxml.jackson.core</groupId>
+  						<artifactId>jackson-databind</artifactId>
+    				</exclusion>
+    				<exclusion>
+    					<groupId>com.fasterxml.jackson.core</groupId>
+  						<artifactId>jackson-annotations</artifactId>
+    				</exclusion>
     				<exclusion>
     					<groupId>jakarta.xml.bind</groupId>
     					<artifactId>jakarta.xml.bind-api</artifactId>
@@ -389,6 +408,11 @@
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
    	
+    <dependency>
+    	<groupId>com.fasterxml.jackson.core</groupId>
+    	<artifactId>jackson-databind</artifactId>
+    </dependency>
+    
     <dependency>
     	<groupId>org.apache.cxf</groupId>
    		<artifactId>cxf-rt-frontend-jaxrs</artifactId>

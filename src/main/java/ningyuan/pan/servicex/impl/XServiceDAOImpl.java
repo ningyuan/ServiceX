@@ -13,6 +13,8 @@ import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
+import ningyuan.pan.util.text.TextObjectConverter;
+import ningyuan.pan.util.text.TextObjectConverterFactory;
 
 
 /**
@@ -62,5 +64,19 @@ public class XServiceDAOImpl implements XService {
 		sender.sendMessages(msgs, "activemq.artemis.queue");
 		
 		return msg;
+	}
+
+	@Override
+	public String getAllUsers(String format) {
+		TextObjectConverter converter = TextObjectConverterFactory.newInstance(format);
+		
+		if(userDAO != null) {
+			List<User> users = userDAO.findAllUser();
+			
+			return converter.marshall(users);
+		}
+		else {
+			return converter.getDefaultText(new ArrayList<>());
+		}
 	}
 }
