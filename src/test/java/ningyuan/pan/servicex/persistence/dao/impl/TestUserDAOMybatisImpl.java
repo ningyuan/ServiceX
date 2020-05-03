@@ -94,7 +94,7 @@ public class TestUserDAOMybatisImpl {
 		/*try {
 			User user = new User();
 			
-			user.setID(3l);
+			user.setID(100l);
 			user.setFirstName("one");
 			user.setLastName("zhang");
 			
@@ -123,7 +123,7 @@ public class TestUserDAOMybatisImpl {
 		/*try {
 			User user = new User();
 			
-			user.setID(3l);
+			user.setID(100l);
 			user.setFirstName("two");
 			user.setLastName("zhang");
 			
@@ -131,7 +131,7 @@ public class TestUserDAOMybatisImpl {
 			
 			Role role = new Role();
 			
-			role.setID((byte)2);
+			role.setID((byte)3);
 			roles.add(role);
 			
 			user.setRoles(roles);
@@ -146,6 +146,6 @@ public class TestUserDAOMybatisImpl {
 	
 	@Test
 	public void test05Delete() {
-		//dao.delete(3l);
+		//dao.delete(100l);
 	}
 }

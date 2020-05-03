@@ -17,8 +17,8 @@
 		<!-- scan the package contains entity with or without alias annotation -->
   		<!--  <package name="ningyuan.pan.servicex.persistence.entity"/> -->
   		
-  		<typeAlias alias="user" type="ningyuan.pan.servicex.persistence.entity.User" />  
-  		<typeAlias alias="role" type="ningyuan.pan.servicex.persistence.entity.Role" />  
+  		<typeAlias alias="User" type="ningyuan.pan.servicex.persistence.entity.User" />  
+  		<typeAlias alias="Role" type="ningyuan.pan.servicex.persistence.entity.Role" />  
 	</typeAliases>
 
     <environments default="dev">

@@ -16,7 +16,7 @@
   		</association> --> 
   		
   		<!-- collection property -->
-		<collection property="roles" ofType="role">
+		<collection property="roles" ofType="Role">
 			<id property="id" column="rid"></id>
 			<result property="name" column="rName"></result>
 		</collection>
@@ -58,7 +58,7 @@
     	<include refid="selectUser"/>
     </select>
     
-    <insert id="add" parameterType="user">
+    <insert id="add" parameterType="User">
     	INSERT INTO
     		user
     	VALUES (#{id}, #{firstName}, #{lastName});
@@ -80,7 +80,7 @@
 			uid = #{id}
 	</delete>
 	
-	<update id="update"  parameterType="role">
+	<update id="update"  parameterType="User">
          UPDATE
          	user
          SET

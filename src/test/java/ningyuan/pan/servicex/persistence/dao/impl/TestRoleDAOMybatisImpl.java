@@ -88,7 +88,7 @@ public class TestRoleDAOMybatisImpl {
 	@Test
 	public void test03Add() {
 		/*Role role = new Role();
-		role.setID((byte) 3);
+		role.setID((byte) 100);
 		role.setName("testRole");
 		
 		dao.add(role);*/
@@ -97,7 +97,7 @@ public class TestRoleDAOMybatisImpl {
 	@Test
 	public void test04Update() {
 		/*Role role = new Role();
-		role.setID((byte) 3);
+		role.setID((byte) 100);
 		role.setName("testRole1");
 		
 		dao.update(role);*/
@@ -105,20 +105,33 @@ public class TestRoleDAOMybatisImpl {
 	
 	@Test
 	public void test05Delete() {
-		//dao.delete((byte)3);
+		//dao.delete((byte)100);
 	}
 	
 	@Test
 	public void test06UpdateNull() {
 		/*Role role = new Role();
-		role.setID((byte) 4);
+		role.setID((byte) 100);
 		role.setName("testRole2");
 		
 		dao.update(role);*/
 	}
 	
 	@Test
-	public void test07DeleteNull() {
-		//dao.delete((byte)4);
+	public void test07Update() {
+		/*Role role = new Role();
+		role.setID((byte) 1);
+		role.setName("testRole2");
+		
+		dao.update(role);*/
+	}
+	
+	@Test
+	public void test08Update() {
+		/*Role role = new Role();
+		role.setID((byte) 1);
+		role.setName("admin");
+		
+		dao.update(role);*/
 	}
 }
