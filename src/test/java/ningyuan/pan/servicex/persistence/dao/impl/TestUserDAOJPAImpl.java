@@ -22,6 +22,7 @@ import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.servicex.persistence.entity.RoleType;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.JPADataSourceManager;
@@ -104,15 +105,15 @@ public class TestUserDAOJPAImpl {
 	/*@Test(expected = AssertionError.class)
 	public void test04AddNoCascade() {
 		User user = new User();
-		user.setID(3L);
+		user.setID(100L);
 		user.setFirstName("test");
 		user.setLastName("test");
 		
-		// a role with id 3 dose not exist
+		// a role with id 100 dose not exist
 		// the user will be not added
 		// no cascade persist
 		Role role = new Role();
-		role.setID((byte)3);
+		role.setID((byte)100);
 		role.setName("test");
 		
 		List<Role> roles = new ArrayList<Role>();
@@ -126,13 +127,13 @@ public class TestUserDAOJPAImpl {
 	@Test
 	public void test05AddNoCascade() {
 		/*User user = new User();
-		user.setID(3L);
+		user.setID(100L);
 		user.setFirstName("test");
 		user.setLastName("test");
 		
 		Role role = new Role();
-		// a role with id 1 exists
-		role.setID((byte)1);
+		// the role admin exists
+		role.setID(RoleType.ADMIN.getID());
 		// the name will be not updated
 		role.setName("test");
 		
@@ -145,23 +146,28 @@ public class TestUserDAOJPAImpl {
 	}
 	
 	@Test
-	public void test06Add() {
+	public void test06Delete() {
+		//assertTrue(DAO.delete(100L));
+	} 
+	
+	@Test
+	public void test07Add() {
 		/*User user = new User();
-		user.setID(4L);
+		user.setID(101L);
 		user.setFirstName("test");
 		user.setLastName("test");
 		
 		List<Role> roles = new ArrayList<Role>();
 		
 		Role role = new Role();
-		// a role with id 1 exists
-		role.setID((byte)1);
+		// the role admin exists
+		role.setID(RoleType.ADMIN.getID());
 		
 		roles.add(role);
 		
 		role = new Role();
-		// a role with id 1 exists
-		role.setID((byte)2);
+		// the role common exists
+		role.setID(RoleType.COMMON.getID());
 		
 		roles.add(role);
 		
@@ -171,17 +177,17 @@ public class TestUserDAOJPAImpl {
 	}
 	
 	/*@Test(expected = EntityNotFoundException.class)
-	public void test07UpdateNoCascade() {
+	public void test08UpdateNoCascade() {
 		User user = new User();
-		user.setID(3L);
+		user.setID(101L);
 		user.setFirstName("test1");
 		user.setLastName("test1");
 		
 		Role role = new Role();
-		// a role with id 3 dose not exist
+		// a role with id 100 dose not exist
 		// the user will be not updated
 		// no cascade merge
-		role.setID((byte)3);
+		role.setID((byte)100);
 		role.setName("test1");
 		
 		List<Role> roles = new ArrayList<Role>();
@@ -193,15 +199,15 @@ public class TestUserDAOJPAImpl {
 	}*/
 	
 	@Test
-	public void test08UpdateNoCascade() {
+	public void test09UpdateNoCascade() {
 		/*User user = new User();
-		user.setID(3L);
+		user.setID(101L);
 		user.setFirstName("test1");
 		user.setLastName("test1");
 		
 		Role role = new Role();
-		// a role with id 1 exists
-		role.setID((byte)1);
+		// the role admin exists
+		role.setID(RoleType.ADMIN.getID());
 		// the name will not be updated
 		// no cascade merge
 		role.setName("test1");
@@ -216,6 +222,6 @@ public class TestUserDAOJPAImpl {
 	
 	@Test
 	public void test09Delete() {
-		//assertTrue(DAO.delete(4L));
+		//assertTrue(DAO.delete(101L));
 	} 
 }

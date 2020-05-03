@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,6 +20,7 @@ import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.servicex.persistence.entity.RoleType;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.MybatisDataSourceManager;
@@ -89,9 +91,9 @@ public class TestUserDAOMybatisImpl {
 		//System.out.println(dao.findUserByID(0));
 	}
 	
-	@Test
-	public void test03Add() {
-		/*try {
+	/*@Test(expected = PersistenceException.class)
+	public void test03AddNoCascade() {
+		try {
 			User user = new User();
 			
 			user.setID(100l);
@@ -101,47 +103,73 @@ public class TestUserDAOMybatisImpl {
 			List<Role> roles = new ArrayList<Role>();
 			
 			Role role = new Role();
-			role.setID((byte)1);
+			role.setID(RoleType.ADMIN.getID());
 			roles.add(role);
 			
 			role = new Role();
-			role.setID((byte)2);
+			role.setID(RoleType.COMMON.getID());
+			roles.add(role);
+			
+			// a role with id 100 dose not exist
+			// user will not be added
+			role = new Role();
+			role.setID((byte)100);
+			role.setName("test");
 			roles.add(role);
 			
 			user.setRoles(roles);
 			
 			dao.add(user);
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+		finally {
 			DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
-		}*/
+		}
+	}*/
+	
+	@Test
+	public void test04Add() {
+		
+		/*User user = new User();
+			
+		user.setID(100l);
+		user.setFirstName("one");
+		user.setLastName("zhang");
+			
+		List<Role> roles = new ArrayList<Role>();
+			
+		Role role = new Role();
+		role.setID(RoleType.ADMIN.getID());
+		roles.add(role);
+			
+		role = new Role();
+		role.setID(RoleType.COMMON.getID());
+		roles.add(role);
+			
+		
+		user.setRoles(roles);
+			
+		dao.add(user);*/
 	}
 	
 	@Test
-	public void test04Update() {
-		/*try {
-			User user = new User();
+	public void test05Update() {
+		
+		/*User user = new User();
 			
-			user.setID(100l);
-			user.setFirstName("two");
-			user.setLastName("zhang");
+		user.setID(100l);
+		user.setFirstName("two");
+		user.setLastName("zhang");
 			
-			List<Role> roles = new ArrayList<Role>();
+		List<Role> roles = new ArrayList<Role>();
 			
-			Role role = new Role();
+		Role role = new Role();
 			
-			role.setID((byte)3);
-			roles.add(role);
+		role.setID(RoleType.GUEST.getID());
+		roles.add(role);
 			
-			user.setRoles(roles);
+		user.setRoles(roles);
 			
-			dao.update(user);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
-		}*/
+		dao.update(user);*/
 	}
 	
 	@Test

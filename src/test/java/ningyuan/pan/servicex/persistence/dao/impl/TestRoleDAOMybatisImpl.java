@@ -19,6 +19,7 @@ import org.junit.runners.MethodSorters;
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.servicex.persistence.entity.RoleType;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.MybatisDataSourceManager;
 
@@ -79,7 +80,7 @@ public class TestRoleDAOMybatisImpl {
 	/*@Test(expected = PersistenceException.class)
 	public void test02AddDup() {
 		Role role = new Role();
-		role.setID((byte) 0);
+		role.setID(RoleType.ROOT.getID());
 		role.setName("non-root");
 		
 		dao.add(role);
@@ -120,8 +121,8 @@ public class TestRoleDAOMybatisImpl {
 	@Test
 	public void test07Update() {
 		/*Role role = new Role();
-		role.setID((byte) 1);
-		role.setName("testRole2");
+		role.setID(RoleType.ADMIN.getID());
+		role.setName("admin1");
 		
 		dao.update(role);*/
 	}
@@ -129,7 +130,7 @@ public class TestRoleDAOMybatisImpl {
 	@Test
 	public void test08Update() {
 		/*Role role = new Role();
-		role.setID((byte) 1);
+		role.setID(RoleType.ADMIN.getID());
 		role.setName("admin");
 		
 		dao.update(role);*/

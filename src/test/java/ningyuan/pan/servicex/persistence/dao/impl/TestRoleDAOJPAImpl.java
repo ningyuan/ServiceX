@@ -20,6 +20,7 @@ import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.servicex.persistence.entity.RoleType;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.JPADataSourceManager;
@@ -92,7 +93,7 @@ public class TestRoleDAOJPAImpl {
 	@Test
 	public void test03AddDup() {
 		/*Role role = new Role();
-		role.setID((byte) 0);
+		role.setID(RoleType.ROOT.getID());
 		role.setName("non-root");
 		
 		assertFalse(DAO.add(role));*/
@@ -101,7 +102,7 @@ public class TestRoleDAOJPAImpl {
 	@Test
 	public void test04Add() {
 		/*Role role = new Role();
-		role.setID((byte) 3);
+		role.setID((byte) 100);
 		role.setName("test");
 		
 		assertTrue(DAO.add(role));*/
@@ -110,7 +111,7 @@ public class TestRoleDAOJPAImpl {
 	@Test
 	public void test05Update() {
 		/*Role role = new Role();
-		role.setID((byte) 3);
+		role.setID((byte) 100);
 		role.setName("test1");
 		
 		assertTrue(DAO.update(role));*/
@@ -118,6 +119,6 @@ public class TestRoleDAOJPAImpl {
 	
 	@Test
 	public void test06Delete() {
-		//assertTrue(DAO.delete((byte)3));
+		//assertTrue(DAO.delete((byte)100));
 	}
 }

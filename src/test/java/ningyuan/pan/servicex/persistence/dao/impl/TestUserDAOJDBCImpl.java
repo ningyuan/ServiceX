@@ -18,6 +18,7 @@ import org.junit.runners.MethodSorters;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
+import ningyuan.pan.servicex.persistence.entity.RoleType;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.persistence.DataSourceManager;
 import ningyuan.pan.util.persistence.JDBCDataSourceManager;
@@ -106,18 +107,18 @@ public class TestUserDAOJDBCImpl {
 	public void test03Add() {
 		/*User user = new User();
 			
-		user.setID(3l);
+		user.setID(100l);
 		user.setFirstName("one");
 		user.setLastName("zhang");
 			
 		List<Role> roles = new ArrayList<Role>();
 			
 		Role role = new Role();
-		role.setID((byte)1);
+		role.setID(RoleType.ADMIN.getID());
 		roles.add(role);
 			
 		role = new Role();
-		role.setID((byte)2);
+		role.setID(RoleType.COMMON.getID());
 		roles.add(role);
 			
 		user.setRoles(roles);
@@ -136,7 +137,7 @@ public class TestUserDAOJDBCImpl {
 		
 		/*User user = new User();
 		
-		user.setID(3l);
+		user.setID(100l);
 		user.setFirstName("two");
 		user.setLastName("zhang");
 			
@@ -144,7 +145,7 @@ public class TestUserDAOJDBCImpl {
 		
 		Role role = new Role();
 			
-		role.setID((byte)2);
+		role.setID(RoleType.COMMON.getID());
 		roles.add(role);
 			
 		user.setRoles(roles);
@@ -160,7 +161,7 @@ public class TestUserDAOJDBCImpl {
 	
 	@Test
 	public void test05Delete() {
-		/*if(!DAO.delete(3l)) {
+		/*if(!DAO.delete(100l)) {
 			try {
 				DATA_SOURCE_MANAGER.getThreadLocalConnection().rollback();
 			} catch (SQLException e1) {
