@@ -24,9 +24,9 @@ public class DebugAspect {
 	
 	
 	// Log method entering information
-	@Pointcut("execution(* ningyuan.pan.servicex.impl.*.*(..))"
+	@Pointcut("execution(* ningyuan.pan.servicex.impl.*Impl.*(..))"
 			+ " || "
-			+ "execution(* ningyuan.pan.servicex.webservice.rs.impl.*.*(..))")
+			+ "execution(* ningyuan.pan.servicex.webservice.rs.impl.*Impl.*(..))")
 	private void exeAllMethods() {};
 	
 	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)"
@@ -47,9 +47,9 @@ public class DebugAspect {
 	@Pointcut("handler(Throwable+) && args(e)")
 	private void exceptionHandler(Throwable e) {};
 	
-	@Pointcut("withincode(* ningyuan.pan.servicex.impl.*.*(..))"
+	@Pointcut("withincode(* ningyuan.pan.servicex.impl.*Impl.*(..))"
 			+ " || "
-			+ "withincode(* ningyuan.pan.servicex.webservice.rs.impl.*.*(..))")
+			+ "withincode(* ningyuan.pan.servicex.webservice.rs.impl.*Impl.*(..))")
 	private void inAllMethods() {}
 	
 	@Before("exceptionHandler(e) && inAllMethods() && notInJunitClasses()")
