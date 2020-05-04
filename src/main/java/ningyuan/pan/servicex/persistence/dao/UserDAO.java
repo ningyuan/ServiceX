@@ -15,12 +15,14 @@ public interface UserDAO {
 	
 	public List<User> findAllUser();
 	
-	public User findUserByID(long id);
+	public User findUserByID(long userID);
 	
 	public boolean add(User user);
 	
-	public boolean delete(long id);
+	public boolean delete(long userID);
 	
 	public boolean update(User user);
+	
+	public List<User> findAllUserByRole(byte roleID);
 	
 }

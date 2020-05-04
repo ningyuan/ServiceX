@@ -82,13 +82,15 @@ public class User {
 
 	@Override
 	public String toString() {
-		StringBuilder ret = new StringBuilder("User [id = "+id+", firstName = "+firstName+", lastName = "+lastName+",");
+		StringBuilder ret = new StringBuilder("User [id = "+id+", firstName = "+firstName+", lastName = "+lastName+", ");
+		
+		ret.append("roles = [");
 		
 		for(Role role : roles) {
-			ret.append(" "+role.toString());
+			ret.append(role.toString()+", ");
 		}
 		
-		ret.append("]");
+		ret.append("]]");
 		
 		return ret.toString();
 	}
