@@ -51,7 +51,7 @@
 	
 	<select id="findUserByID" parameterType="long" resultMap="userMap" resultSetType="FORWARD_ONLY">
     	<include refid="selectUser"/>
-        WHERE u.id=#{id}
+        WHERE u.id=#{userID}
     </select>
     
     <select id="findAllUser" resultMap="userMap" resultSetType="FORWARD_ONLY">
@@ -73,11 +73,11 @@
 		DELETE FROM
 			user
 		WHERE 
-			id = #{id};
+			id = #{userID};
 		
 		<!-- cascade delete attached roles (can be set in database) -->
 		<include refid="deleteUserRole"/>
-			uid = #{id}
+			uid = #{userID}
 	</delete>
 	
 	<update id="update"  parameterType="User">
@@ -97,4 +97,17 @@
       	    (#{id}, #{role.id})
       	 </foreach>
     </update>
+    
+    <select id="findAllUserByRole" parameterType="byte" resultMap="userMap" resultSetType="FORWARD_ONLY">
+    	<include refid="selectUser"/>
+    	WHERE
+    		u.id IN
+    			(SELECT 
+    				ur1.uid
+            	FROM
+            		user_role ur1 
+            	WHERE
+            		ur1.rid = #{roleID}
+            	)
+    </select>
 </mapper>

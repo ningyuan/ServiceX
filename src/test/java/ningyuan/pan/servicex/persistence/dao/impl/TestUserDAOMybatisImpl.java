@@ -88,7 +88,7 @@ public class TestUserDAOMybatisImpl {
 	 */
 	@Test
 	public void test02FindUserByID() {
-		//System.out.println(dao.findUserByID(0));
+		//System.out.println(dao.findUserByID(3));
 	}
 	
 	/*@Test(expected = PersistenceException.class)
@@ -175,5 +175,26 @@ public class TestUserDAOMybatisImpl {
 	@Test
 	public void test05Delete() {
 		//dao.delete(100l);
+	}
+	
+	@Test
+	public void test06FindUsersByRole() {
+		/*List<User> users = dao.findAllUserByRole(RoleType.ADMIN.getID());
+		
+		for(User user : users) {
+			System.out.println(user);
+		}
+		
+		users = dao.findAllUserByRole(RoleType.TEST.getID());
+		
+		for(User user : users) {
+			System.out.println(user);
+		}
+		
+		users = dao.findAllUserByRole((byte)100);
+		
+		for(User user : users) {
+			System.out.println(user);
+		}*/
 	}
 }
