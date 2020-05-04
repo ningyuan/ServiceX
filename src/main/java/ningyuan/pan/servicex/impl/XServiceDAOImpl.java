@@ -42,7 +42,7 @@ public class XServiceDAOImpl implements XService {
 	public String getName() {
 		String msg = null;
 		
-		if(userDAO != null) {
+		if(userDAO != null && roleDAO != null) {
 			try {
 				User user = userDAO.findUserByID(0);
 				List<Role> roles = roleDAO.findAllRole();
@@ -74,6 +74,31 @@ public class XServiceDAOImpl implements XService {
 			List<User> users = userDAO.findAllUser();
 			
 			return converter.marshall(users);
+		}
+		else {
+			return converter.getDefaultText(new ArrayList<>());
+		}
+	}
+
+	@Override
+	public String getAllRoles(String format) {
+		TextObjectConverter converter = TextObjectConverterFactory.newInstance(format);
+		
+		if(userDAO != null && roleDAO != null) {
+			List<RoleWithUser> ret = new ArrayList<RoleWithUser>();
+			
+			List<Role> roles = roleDAO.findAllRole();
+			
+			for(Role role : roles) {
+				RoleWithUser rwu = new RoleWithUser();
+				rwu.setID(role.getID());
+				rwu.setName(role.getName());
+				rwu.setUsers(userDAO.findAllUserByRole(role.getID()));
+				
+				ret.add(rwu);
+			}
+			 
+			return converter.marshall(ret);
 		}
 		else {
 			return converter.getDefaultText(new ArrayList<>());

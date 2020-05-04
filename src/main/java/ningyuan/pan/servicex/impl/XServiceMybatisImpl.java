@@ -85,4 +85,37 @@ public class XServiceMybatisImpl implements XService {
 			return converter.getDefaultText(new ArrayList<>());
 		}
 	}
+
+
+	@Override
+	public String getAllRoles(String format) {
+		@SuppressWarnings("unchecked")
+		DataSourceManager<SqlSession> dataSourceManager = (DataSourceManager<SqlSession>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER);
+		
+		TextObjectConverter converter = TextObjectConverterFactory.newInstance(format);
+		
+		if(dataSourceManager != null) {
+			List<RoleWithUser> ret = new ArrayList<RoleWithUser>();
+			
+			RoleDAO roleDAO = dataSourceManager.getThreadLocalConnection().getMapper(RoleDAO.class);
+			
+			List<Role> roles = roleDAO.findAllRole();
+			
+			UserDAO userDAO = dataSourceManager.getThreadLocalConnection().getMapper(UserDAO.class);
+			
+			for(Role role : roles) {
+				RoleWithUser rwu = new RoleWithUser();
+				rwu.setID(role.getID());
+				rwu.setName(role.getName());
+				rwu.setUsers(userDAO.findAllUserByRole(role.getID()));
+				
+				ret.add(rwu);
+			}
+			
+			return converter.marshall(ret);
+		}
+		else {
+			return converter.getDefaultText(new ArrayList<>());
+		}
+	}
 }
