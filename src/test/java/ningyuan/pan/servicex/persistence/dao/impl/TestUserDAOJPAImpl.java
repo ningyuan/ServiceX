@@ -44,7 +44,7 @@ public class TestUserDAOJPAImpl {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		/*DATA_SOURCE_MANAGER = new JPADataSourceManager();
-		
+	
 		DAO = new UserDAOJPAImpl(DATA_SOURCE_MANAGER);*/
 	}
 
@@ -224,4 +224,25 @@ public class TestUserDAOJPAImpl {
 	public void test09Delete() {
 		//assertTrue(DAO.delete(101L));
 	} 
+	
+	@Test
+	public void test10FindUsersByRole() {
+		/*List<User> users = DAO.findAllUserByRole(RoleType.ADMIN.getID());
+		
+		for(User user : users) {
+			System.out.println("!!!"+user);
+		}
+		
+		users = DAO.findAllUserByRole(RoleType.TEST.getID());
+		
+		for(User user : users) {
+			System.out.println("!!!"+user);
+		}
+		
+		users = DAO.findAllUserByRole((byte)100);
+		
+		for(User user : users) {
+			System.out.println("!!!"+user);
+		}*/
+	}
 }

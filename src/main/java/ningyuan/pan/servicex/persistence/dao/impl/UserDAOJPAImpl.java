@@ -10,11 +10,17 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TransactionRequiredException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
+import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
 import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
@@ -141,6 +147,40 @@ public class UserDAOJPAImpl implements UserDAO {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public List<User> findAllUserByRole(byte rid) {
+		LOGGER.debug("findAllUserByRole()");
+		
+		List<User> ret = new ArrayList<User>();
+		
+		EntityManager con = dataSourceManager.getOrInitThreadLocalConnection();
+		
+		try {
+			if(con != null) {
+				CriteriaBuilder builder = con.getCriteriaBuilder();
+				CriteriaQuery<User> query = builder.createQuery(User.class);
+				
+				Root<User> user = query.from(User.class);
+				
+				Expression<List<Role>> roles = user.get("roles");
+				
+				Role role = new Role();
+				role.setID(rid);
+				
+			    query.select(user).where(builder.isMember(role, roles));
+			    
+			    TypedQuery<User> tQuery = con.createQuery(query);
+			    
+			    ret = tQuery.getResultList();
+			}
+		}
+		catch (Exception e) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
+		}
+		
+		return ret;
 	}
 
 }
