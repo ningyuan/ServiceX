@@ -47,6 +47,8 @@ public class UserDAOJDBCImpl implements UserDAO {
 	
 	private String deleteUser = "DELETE FROM user WHERE id = ?";
 			
+	private String selectUserByRole = "SELECT user.id, user.firstName, user.lastName FROM user_role JOIN user ON user_role.uid = user.id WHERE user_role.rid = ?";
+	
 	public UserDAOJDBCImpl(DataSourceManager<Connection> dataSourceManager) {
 		this.dataSourceManager = dataSourceManager;
 	}
@@ -71,47 +73,17 @@ public class UserDAOJDBCImpl implements UserDAO {
 			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
-				PreparedStatement ps = con.prepareStatement(selectAllUser);
-				PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
 				
-				ResultSet rs = ps.executeQuery();
-				
-				while (rs.next()) {
-					long id = rs.getLong(1);
-					String firstName = rs.getString(2);
-					String lastName = rs.getString(3);
+				try(PreparedStatement ps = con.prepareStatement(selectAllUser);
+					PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
+					ResultSet rs = ps.executeQuery();) {	
 					
-					User user = new User();
-					user.setID(id);
-					user.setFirstName(firstName);
-					user.setLastName(lastName);
-					
-					List<Role> roles = new ArrayList<Role>();
-					
-					ps1.setLong(1, id);
-					ResultSet rs1 = ps1.executeQuery();
-					
-					while(rs1.next()){
-						byte rid = rs1.getByte(1);
-						String name = rs1.getString(2);
+					while (rs.next()) {
+						User user = createUser(con, ps1, rs.getLong(1), rs.getString(2), rs.getString(3));
 						
-						Role role = new Role();
-						role.setID(rid);
-						role.setName(name);
-						
-						roles.add(role);
+						ret.add(user);
 					}
-					
-					user.setRoles(roles);
-					
-					ret.add(user);
-					
-					rs1.close();
 				}
-				
-				ps1.close();
-				rs.close();
-				ps.close();
 			}
 		}
 		catch (SQLException sqle) {
@@ -137,46 +109,36 @@ public class UserDAOJDBCImpl implements UserDAO {
 			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
-				PreparedStatement ps = con.prepareStatement(selectUserByID);
-				PreparedStatement ps1 = con.prepareStatement(selectAllRolesByUser);
+				PreparedStatement ps = null;
+				PreparedStatement ps1 = null;
 				
-				ps.setLong(1, id);
+				ResultSet rs = null;
 				
-				ResultSet rs = ps.executeQuery();
-				
-				while (rs.next()) {
-					String firstName = rs.getString(1);
-					String lastName = rs.getString(2);
+				try {
+					ps = con.prepareStatement(selectUserByID);
+					ps1 = con.prepareStatement(selectAllRolesByUser);
 					
-					ret = new User();
-					ret.setID(id);
-					ret.setFirstName(firstName);
-					ret.setLastName(lastName);
+					ps.setLong(1, id);
 					
-					List<Role> roles = new ArrayList<Role>();
+					rs = ps.executeQuery();
 					
-					ps1.setLong(1, id);
-					ResultSet rs1 = ps1.executeQuery();
-					
-					while(rs1.next()){
-						byte rid = rs1.getByte(1);
-						String name = rs1.getString(2);
-						
-						Role role = new Role();
-						role.setID(rid);
-						role.setName(name);
-						
-						roles.add(role);
+					while (rs.next()) {
+						ret = createUser(con, ps1, id, rs.getString(1), rs.getString(2));
+					}
+				}
+				finally {
+					if(rs != null) {
+						rs.close();
 					}
 					
-					ret.setRoles(roles);
+					if(ps1 != null) {
+						ps1.close();
+					}
 					
-					rs1.close();
+					if(ps != null) {
+						ps.close();
+					}
 				}
-				
-				ps1.close();
-				rs.close();
-				ps.close();
 			}
 		}
 		catch (SQLException sqle) {
@@ -201,27 +163,26 @@ public class UserDAOJDBCImpl implements UserDAO {
 			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
-				PreparedStatement ps = con.prepareStatement(insertUser);
-				PreparedStatement ps1 = con.prepareStatement(insertUserRole);
 				
-				ps.setLong(1, user.getID());
-				ps.setString(2, user.getFirstName());
-				ps.setString(3, user.getLastName());
-				
-				ps.executeUpdate();
-			
-				List<Role> roles = user.getRoles();
-				for(Role role : roles) {
-					ps1.setLong(1, user.getID());
-					ps1.setByte(2, role.getID());
+				try(PreparedStatement ps = con.prepareStatement(insertUser);
+					PreparedStatement ps1 = con.prepareStatement(insertUserRole);){
 					
-					ps1.executeUpdate();
+					ps.setLong(1, user.getID());
+					ps.setString(2, user.getFirstName());
+					ps.setString(3, user.getLastName());
+					
+					ps.executeUpdate();
+				
+					List<Role> roles = user.getRoles();
+					for(Role role : roles) {
+						ps1.setLong(1, user.getID());
+						ps1.setByte(2, role.getID());
+						
+						ps1.executeUpdate();
+					}
+					
+					return true;
 				}
-				
-				ps1.close();
-				ps.close();
-				
-				return true;
 			}
 			
 			return false;
@@ -247,20 +208,19 @@ public class UserDAOJDBCImpl implements UserDAO {
 			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
-				PreparedStatement ps = con.prepareStatement(deleteUser);
-				PreparedStatement ps1 = con.prepareStatement(deleteUserRole);
 				
-				ps.setLong(1,id);
-				
-				ps.executeUpdate();
-				
-				ps1.setLong(1, id);
-				ps1.executeUpdate();
-				
-				ps1.close();
-				ps.close();
-				
-				return true;
+				try (PreparedStatement ps = con.prepareStatement(deleteUser);
+					 PreparedStatement ps1 = con.prepareStatement(deleteUserRole)) {
+					
+					ps.setLong(1,id);
+					
+					ps.executeUpdate();
+					
+					ps1.setLong(1, id);
+					ps1.executeUpdate();
+					
+					return true;
+				}
 			}
 			
 			return false;
@@ -286,32 +246,47 @@ public class UserDAOJDBCImpl implements UserDAO {
 			con = dataSourceManager.getOrInitThreadLocalConnection();
 			
 			if(con != null) {
-				PreparedStatement ps = con.prepareStatement(updateUser);
-				PreparedStatement ps1 = con.prepareStatement(deleteUserRole);
-				PreparedStatement ps2 = con.prepareStatement(insertUserRole);
+				PreparedStatement ps = null;
+				PreparedStatement ps1 = null;
+				PreparedStatement ps2 = null;
 				
-				ps.setString(1, user.getFirstName());
-				ps.setString(2, user.getLastName());
-				ps.setLong(3, user.getID());
-				
-				ps.executeUpdate();
-				
-				ps1.setLong(1, user.getID());
-				ps1.executeUpdate();
-				
-				List<Role> roles = user.getRoles();
-				for(Role role : roles) {
-					ps2.setLong(1, user.getID());
-					ps2.setByte(2, role.getID());
+				try {
+					ps = con.prepareStatement(updateUser);
+					ps1 = con.prepareStatement(deleteUserRole);
+					ps2 = con.prepareStatement(insertUserRole);
 					
-					ps2.executeUpdate();
+					ps.setString(1, user.getFirstName());
+					ps.setString(2, user.getLastName());
+					ps.setLong(3, user.getID());
+					
+					ps.executeUpdate();
+					
+					ps1.setLong(1, user.getID());
+					ps1.executeUpdate();
+					
+					List<Role> roles = user.getRoles();
+					for(Role role : roles) {
+						ps2.setLong(1, user.getID());
+						ps2.setByte(2, role.getID());
+						
+						ps2.executeUpdate();
+					}
+					
+					return true;
 				}
-				
-				ps2.close();
-				ps1.close();
-				ps.close();
-				
-				return true;
+				finally {
+					if(ps2 != null) {
+						ps2.close();
+					}
+					
+					if(ps1 != null) {
+						ps1.close();
+					}
+					
+					if(ps != null) {
+						ps.close();
+					}
+				}
 			}
 			
 			return false;
@@ -325,5 +300,92 @@ public class UserDAOJDBCImpl implements UserDAO {
 				dataSourceManager.removeAndCloseThreadLocalConnection();
 			}
 		}
+	}
+
+	@Override
+	public List<User> findAllUserByRole(byte rid) {
+		LOGGER.debug("findAllUserByRole()");
+		
+		List<User> ret = new ArrayList<User>();
+		Connection con = null;
+		
+		try {
+			con = dataSourceManager.getOrInitThreadLocalConnection();
+			
+			if(con != null) {
+				PreparedStatement ps = null;
+				PreparedStatement ps1 = null;
+			
+				ResultSet rs = null;
+				
+				try {
+					ps = con.prepareStatement(selectUserByRole);
+					ps1 = con.prepareStatement(selectAllRolesByUser);
+					
+					ps.setByte(1, rid);
+					
+					rs = ps.executeQuery();
+					
+					while (rs.next()) {
+						User user = createUser(con, ps1, rs.getLong(1), rs.getString(2), rs.getString(3));
+						
+						ret.add(user);
+					}
+					
+				}
+				finally {
+					if(rs != null) {
+						rs.close();
+					}
+					
+					if(ps1 != null) {
+						ps1.close();
+					}
+					
+					if(ps != null) {
+						ps.close();
+					}
+				}
+			}
+		}
+		catch (SQLException sqle) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(sqle));
+		}
+		finally {
+			if(closeConnectionAfterEachCall) {
+				dataSourceManager.removeAndCloseThreadLocalConnection();
+			}	
+		}
+		
+		return ret;
+	}
+	
+	private User createUser(Connection con, PreparedStatement ps, long id, String firstName, String lastName) throws SQLException {
+		User ret = new User();
+		ret.setID(id);
+		ret.setFirstName(firstName);
+		ret.setLastName(lastName);
+		
+		List<Role> roles = new ArrayList<Role>();
+		
+		ps.setLong(1, id);
+		
+		try(ResultSet rs = ps.executeQuery()){
+			
+			while(rs.next()){
+				byte rid = rs.getByte(1);
+				String name = rs.getString(2);
+				
+				Role role = new Role();
+				role.setID(rid);
+				role.setName(name);
+				
+				roles.add(role);
+			}
+			
+			ret.setRoles(roles);
+		}
+		
+		return ret;
 	}
 }

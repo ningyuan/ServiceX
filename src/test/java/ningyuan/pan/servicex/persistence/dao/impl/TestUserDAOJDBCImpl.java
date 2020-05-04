@@ -98,7 +98,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@Test
 	public void test02GetUserByID() {
-		/*User user = DAO.findUserByID(0L);
+		/*User user = DAO.findUserByID(3L);
 		
 		System.out.println(user);*/
 	}
@@ -167,6 +167,27 @@ public class TestUserDAOJDBCImpl {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+		}*/
+	}
+	
+	@Test
+	public void test06FindUsersByRole() {
+		/*List<User> users = DAO.findAllUserByRole(RoleType.ADMIN.getID());
+		
+		for(User user : users) {
+			System.out.println(user);
+		}
+		
+		users = DAO.findAllUserByRole(RoleType.TEST.getID());
+		
+		for(User user : users) {
+			System.out.println(user);
+		}
+		
+		users = DAO.findAllUserByRole((byte)100);
+		
+		for(User user : users) {
+			System.out.println(user);
 		}*/
 	}
 }
