@@ -80,7 +80,7 @@ public class MybatisTransactionAspect {
 			+ "!within(ningyuan.pan.servicex.webservice.rs.impl.Test*)")
 	private void notInJunitClasses() {};
 	
-	
+	/*
 	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
 	public void startTransaction() {
 		LOGGER.debug("startTransaction()");
@@ -154,5 +154,5 @@ public class MybatisTransactionAspect {
 		else {
 			LOGGER.debug("No data source manager set in context");
 		}
-	}
+	}*/
 }

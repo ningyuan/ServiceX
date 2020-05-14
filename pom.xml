@@ -20,6 +20,8 @@
     
     <servicex-api.version>0.0.1-SNAPSHOT</servicex-api.version>
     
+    <atomikos.version>5.0.6</atomikos.version>
+    
     <cxf.version>3.3.5</cxf.version>
     
     <jackson-json.version>2.10.3</jackson-json.version>
@@ -158,6 +160,24 @@
        	   		<version>${servicex-api.version}</version>
        	   		<scope>provided</scope>
        	   </dependency>
+		   
+		   <!-- jta provider atomikos -->
+    	   <dependency>
+    			<groupId>com.atomikos</groupId>
+    			<artifactId>transactions-jdbc</artifactId>
+    			<version>${atomikos.version}</version>
+		   </dependency>
+    	   <dependency>
+    			<groupId>com.atomikos</groupId>
+    			<artifactId>transactions-jms</artifactId>
+    			<version>${atomikos.version}</version>
+    			<exclusions>
+    				<exclusion>
+    					<groupId>com.atomikos</groupId>
+    					<artifactId>transactions-jta</artifactId>
+    				</exclusion>
+    			</exclusions>
+		   </dependency>
 		   
 		   <!-- javax json provider jackson -->
     	   <dependency>
@@ -407,6 +427,15 @@
   		<groupId>ningyuan.pan</groupId>
   		<artifactId>ServiceX-api</artifactId>
   	</dependency>
+   	
+   	<dependency>
+    	<groupId>com.atomikos</groupId>
+    	<artifactId>transactions-jdbc</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>com.atomikos</groupId>
+    	<artifactId>transactions-jms</artifactId>
+   	</dependency>
    	
     <dependency>
     	<groupId>com.fasterxml.jackson.core</groupId>
