@@ -311,7 +311,6 @@
 		   		<groupId>javax.persistence</groupId>
     			<artifactId>javax.persistence-api</artifactId>
     			<version>${jpa.version}</version>
-    			<scope>provided</scope>
 		   </dependency>
 		   
 		   <!-- jpa provider hibernate -->
@@ -347,7 +346,6 @@
     	   		<groupId>javax.jms</groupId>
     			<artifactId>javax.jms-api</artifactId>
     			<version>${jms-api.version}</version>
-    			<scope>provided</scope>
 		   </dependency>
 		   
 		   <!-- jms provider activemq artemis -->
