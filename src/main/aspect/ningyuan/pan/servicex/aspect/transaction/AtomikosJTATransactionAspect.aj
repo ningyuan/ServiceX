@@ -3,32 +3,34 @@
  */
 package ningyuan.pan.servicex.aspect.transaction;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 
+import javax.transaction.UserTransaction;
+
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.atomikos.icatch.jta.UserTransactionImp;
 
 import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
-
 
 /**
- * Transaction aspect for weaving transaction codes in services methods with data source implemented 
- * with JDBC. Nested service call is also handed.
- * 
  * @author ningyuan
  *
  */
-public aspect JDBCTransactionAspect {
+public aspect AtomikosJTATransactionAspect {
+private static final Logger LOGGER = LoggerFactory.getLogger(AtomikosJTATransactionAspect.class);
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCTransactionAspect.class);
+	private UserTransaction userTransaction;
 	
-	private final DataSourceManager<Connection> dataSourceManager = 
-			(JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
+	private final DataSourceManager XADataSourceManager = 
+			(DataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.XA_DATA_SOURCE_MANAGER);
+	
+	private final DataSourceManager JMSXADataSourceManager = 
+			(DataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JMS_XA_DATA_SOURCE_MANAGER);
 	
 	pointcut exceptionHandler() : handler(Throwable+);
 	
@@ -66,33 +68,28 @@ public aspect JDBCTransactionAspect {
 								   notInCflowBelowOfServicesMethods();
 		
 	pointcut notInCflowOfJunitMethods(): !cflow(execution(* ningyuan.pan.servicex.impl.Test*.*(..)))
-										 &&
-										 !cflow(execution(* ningyuan.pan.servicex.webservice.rs.impl.Test*.*(..)));
-
-	/*
+										&&
+										!cflow(execution(* ningyuan.pan.servicex.webservice.rs.impl.Test*.*(..)));
+	
+	
 	//Start transaction
 	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods() {
 		LOGGER.debug("startTransaction()");
 		
-		if(dataSourceManager != null) {
-			Connection con = dataSourceManager.getOrInitThreadLocalConnection();
-		
-			if(con != null) {
-				try {
-					con.setAutoCommit(false);
-					
-					LOGGER.debug("Set auto commit");
-				} 
-				catch (SQLException e) {
-					LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
-				}
+		userTransaction = new UserTransactionImp();
+		try {
+			userTransaction.begin();
+			
+			if(XADataSourceManager != null) {
+				XADataSourceManager.getOrInitThreadLocalConnection();
 			}
-			else {
-				LOGGER.debug("No thread local connection");
+			
+			if(JMSXADataSourceManager != null) {
+				JMSXADataSourceManager.getOrInitThreadLocalConnection();
 			}
 		}
-		else {
-			LOGGER.debug("No data source manager set in context");
+		catch (Exception e) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
 		}
 	}
 	
@@ -101,29 +98,24 @@ public aspect JDBCTransactionAspect {
 	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods() {
 		LOGGER.debug("commitTransaction()");
 		
-		if(dataSourceManager != null) {
-			Connection con = dataSourceManager.getThreadLocalConnection();
-		
-			if(con != null) {
-				try {
-					con.commit();
-					LOGGER.debug("Commit");
-				} 
-				catch (SQLException e) {
-					LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
-				}
-				finally {
-					// remove the thread local connection to prevent
-					// memory leak when thread poll is used
-					dataSourceManager.removeAndCloseThreadLocalConnection();
-				}	
-			}
-			else {
-				LOGGER.debug("No thread local connection");
+		try {
+			if(userTransaction != null) {
+				userTransaction.commit();
 			}
 		}
-		else {
-			LOGGER.debug("No data source manager set in context");
+		catch (Exception e) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
+		}
+		finally {
+			if(XADataSourceManager != null) {
+				XADataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+			
+			if(JMSXADataSourceManager != null) {
+				JMSXADataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+			
+			userTransaction = null;
 		}
 	}
 	
@@ -131,31 +123,23 @@ public aspect JDBCTransactionAspect {
 	before() : exceptionHandler() && inServiceMethods() && notInCflowOfJunitMethods() {
 		LOGGER.debug("rollbackTransaction()");
 		
-		if(dataSourceManager != null) {
-			Connection con = dataSourceManager.getThreadLocalConnection();
-			
-			if(con != null) {
-				try {
-					con.rollback();
-					
-					LOGGER.debug("Rollback");
-				} 
-				catch (SQLException e) {
-					LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
-				}
-				finally {
-					 // remove the thread local connection so the commit operation afterwards 
-					 // will not be executed.
-					dataSourceManager.removeAndCloseThreadLocalConnection();
-				}
-			}
-			else {
-				LOGGER.debug("No thread local connection");
-			}
+		try {
+			userTransaction.rollback();
 		}
-		else {
-			LOGGER.debug("No data source manager set in context");
-		} 
+		catch (Exception e) {
+			LOGGER.debug(ExceptionUtils.printStackTraceToString(e));
+		}
+		finally {
+			if(XADataSourceManager != null) {
+				XADataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+			
+			if(JMSXADataSourceManager != null) {
+				JMSXADataSourceManager.removeAndCloseThreadLocalConnection();
+			}
+			
+			// prevent committing after rollback
+			userTransaction = null;
+		}
 	}
-	*/
 }

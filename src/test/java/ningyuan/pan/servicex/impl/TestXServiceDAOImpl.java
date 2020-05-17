@@ -3,11 +3,9 @@
  */
 package ningyuan.pan.servicex.impl;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.Sequence;
@@ -25,11 +23,6 @@ import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.User;
-import ningyuan.pan.servicex.util.GlobalObjectName;
-import ningyuan.pan.servicex.util.ServiceXUtil;
-import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
-import ningyuan.pan.util.persistence.MybatisDataSourceManager;
 
 
 /**

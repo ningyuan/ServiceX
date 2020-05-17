@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ningyuan.pan.servicex.XService;
-import ningyuan.pan.servicex.jms.Sender;
+import ningyuan.pan.servicex.jms.XASender;
 import ningyuan.pan.servicex.persistence.dao.RoleDAO;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
@@ -46,7 +46,7 @@ public class XServiceDAOImpl implements XService {
 			try {
 				User user = userDAO.findUserByID(0);
 				List<Role> roles = roleDAO.findAllRole();
-			
+				
 				msg = user.getFirstName()+ " "+roles.get(0).getName();
 			}
 			catch(Exception e) {
@@ -57,11 +57,15 @@ public class XServiceDAOImpl implements XService {
 			msg = "No user";
 		}
 		
+		
 		List<String> msgs = new ArrayList<String>();
 		msgs.add(msg);
 		
-		Sender sender = new Sender("conf/activemq.properties");
-		sender.sendMessages(msgs, "activemq.artemis.queue");
+		try {
+			XASender sender = new XASender("conf/activemq.properties");
+			sender.sendMessages(msgs, "activemq.artemis.queue");
+		}
+		catch (Exception e) {}
 		
 		return msg;
 	}
