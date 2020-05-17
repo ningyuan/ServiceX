@@ -75,13 +75,13 @@ public class MybatisTransactionAspect {
 			+ "notInCflowBelowOfServicesMethods()")
 	private void exeServiceMethods() {};
 	
-	@Pointcut("!within(ningyuan.pan.servicex.impl.Test*)"
+	@Pointcut("!cflow(execution(* ningyuan.pan.servicex.impl.Test*.*(..)))"
 			+ " && "
-			+ "!within(ningyuan.pan.servicex.webservice.rs.impl.Test*)")
-	private void notInJunitClasses() {};
+			+ "!cflow(execution(* ningyuan.pan.servicex.webservice.rs.impl.Test*.*(..)))")
+	private void notInCflowOfJunitMethods() {};
 	
 	/*
-	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
+	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods()")
 	public void startTransaction() {
 		LOGGER.debug("startTransaction()");
 		
@@ -101,7 +101,7 @@ public class MybatisTransactionAspect {
 		}
 	}
 	
-	@After("(exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses()")
+	@After("(exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods()")
 	public void commitTransaction() {
 		LOGGER.debug("commitTransaction()");
 		
@@ -128,7 +128,7 @@ public class MybatisTransactionAspect {
 		}
 	}
 	
-	@Before("exceptionHandler() && inServiceMethods() && notInJunitClasses()")
+	@Before("exceptionHandler() && inServiceMethods() && notInCflowOfJunitMethods()")
 	public void rollbackTransaction() {
 		LOGGER.debug("rollbackTransaction()");
 		

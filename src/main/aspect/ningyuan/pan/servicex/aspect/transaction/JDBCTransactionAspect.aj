@@ -65,14 +65,13 @@ public aspect JDBCTransactionAspect {
 								   &&
 								   notInCflowBelowOfServicesMethods();
 		
-	pointcut notInJunitClasses() : !within(ningyuan.pan.servicex.impl.Test*)
-									&&
-								   !within(ningyuan.pan.servicex.webservice.rs.impl.Test*);
+	pointcut notInCflowOfJunitMethods(): !cflow(execution(* ningyuan.pan.servicex.impl.Test*.*(..)))
+										 &&
+										 !cflow(execution(* ningyuan.pan.servicex.webservice.rs.impl.Test*.*(..)));
 
-	
 	/*
 	//Start transaction
-	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
+	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods() {
 		LOGGER.debug("startTransaction()");
 		
 		if(dataSourceManager != null) {
@@ -99,7 +98,7 @@ public aspect JDBCTransactionAspect {
 	
 	
 	//Commit transaction
-	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
+	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods() {
 		LOGGER.debug("commitTransaction()");
 		
 		if(dataSourceManager != null) {
@@ -129,7 +128,7 @@ public aspect JDBCTransactionAspect {
 	}
 	
 	//Rollback transaction
-	before() : exceptionHandler() && inServiceMethods() && notInJunitClasses() {
+	before() : exceptionHandler() && inServiceMethods() && notInCflowOfJunitMethods() {
 		LOGGER.debug("rollbackTransaction()");
 		
 		if(dataSourceManager != null) {

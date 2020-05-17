@@ -6,6 +6,7 @@ package ningyuan.pan.servicex.aspect.transaction;
 
 import javax.transaction.UserTransaction;
 
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,14 +67,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AtomikosJTATransact
 								   &&
 								   notInCflowBelowOfServicesMethods();
 		
-	pointcut notInJunitClasses() : !within(ningyuan.pan.servicex.impl.Test*)
-									&&
-								   !within(ningyuan.pan.servicex.webservice.rs.impl.Test*);
-
+	pointcut notInCflowOfJunitMethods(): !cflow(execution(* ningyuan.pan.servicex.impl.Test*.*(..)))
+										&&
+										!cflow(execution(* ningyuan.pan.servicex.webservice.rs.impl.Test*.*(..)));
 	
 	
 	//Start transaction
-	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
+	before() : (exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods() {
 		LOGGER.debug("startTransaction()");
 		
 		userTransaction = new UserTransactionImp();
@@ -95,7 +95,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AtomikosJTATransact
 	
 	
 	//Commit transaction
-	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInJunitClasses() {
+	after() : (exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods() {
 		LOGGER.debug("commitTransaction()");
 		
 		try {
@@ -120,7 +120,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(AtomikosJTATransact
 	}
 	
 	//Rollback transaction
-	before() : exceptionHandler() && inServiceMethods() && notInJunitClasses() {
+	before() : exceptionHandler() && inServiceMethods() && notInCflowOfJunitMethods() {
 		LOGGER.debug("rollbackTransaction()");
 		
 		try {
