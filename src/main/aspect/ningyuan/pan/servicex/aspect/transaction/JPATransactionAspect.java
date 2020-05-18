@@ -18,7 +18,6 @@ import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JPADataSourceManager;
 
 /**
  * Transaction aspect for weaving transaction codes in services methods with data source implemented 
@@ -31,8 +30,9 @@ import ningyuan.pan.util.persistence.JPADataSourceManager;
 public class JPATransactionAspect {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JPATransactionAspect.class);
 	
+	@SuppressWarnings("unchecked")
 	private final DataSourceManager<EntityManager> dataSourceManager = 
-			(JPADataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JPA_DATA_SOURCE_MANAGER);
+			(DataSourceManager<EntityManager>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JPA_DATA_SOURCE_MANAGER);
 	 
 	@Pointcut("handler(Throwable+)")
 	private void exceptionHandler() {};
@@ -80,6 +80,7 @@ public class JPATransactionAspect {
 			+ " && "
 			+ "!cflow(execution(* ningyuan.pan.servicex.webservice.rs.impl.Test*.*(..)))")
 	private void notInCflowOfJunitMethods() {};
+	
 	/*
 	@Before("(exeServiceMethods() || exeRSServiceMethods()) && notInCflowOfJunitMethods()")
 	public void startTransaction() {

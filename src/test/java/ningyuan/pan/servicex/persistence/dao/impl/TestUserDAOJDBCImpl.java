@@ -20,8 +20,9 @@ import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.entity.Role;
 import ningyuan.pan.servicex.persistence.entity.RoleType;
 import ningyuan.pan.servicex.persistence.entity.User;
+import ningyuan.pan.util.persistence.C3P0JDBCDataSourceManager;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
+
 
 /**
  * @author ningyuan
@@ -39,7 +40,7 @@ public class TestUserDAOJDBCImpl {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DATA_SOURCE_MANAGER = new JDBCDataSourceManager();
+		DATA_SOURCE_MANAGER = new C3P0JDBCDataSourceManager();
 		
 		// set auto close to false to use transaction
 		DAO = new UserDAOJDBCImpl(DATA_SOURCE_MANAGER, false);	

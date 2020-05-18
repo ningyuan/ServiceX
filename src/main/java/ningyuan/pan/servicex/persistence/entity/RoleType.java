@@ -13,7 +13,7 @@ public enum RoleType {
 	ADMIN((byte)1),
 	COMMON((byte)2),
 	GUEST((byte)3),
-	TEST((byte)255);
+	TEST((byte)127);
 	
 	private byte id;
 	

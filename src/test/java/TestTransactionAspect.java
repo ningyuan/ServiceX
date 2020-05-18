@@ -19,10 +19,10 @@ import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.servicex.webservice.rs.RSXService;
 import ningyuan.pan.servicex.webservice.rs.impl.RSXServiceImpl;
-import ningyuan.pan.util.persistence.ActiveMQXADataSourceManager;
+import ningyuan.pan.util.persistence.ActiveMQDataSourceManager;
+import ningyuan.pan.util.persistence.AtomikosActiveMQXADataSourceManager;
+import ningyuan.pan.util.persistence.AtomikosJDBCXADataSourceManager;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
-import ningyuan.pan.util.persistence.JDBCXADataSourceManager;
 import ningyuan.pan.util.persistence.JPADataSourceManager;
 import ningyuan.pan.util.persistence.MybatisDataSourceManager;
 import ningyuan.pan.util.text.TextType;
@@ -47,10 +47,10 @@ public class TestTransactionAspect {
 		
 		service.getName();*/
 		
-		DataSourceManager<Session> JMSDataSourceManager = new ActiveMQXADataSourceManager();
+		DataSourceManager<Session> JMSDataSourceManager = new AtomikosActiveMQXADataSourceManager();
 		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_XA_DATA_SOURCE_MANAGER, JMSDataSourceManager);
 		
-		DataSourceManager<Connection> dataSourceManager = new JDBCXADataSourceManager();
+		DataSourceManager<Connection> dataSourceManager = new AtomikosJDBCXADataSourceManager();
 		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.XA_DATA_SOURCE_MANAGER, dataSourceManager);
 		UserDAO userDAO = new UserDAOJDBCImpl(dataSourceManager);
 		RoleDAO roleDAO = new RoleDAOJDBCImpl(dataSourceManager);
@@ -60,11 +60,11 @@ public class TestTransactionAspect {
 		System.out.println("!!!"+xService.getName());
 		System.out.println("!!!"+xService.getAllUsers(TextType.JSON.getName()));
 		
-		/*DataSourceManager<Session> JMSDataSourceManager = new ActiveMQXADataSourceManager();
-		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_XA_DATA_SOURCE_MANAGER, JMSDataSourceManager);
+		/*DataSourceManager<Session> JMSDataSourceManager = new ActiveMQDataSourceManager();
+		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER, JMSDataSourceManager);
 		
 		DataSourceManager<EntityManager> dataSourceManager = new JPADataSourceManager();
-		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.XA_DATA_SOURCE_MANAGER, dataSourceManager);
+		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JPA_DATA_SOURCE_MANAGER, dataSourceManager);
 		
 		UserDAO userDAO = new UserDAOJPAImpl(dataSourceManager);
 		RoleDAO roleDAO = new RoleDAOJPAImpl(dataSourceManager);
@@ -73,11 +73,11 @@ public class TestTransactionAspect {
 		
 		System.out.println("!!!"+xService.getName());*/
 		
-		/*DataSourceManager<Session> JMSDataSourceManager = new ActiveMQXADataSourceManager();
-		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_XA_DATA_SOURCE_MANAGER, JMSDataSourceManager);
+		/*DataSourceManager<Session> JMSDataSourceManager = new ActiveMQDataSourceManager();
+		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.JMS_DATA_SOURCE_MANAGER, JMSDataSourceManager);
 		
 		DataSourceManager<SqlSession> dataSourceManager = new MybatisDataSourceManager();
-		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.XA_DATA_SOURCE_MANAGER, dataSourceManager);
+		ServiceXUtil.getInstance().setGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER, dataSourceManager);
 		
 		XService xService = new XServiceMybatisImpl();
 		

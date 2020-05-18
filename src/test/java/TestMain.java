@@ -6,8 +6,8 @@ import java.util.List;
 import ningyuan.pan.servicex.persistence.dao.UserDAO;
 import ningyuan.pan.servicex.persistence.dao.impl.UserDAOJDBCImpl;
 import ningyuan.pan.servicex.persistence.entity.User;
+import ningyuan.pan.util.persistence.C3P0JDBCDataSourceManager;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
 
 /**
  * 
@@ -29,8 +29,8 @@ public class TestMain {
 		 *  each data source manager has its own thread local variable
 		 */
 		
-		DataSourceManager<Connection> dataSourceManager = new JDBCDataSourceManager();
-		DataSourceManager<Connection> dataSourceManager1 = new JDBCDataSourceManager();
+		DataSourceManager<Connection> dataSourceManager = new C3P0JDBCDataSourceManager();
+		DataSourceManager<Connection> dataSourceManager1 = new C3P0JDBCDataSourceManager();
 		
 		UserDAO dao = new UserDAOJDBCImpl(dataSourceManager, false);
 		UserDAO dao1 = new UserDAOJDBCImpl(dataSourceManager1, true);

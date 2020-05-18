@@ -106,7 +106,7 @@ public class TestXServiceDAOImpl {
 		user.setFirstName("lee");
 		context.checking(new Expectations() {
 			{	
-				// no sequence between these 2 excpectations
+				// no sequence between these 2 expectations
 				oneOf(roleDAO).findAllRole();
 				will(returnValue(roles));
 				

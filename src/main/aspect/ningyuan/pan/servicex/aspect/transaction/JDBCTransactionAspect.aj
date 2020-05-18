@@ -13,7 +13,7 @@ import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.exception.ExceptionUtils;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.JDBCDataSourceManager;
+
 
 
 /**
@@ -27,8 +27,9 @@ public aspect JDBCTransactionAspect {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCTransactionAspect.class);
 	
+	@SuppressWarnings("unchecked")
 	private final DataSourceManager<Connection> dataSourceManager = 
-			(JDBCDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
+			(DataSourceManager<Connection>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.JDBC_DATA_SOURCE_MANAGER);
 	
 	pointcut exceptionHandler() : handler(Throwable+);
 	

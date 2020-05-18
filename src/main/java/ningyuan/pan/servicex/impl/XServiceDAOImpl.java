@@ -18,10 +18,10 @@ import ningyuan.pan.util.text.TextObjectConverterFactory;
 
 
 /**
- * The service using DAO implemented with JDBC or JPA or ... . All public methods in 
+ * The service using DAO implemented with JDBC or JPA or JTA or ... . All public methods in 
  * service interface will be woven with transaction codes. Pay attention to weaving this 
  * service implementation with the corresponding transaction aspect (JDBCTransactionAspect
- * or JPATransactionAspect or ...).
+ * or JPATransactionAspect or JTATransactionAspect ...).
  * 
  * @author ningyuan
  *

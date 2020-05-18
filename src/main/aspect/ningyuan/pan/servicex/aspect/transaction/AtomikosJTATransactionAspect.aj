@@ -6,7 +6,6 @@ package ningyuan.pan.servicex.aspect.transaction;
 
 import javax.transaction.UserTransaction;
 
-import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

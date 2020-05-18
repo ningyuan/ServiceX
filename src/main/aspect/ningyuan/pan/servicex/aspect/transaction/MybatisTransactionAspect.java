@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import ningyuan.pan.servicex.util.GlobalObjectName;
 import ningyuan.pan.servicex.util.ServiceXUtil;
 import ningyuan.pan.util.persistence.DataSourceManager;
-import ningyuan.pan.util.persistence.MybatisDataSourceManager;
 
 /**
  * Transaction aspect for weaving transaction codes in services methods with data source implemented 
@@ -29,8 +28,9 @@ public class MybatisTransactionAspect {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MybatisTransactionAspect.class);
 	
+	@SuppressWarnings("unchecked")
 	private final DataSourceManager<SqlSession> dataSourceManager = 
-			(MybatisDataSourceManager)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER);
+			(DataSourceManager<SqlSession>)ServiceXUtil.getInstance().getGelobalObject(GlobalObjectName.MYBATIS_DATA_SOURCE_MANAGER);
 	
 	
 	@Pointcut("handler(Throwable+)")
