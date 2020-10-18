@@ -13,6 +13,7 @@
   <properties>
     <!-- plugin version -->
     <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
+    <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
     <aspectj-maven-plugin.version>1.12.6</aspectj-maven-plugin.version>
     
     <!-- dependency version -->
@@ -69,6 +70,32 @@
     	
     	<pluginManagement>
       		<plugins>
+      			<!-- set java source directory -->
+      			<plugin>
+        			<groupId>org.codehaus.mojo</groupId>
+        			<artifactId>build-helper-maven-plugin</artifactId>
+        			<version>${build-helper-maven-plugin.version}</version>
+        			<executions>
+          				<execution>
+            				<id>add-source</id>
+            				<phase>generate-sources</phase>
+            			<goals>
+              				<goal>add-source</goal>
+            			</goals>
+            				<configuration>
+              					<sources>
+              						<source>${project.basedir}/src/main/resources</source>
+                					<source>${project.basedir}/src/main/resources/conf</source>
+                					<source>${project.basedir}/src/main/resources/mybatis</source>
+                					<source>${project.basedir}/src/main/resources/jpa</source>
+                					<source>${project.basedir}/src/main/resources/jta</source>
+                					<source>${project.basedir}/src/main/resources/META-INF</source>
+              					</sources>
+            				</configuration>
+          				</execution>
+        			</executions>
+      			</plugin>
+      			
       			<!-- read properties from files -->
         		<plugin>
           			<groupId>org.codehaus.mojo</groupId>
@@ -125,10 +152,16 @@
     	</pluginManagement>
     
     	<plugins>
+    		<plugin>
+        		<groupId>org.codehaus.mojo</groupId>
+        		<artifactId>build-helper-maven-plugin</artifactId>
+        	</plugin>
+        	
       		<plugin>  
         		<groupId>org.codehaus.mojo</groupId>
         		<artifactId>properties-maven-plugin</artifactId>
       		</plugin>
+      		
       		<plugin>
     			<groupId>com.nickwongdev</groupId>
    				<artifactId>aspectj-maven-plugin</artifactId>
